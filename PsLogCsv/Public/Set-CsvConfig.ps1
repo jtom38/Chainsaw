@@ -3,7 +3,8 @@ function Set-CsvConfig {
     param (
         [string] $Config,
         [string] $LogPath,
-        [string] $Template
+        [string] $Template,
+        [string] $ReturnMessage
     )
     
     Process {
@@ -12,11 +13,15 @@ function Set-CsvConfig {
         }
 
         if( [System.String]::IsNullOrEmpty($LogPath) -eq $false ){
-            $script:CsvLogPath = $LogPath
+            $global:LogCsvLogPath = $LogPath
         }
 
         if( [System.String]::IsNullOrEmpty($Template) -eq $false ){
-            $Script:CsvTemplate = $Template
+            $global:LogCsvTemplate = $Template
+        }
+
+        if( [System.String]::IsNullOrEmpty($ReturnMessage) -eq $false ) {
+            $global:LogCsvReturnMessage = $ReturnMessage
         }
     }
 }

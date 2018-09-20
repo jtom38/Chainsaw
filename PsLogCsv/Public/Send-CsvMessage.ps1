@@ -2,7 +2,9 @@
 function Send-CsvMessage {
     param (
         [string] $Message,
-        [string] $Level
+        [string] $Level,
+        [string] $CallingFile,
+        [int] $LineNumber
     )
     
     Process { 
@@ -16,9 +18,9 @@ function Send-CsvMessage {
         }
 
         # Get the values from the HashTable
-        $LogPath = $script:PsLogCsv.LogPath
-        $Template = $script:PsLogCsv.Template
-        
+        $LogPath = $global:LogCsvLogPath
+        $Template = $global:LogCsvTemplate
+        $ReturnMessage = $global:LogCsvReturnMessage
 
         # Check to see if out log file exists
         if( [System.IO.File]::Exists($LogPath) -eq $false) {
@@ -41,5 +43,11 @@ function Send-CsvMessage {
         # Write to Console
         $ConsoleMessage = Convert-ToConsoleMessage -Level $Level -Message $Message
         [Console]::WriteLine($ConsoleMessage)
+
+        # if requested to return a message build it here
+        if ( [System.String]::IsNullOrEmpty($ReturnMessage) -eq $false ) {
+            $rMessage = Convert-ToCsvMessage -Level $Level -Message $Message -LogFormat $ReturnMessage -LineNumber $LineNumber -CallingFile $CallingFile
+            return $rMessage
+        }
     }
 }

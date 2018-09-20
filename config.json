@@ -1,0 +1,7 @@
+{
+    "PsLogCsv":  {
+        "LogPath":  ".\\log.csv",
+        "Template":  "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#",
+        "ReturnMessage":  "[#DateTime#] [#Level#] #Message#"
+    }
+}

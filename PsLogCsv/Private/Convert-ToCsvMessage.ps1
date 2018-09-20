@@ -28,7 +28,7 @@ function Convert-ToCsvMessage {
         }
 
         if( $s.Contains("#CallingFile#") -eq $true){
-            $s = $s.Replace("#CallingFile#", $File)
+            $s = $s.Replace("#CallingFile#", $CallingFile)
         }
 
         return $s

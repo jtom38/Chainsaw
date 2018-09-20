@@ -10,22 +10,25 @@ function Import-PSLogCsvFromConfig {
         if ( [System.IO.File]::Exists($Config) -eq $true ) {
 
             $json = Get-Content -Path $Config | ConvertFrom-Json
-            
-            $v = New-Object psobject
 
             if ( [System.String]::IsNullOrEmpty($json.PsLogCsv) -eq $false ) {
 
                 if ( [System.String]::IsNullOrEmpty($json.PsLogCsv.LogPath) -eq $false ) {
                     #$script:PsLogCsvLogPath = $json.PsLogCsv.LogPath
-                    $v | Add-Member -MemberType NoteProperty -Name "LogPath" -Value $json.PsLogCsv.LogPath
+                    #$v | Add-Member -MemberType NoteProperty -Name "LogPath" -Value $json.PsLogCsv.LogPath
+                    $global:LogCsvLogPath = $json.PsLogCsv.LogPath
                 }
 
                 if ( [System.String]::IsNullOrEmpty($json.PsLogCsv.Template) -eq $false ) {
                     #$Script:PsLogCsvTemplate = $json.PsLogCsv.Template
-                    $v | Add-Member -MemberType NoteProperty -Name "Template" -Value $json.PsLogCsv.Template
+                    #$v | Add-Member -MemberType NoteProperty -Name "Template" -Value $json.PsLogCsv.Template
+                    $global:LogCsvTemplate = $json.PsLogCsv.Template
                 }
 
-                $script:PsLogCsv = $v
+                if ( [System.String]::IsNullOrEmpty($json.PsLogCsv.ReturnMessage) -eq $false ) {
+                    $Global:LogCsvReturnMessage = $json.PsLogCsv.ReturnMessage
+                }
+
             } else {
                 throw "Unable to find 'PsLogCsv' in the config.  Please check the readme.md file for setup."
             }
