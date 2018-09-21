@@ -10,8 +10,8 @@ Copy this directory and place it in the same folder.
 In the main script call the following command
 
     ```powershell
-    Import-Module .\LogCsv\LogCsv.psm1 -Force
-    Set-CsvSettings -LogPath ".\log.csv" -Template "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
+    Import-Module .\PSLogCsv\PSLogCsv.psm1 -Force
+    Set-CsvConfig -LogPath ".\log.csv" -Template "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
     ```
 
 This will import the module in your session so you can call it from any sub files that might need to report logging.
