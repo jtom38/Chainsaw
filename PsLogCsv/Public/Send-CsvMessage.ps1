@@ -37,6 +37,20 @@ function Send-CsvMessage {
         # Generate the log Message
         $msg = Convert-ToCsvMessage -Level $Level -Message $Message -LogFormat $Template -LineNumber $LineNumber -CallingFile $CallingFile
 
+        # Check to see if the file is locked
+        # I set this to true so we can force it to check the status.
+        $FileLock = $true 
+        while ( $FileLock -eq $true ){
+            # If we get true then the file is locked and we will check again
+            # if the result is false we where able to open the file in memory thus no lock.
+            $FileLock = Get-FileLockStatus -File $LogPath
+
+            # Only run the sleep if the file is locked.
+            if ( $FileLock -eq $true ) {
+                Start-Sleep -Seconds 1
+            }        
+        }
+
         # Time to write our log
         Add-Content -Path $LogPath -Value $msg
 
