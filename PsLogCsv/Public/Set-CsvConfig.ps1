@@ -4,7 +4,8 @@ function Set-CsvConfig {
         [string] $Config,
         [string] $LogPath,
         [string] $Template,
-        [string] $ReturnMessage
+        [string] $ReturnMessage,
+        [string] $StoreMessagesSent
     )
     
     Process {
@@ -22,6 +23,10 @@ function Set-CsvConfig {
 
         if( [System.String]::IsNullOrEmpty($ReturnMessage) -eq $false ) {
             $global:LogCsvReturnMessage = $ReturnMessage
+        }
+
+        if ( [System.String]::IsNullOrEmpty($StoreMessagesSent) -eq $false ) {
+            $Global:LogCsvStoreMessagesSent = $StoreMessagesSent
         }
     }
 }

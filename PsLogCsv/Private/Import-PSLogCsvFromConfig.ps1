@@ -29,12 +29,16 @@ function Import-PSLogCsvFromConfig {
                     $Global:LogCsvReturnMessage = $json.PsLogCsv.ReturnMessage
                 }
 
+                if ( [System.String]::IsNullOrEmpty($json.PsLogCsv.StoreMessagesSent) -eq $false ) {
+                    $Global:LogCsvStoreMessagesSet = $json.PsLogCsv.StoreMessagesSent
+                }
+
             } else {
                 throw "Unable to find 'PsLogCsv' in the config.  Please check the readme.md file for setup."
             }
 
         } else {
-            throw "Unable to find $Config on disk."
+            throw "Unable to find $($Config) on disk."
         }
     }
 }

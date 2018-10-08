@@ -56,7 +56,17 @@ function Send-CsvMessage {
 
         # Write to Console
         $ConsoleMessage = Convert-ToConsoleMessage -Level $Level -Message $Message
+        switch ( $Level.ToLower() ) {
+            error { [Console]::ForegroundColor = [ConsoleColor]::Red; Break }
+            information { [Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            info { [Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            warning { [Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
+            default { [Cosole]::ForegroundColor = [ConsoleColor]::White; Break }
+        }
         [Console]::WriteLine($ConsoleMessage)
+
+        # Set the color back to normal for messages that do not pass though the logger
+        [Console]::ForegroundColor = [ConsoleColor]::White
 
         # if requested to return a message build it here
         if ( [System.String]::IsNullOrEmpty($ReturnMessage) -eq $false ) {
