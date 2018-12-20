@@ -1,4 +1,13 @@
 {
+    "PsLog" : {
+        "CSV" : {
+            "LogPath" : ".\\log.csv",
+            "Template" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
+        },
+        "Console" : {
+            "Template" : "[#DateTime#] [#Level#] #Message#"
+        }
+    },
     "PsLogCsv":  {
         "LogPath":  ".\\log.csv",
         "Template":  "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#",
