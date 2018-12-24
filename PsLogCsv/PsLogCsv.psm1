@@ -4,7 +4,9 @@ $Public =  @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction Silent
 Write-Debug -Message "Looking for all files in Private"
 $Private = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue)
 
-foreach($import in @($Public + $Private)){
+$Classes = @( Get-ChildItem -Path $PSScriptRoot\Classes\*.ps1 -ErrorAction SilentlyContinue)
+
+foreach($import in @($Public + $Private + $Classes)){
 
     try{
         . $import.fullname

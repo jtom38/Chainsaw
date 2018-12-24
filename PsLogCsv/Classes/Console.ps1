@@ -1,6 +1,6 @@
 
 # This class contains the settings needed to write messages to the console.
-class Console {
+class ConsoleSettings {
     
     Console( [String] $Template) {
         if ( [System.String]::IsNullOrEmpty($Template) -eq $true ) {
@@ -36,6 +36,24 @@ class Console {
 
     [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
         $msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
+
+        # Write to Console
+        [System.Console]::ForegroundColor = [ConsoleColor]::
+
+        switch ( $Level.ToLower() ) {
+            error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
+            information { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            warning { [System.Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
+            debug { [System.Console]::ForegroundColor = [System.ConsoleColor]::Magenta; Break; }
+            default { [System.Console]::ForegroundColor = [ConsoleColor]::White; Break }
+        }
+        [System.Console]::WriteLine($msg)
+
+        # Set the color back to normal for messages that do not pass though the logger
+        [Console]::ForegroundColor = [ConsoleColor]::White
+
+
         Write-Host $msg
     }
 

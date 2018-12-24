@@ -1,11 +1,28 @@
 {
     "PsLog" : {
         "CSV" : {
+            "Levels" : [
+                "Information",
+                "Warning",
+                "Error",
+                "Debug"
+            ],
             "LogPath" : ".\\log.csv",
             "Template" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
         },
         "Console" : {
-            "Template" : "[#DateTime#] [#Level#] #Message#"
+            "Levels" : [
+                "Information",
+                "Warning",
+                "Error",
+                "Debug"
+            ],
+            "Template" : "[#DateTime#] [#Level#] #Message#",
+            "MessageColor" : {
+                "Info" : {
+
+                }
+            }
         }
     },
     "PsLogCsv":  {

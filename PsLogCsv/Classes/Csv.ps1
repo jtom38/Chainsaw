@@ -1,19 +1,53 @@
 
-class Csv {
+class CsvSettings {
     
-    Csv([string] $LogPath, [string] $Template) {
+    CsvSettings([string] $LogPath, [string] $Template, [string[]] $Levels) {
         $this.LogPath = $LogPath
         $this.Template = $Template
+        $this.Levels = $Levels
     }
 
     [string] $LogPath
     [string] $Template
+    [string[]] $Levels
+
+    # Private method to tell if we can use this endpoint for processing
+    [bool] _isValidEndPoint() {
+
+        if ( [System.String]::IsNullOrEmpty($this.LogPath) -eq $false -and 
+             [System.String]::IsNullOrEmpty($this.Template) -eq $false ) {
+            return $true
+        }
+
+        return $false
+    }
 
     # This is a generic class we will use to write the CSV Log
     [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
 
+        foreach ( $i in $this.Levels ) {
 
-        
+        }
+
+        # Confirm that we can find the log file.
+        $info = [System.IO.FileInfo]::new($this.LogPath)
+        if ( $info.Exists -eq $false ) {
+            # Generate where we ae going to store logging
+            New-Item -Path $info.Directory -Name $info.Name -ItemType "file" | Out-Null
+            
+            # Get the correct header that is needed 
+            $header = $this.ReturnHeader()
+
+            # Add that as the first line of the file.
+            Add-Content -Path $this.LogPath -Value $header
+        }
+
+        # Check for file lock status
+        #$lock = [FileLock]::new()
+
+
+        Add-Content -Path $this.LogPath -Value $Message
+
     }
 
     # Use this to check if we the log file is currently avilable to write to.
