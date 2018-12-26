@@ -1,21 +1,33 @@
 
 class CsvSettings {
     
-    CsvSettings([string] $LogPath, [string] $Template, [string[]] $Levels) {
+    CsvSettings([string] $LogPath, [string] $MesageTemplate, [string[]] $Levels) {
         $this.LogPath = $LogPath
-        $this.Template = $Template
+        $this.MesageTemplate = $MesageTemplate
         $this.Levels = $Levels
     }
 
+    CsvSettings([string] $PathConfig) {
+        #TODO Add Conifg constructor
+        # Should have a valid file
+        $json = Get-Content -Path $PathConfig | ConvertFrom-Json
+
+        $this.LogPath = $json.PSLog.Csv.LogPath
+        $this.Levels = $json.PSLog.Csv.Levels
+        $this.MessageTemplate = $json.PSLog.Csv.MesageTemplate
+    }
+
     [string] $LogPath
-    [string] $Template
+    [string] $MessageTemplate
     [string[]] $Levels
+
+    [PSObject] $Config
 
     # Private method to tell if we can use this endpoint for processing
     [bool] _isValidEndPoint() {
 
         if ( [System.String]::IsNullOrEmpty($this.LogPath) -eq $false -and 
-             [System.String]::IsNullOrEmpty($this.Template) -eq $false ) {
+             [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false ) {
             return $true
         }
 
@@ -26,7 +38,9 @@ class CsvSettings {
     [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
 
         foreach ( $i in $this.Levels ) {
-
+            if ( $i -eq $Level) {
+                # We have a match!
+            }
         }
 
         # Confirm that we can find the log file.
@@ -80,8 +94,8 @@ class CsvSettings {
     }
 
     # This is used to return the header string for new csv files
-    [string] ReturnHeader([string] $CsvLogFormat) {
-        $s = $CsvLogFormat
+    [string] ReturnHeader() {
+        $s = $this.MessageTemplate
 
         if( $s.Contains("#Level#") -eq $true ){
             $s = $s.Replace("#Level#", "Level")

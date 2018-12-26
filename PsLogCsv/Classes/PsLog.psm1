@@ -3,7 +3,11 @@
 # From here we can extend into other classes.
 class PsLog {
   
-    PsLog(){
+    PsLog() {
+        # Import the endpoint modules
+        
+
+
         # Default is false
         $this.StorageAllMessagesSent = $false
     }
@@ -33,8 +37,6 @@ class PsLog {
     }
 
     [bool] EnableConsole( [ConsoleSettings] $Config) {
-
-
         $this.ConsoleConfig = $Config
         return $true
     }

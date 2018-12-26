@@ -8,7 +8,7 @@
                 "Debug"
             ],
             "LogPath" : ".\\log.csv",
-            "Template" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
+            "MesageTemplate" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
         },
         "Console" : {
             "Levels" : [
@@ -17,12 +17,7 @@
                 "Error",
                 "Debug"
             ],
-            "Template" : "[#DateTime#] [#Level#] #Message#",
-            "MessageColor" : {
-                "Info" : {
-
-                }
-            }
+            "MesageTemplate" : "[#DateTime#] [#Level#] #Message#",
         }
     },
     "PsLogCsv":  {

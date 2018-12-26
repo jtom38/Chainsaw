@@ -2,15 +2,12 @@
 # This class contains the settings needed to write messages to the console.
 class ConsoleSettings {
     
-    Console( [String] $Template) {
-        if ( [System.String]::IsNullOrEmpty($Template) -eq $true ) {
-            throw 'Template: was null'
-        } 
-
-        $this.Template = $Template
+    ConsoleSettings( [String] $MesageTemplate, [String[]] $Levels) {
+        $this.Levels = $Levels
+        $this.MesageTemplate = $MesageTemplate
     }
     
-    Console( [string] $PathConfig ) {
+    ConsoleSettings( [string] $PathConfig ) {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
             Throw 'PathConfig: was null'
@@ -27,12 +24,14 @@ class ConsoleSettings {
         # Should have a valid file
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
 
-        $this.Template = $json.PSLog.Console.Template
+        $this.MesageTemplate = $json.PSLog.Console.MesageTemplate
+        $this.Levels = $json.PSLog.Console.Levels
 
     }
 
     # This defines the template we will use to format our messages
-    [string] $Template
+    [string] $MesageTemplate
+    [string[]] $Levels 
 
     [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
         $msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
@@ -40,7 +39,8 @@ class ConsoleSettings {
         # Write to Console
         [System.Console]::ForegroundColor = [ConsoleColor]::
 
-        switch ( $Level.ToLower() ) {
+        switch($Level.ToLower()) 
+        {
             error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
             information { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
             info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
