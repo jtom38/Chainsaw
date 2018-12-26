@@ -17,7 +17,9 @@ class ConsoleSettings {
             Throw "PathConfig: $($PathConfig) was not found on disk."
         }
 
-        if ( [System.IO.FileInfo]::new($PathConfig).Extension.Equals("json") -eq $false ) {
+        $info = [System.IO.FileInfo]::new($PathConfig)
+
+        if ( $info.Extension.Equals("json") -eq $true ) {
             Throw "PathConfig: is not a json file"
         }
 
@@ -52,8 +54,7 @@ class ConsoleSettings {
 
         # Set the color back to normal for messages that do not pass though the logger
         [Console]::ForegroundColor = [ConsoleColor]::White
-
-
+        
         Write-Host $msg
     }
 

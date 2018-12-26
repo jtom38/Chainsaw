@@ -20,35 +20,18 @@ class PsLog {
     [CsvSettings] $CsvConfig
     [ConsoleSettings] $ConsoleConfig
 
-    [bool] EnableCsv( [CsvSettings] $Config ) {
-        # Check against the class to see if we have what is needed
-        
-        if ( [System.String]::IsNullOrEmpty($Config.LogPath) -eq $true ) {
-            # Failed
-            Throw "CSV.LogPath was not configured"
-        }
 
-        if ( [System.String]::IsNullOrEmpty($Config.Template) -eq $true ) {
-            Throw "CSV.Template was not configured"
-        }
-
-        $this.CsvConfig = $Config
-        return $true
-    }
-
-    [bool] EnableConsole( [ConsoleSettings] $Config) {
-        $this.ConsoleConfig = $Config
-        return $true
-    }
     # End Region
     
     # Region Logging Methods
 
     [void] Info( [string] $Message, [string] $CallingFile, [int] $LineNumber) {
         
-        if ( $this.CsvConfig._isValidEndPoint() -eq $false ) {
-
+        if ( $this.CsvConfig._isValidEndPoint("Information") -eq $false ) {
+            continue
         }
+
+        # Write the message
     }
 
     [void] Error() {
@@ -61,4 +44,12 @@ class PsLog {
 
     # End Region
 
+    [int] GetCurrentLineNumber() {
+        return $MyInvocation.ScriptLineNumber
+    }
+
+    [string] GetCurrentFileName() {
+        $info = [System.IO.FileInfo]::new($MyInvocation.ScriptName)
+        return $info.Name
+    }
 }

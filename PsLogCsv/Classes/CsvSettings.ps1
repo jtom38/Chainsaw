@@ -1,9 +1,9 @@
 
 class CsvSettings {
     
-    CsvSettings([string] $LogPath, [string] $MesageTemplate, [string[]] $Levels) {
+    CsvSettings([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
         $this.LogPath = $LogPath
-        $this.MesageTemplate = $MesageTemplate
+        $this.MessageTemplate = $MessageTemplate
         $this.Levels = $Levels
     }
 
@@ -24,10 +24,19 @@ class CsvSettings {
     [PSObject] $Config
 
     # Private method to tell if we can use this endpoint for processing
-    [bool] _isValidEndPoint() {
+    [bool] _isValidEndPoint([string] $Level) {
+
+        $matchFound = $false
+        foreach ( $l in $this.Levels) {
+            if ( $l -eq $Level) {
+                $matchFound = $true
+            }
+
+        }
 
         if ( [System.String]::IsNullOrEmpty($this.LogPath) -eq $false -and 
-             [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false ) {
+             [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false -and 
+             $matchFound -eq $true) {
             return $true
         }
 

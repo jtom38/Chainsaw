@@ -1,12 +1,26 @@
 
-# Import the classes from our module
-using module .\PsLogCsv\Classes\ConsoleSettings.psm1
-using module .\PsLogCsv\Classes\CsvSettings.psm1
-using module .\PsLogCsv\Classes\PsLog.psm1
+# Import the classes 
+. "$psscriptroot\PsLogCsv\Classes\ConsoleSettings.ps1"
+. "$psscriptroot\PsLogCsv\Classes\CsvSettings.ps1"
+. "$psscriptroot\PsLogCsv\Classes\PsLog.ps1"
 
+#Generate the CSV Settings based off the config file
+$CsvJson = [CsvSettings]::new(".\config.json")
 
-#Generate the CSV Config
-$LogCsv = [CsvSettings]::new(".\config.json")
+# Generate the CSV Settings based off manual loading
+$MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
+$Levels = @("Information", "Warning", "Error", "Debug")
+$CsvManual = [CsvSettings]::new(".\log.csv", $MessageTemplate, $Levels) 
 
+# Generate the Console Settings based off the config file
+$LogConsole = [ConsoleSettings]::new(".\config.json")
 
- 
+# Generate a blank PsLogger
+$Logger = [PsLog]::new()
+
+# Define what endpoints we are goign to enable
+$Logger.ConsoleConfig = $LogConsole
+$Logger.CsvConfig = $CsvJson
+
+# Start passing messages
+$Logger.Info("Info Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
