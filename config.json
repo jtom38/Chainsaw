@@ -18,6 +18,14 @@
                 "Debug"
             ],
             "MesageTemplate" : "[#DateTime#] [#Level#] #Message#"
+        },
+        "EventViewer" : {
+            "Levels" : [
+                "Warning",
+                "Error"
+            ],
+            "LogName" : "Application",
+            "Source" : "PSLog"
         }
     },
     "PsLogCsv":  {

@@ -31,9 +31,13 @@ class ConsoleSettings : TemplateConverter {
 
     }
 
+    # Region Define public properties
     # This defines the template we will use to format our messages
     [string] $MessageTemplate
     [string[]] $Levels 
+    # Region End
+
+    
 
     [bool] _isEndPointValid() {
 

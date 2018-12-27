@@ -21,8 +21,6 @@ class CsvSettings : TemplateConverter {
     [string] $MessageTemplate
     [string[]] $Levels
 
-    [PSObject] $Config
-
     # Private method to tell if we can use this endpoint for processing
     [bool] _isValidEndPoint() {
 

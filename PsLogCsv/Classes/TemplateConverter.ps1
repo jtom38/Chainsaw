@@ -5,6 +5,7 @@ class TemplateConverter {
 
     }
 
+    $TemErrorCode = -0
     
 
     [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $LineNumber, [string] $CallingFile){
@@ -29,6 +30,10 @@ class TemplateConverter {
 
         if( $s.Contains("#CallingFile#") -eq $true){
             $s = $s.Replace("#CallingFile#", $CallingFile)
+        }
+
+        if( $s.Contains("#ErrorCode#") -eq $true){
+            $s = $s.Replace("#ErrorCode#", $ErrorCode)
         }
 
         return $s
