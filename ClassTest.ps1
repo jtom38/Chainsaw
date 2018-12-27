@@ -1,5 +1,6 @@
 
 # Import the classes 
+. "$psscriptroot\PsLogCsv\Classes\TemplateConverter.ps1"
 . "$psscriptroot\PsLogCsv\Classes\ConsoleSettings.ps1"
 . "$psscriptroot\PsLogCsv\Classes\CsvSettings.ps1"
 . "$psscriptroot\PsLogCsv\Classes\PsLog.ps1"
@@ -23,4 +24,7 @@ $Logger.ConsoleConfig = $LogConsole
 $Logger.CsvConfig = $CsvJson
 
 # Start passing messages
-$Logger.Info("Info Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
+$Logger.Info("Test Info Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
+$Logger.Error("Test Error Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
+$Logger.Warning("Test Warning Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
+$Logger.Debug("Test Debug Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())

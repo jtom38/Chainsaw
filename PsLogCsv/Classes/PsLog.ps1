@@ -4,10 +4,6 @@
 class PsLog {
   
     PsLog() {
-        # Import the endpoint modules
-        
-
-
         # Default is false
         $this.StorageAllMessagesSent = $false
     }
@@ -19,27 +15,50 @@ class PsLog {
     # Region Enable functions
     [CsvSettings] $CsvConfig
     [ConsoleSettings] $ConsoleConfig
-
-
     # End Region
     
     # Region Logging Methods
 
     [void] Info( [string] $Message, [string] $CallingFile, [int] $LineNumber) {
         
-        if ( $this.CsvConfig._isValidEndPoint("Information") -eq $false ) {
-            continue
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write($Message, "Information", $CallingFile, $LineNumber)
         }
 
-        # Write the message
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write($Message, "Information", $CallingFile, $LineNumber)
+        }
+        
     }
 
-    [void] Error() {
-        throw not finished yet
+    [void] Error([string] $Message, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write($Message, "Error", $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write($Message, "Error", $CallingFile, $LineNumber)
+        }
     }
 
-    [void] warning () {
-        throw Not finished yes
+    [void] Warning ([string] $Message, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write($Message, "Warning", $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write($Message, "Warning", $CallingFile, $LineNumber)
+        }
+    }
+
+    [void] Debug([string] $Message, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write($Message, "Debug", $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write($Message, "Debug", $CallingFile, $LineNumber)
+        }
     }
 
     # End Region

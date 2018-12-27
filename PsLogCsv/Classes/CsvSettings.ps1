@@ -1,5 +1,5 @@
 
-class CsvSettings {
+class CsvSettings : TemplateConverter {
     
     CsvSettings([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
         $this.LogPath = $LogPath
@@ -24,19 +24,10 @@ class CsvSettings {
     [PSObject] $Config
 
     # Private method to tell if we can use this endpoint for processing
-    [bool] _isValidEndPoint([string] $Level) {
-
-        $matchFound = $false
-        foreach ( $l in $this.Levels) {
-            if ( $l -eq $Level) {
-                $matchFound = $true
-            }
-
-        }
+    [bool] _isValidEndPoint() {
 
         if ( [System.String]::IsNullOrEmpty($this.LogPath) -eq $false -and 
-             [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false -and 
-             $matchFound -eq $true) {
+             [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false ) {
             return $true
         }
 
@@ -46,10 +37,17 @@ class CsvSettings {
     # This is a generic class we will use to write the CSV Log
     [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
 
-        foreach ( $i in $this.Levels ) {
-            if ( $i -eq $Level) {
-                # We have a match!
+        $Valid = $false
+        foreach ( $l in $this.Levels) {
+            if ( $l -eq $Level) {
+                $Valid = $true
             }
+        }
+
+        # check the results to find out if we can process this message
+        if ( $Valid -eq $false ) {
+            # if we got a false, cancle out of this method
+            continue
         }
 
         # Confirm that we can find the log file.
@@ -66,10 +64,17 @@ class CsvSettings {
         }
 
         # Check for file lock status
-        #$lock = [FileLock]::new()
+        $isFileLocked = $this.CheckFileLock()
 
+        while ( $isFileLocked -eq $true ) {
+            # just keep checking
+            #TODO Add more logic here?
+        }
 
-        Add-Content -Path $this.LogPath -Value $Message
+        # Convert the Message Template to a csv message to load into the file
+        $msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+
+        Add-Content -Path $this.LogPath -Value $msg
 
     }
 

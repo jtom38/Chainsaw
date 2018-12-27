@@ -1,10 +1,10 @@
 
 # This class contains the settings needed to write messages to the console.
-class ConsoleSettings {
+class ConsoleSettings : TemplateConverter {
     
-    ConsoleSettings( [String] $MesageTemplate, [String[]] $Levels) {
+    ConsoleSettings( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
-        $this.MesageTemplate = $MesageTemplate
+        $this.MessageTemplate = $MessageTemplate
     }
     
     ConsoleSettings( [string] $PathConfig ) {
@@ -26,20 +26,40 @@ class ConsoleSettings {
         # Should have a valid file
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
 
-        $this.MesageTemplate = $json.PSLog.Console.MesageTemplate
+        $this.MessageTemplate = $json.PSLog.Console.MesageTemplate
         $this.Levels = $json.PSLog.Console.Levels
 
     }
 
     # This defines the template we will use to format our messages
-    [string] $MesageTemplate
+    [string] $MessageTemplate
     [string[]] $Levels 
 
-    [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
-        $msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
+    [bool] _isEndPointValid() {
 
-        # Write to Console
-        [System.Console]::ForegroundColor = [ConsoleColor]::
+        if ( [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false) {
+            return $true
+        }
+
+        return $false
+    }
+
+    [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
+        
+        $matchFound = $false
+        foreach ( $l in $this.Levels) {
+            if ( $l -eq $Level) {
+                $matchFound = $true
+            }
+        }
+
+        if ( $matchFound -eq $false ) {
+            # We have a message that is not valid for Console, fail out
+            continue
+        }
+        
+        #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
+        $msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
 
         switch($Level.ToLower()) 
         {
@@ -54,8 +74,6 @@ class ConsoleSettings {
 
         # Set the color back to normal for messages that do not pass though the logger
         [Console]::ForegroundColor = [ConsoleColor]::White
-        
-        Write-Host $msg
     }
 
     [string] FormatMessage( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
