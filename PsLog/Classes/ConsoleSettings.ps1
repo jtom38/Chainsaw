@@ -26,7 +26,7 @@ class ConsoleSettings : TemplateConverter {
         # Should have a valid file
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
 
-        $this.MessageTemplate = $json.PSLog.Console.MesageTemplate
+        $this.MessageTemplate = $json.PSLog.Console.MessageTemplate
         $this.Levels = $json.PSLog.Console.Levels
 
     }

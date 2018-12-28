@@ -14,7 +14,7 @@ class CsvSettings : TemplateConverter {
 
         $this.LogPath = $json.PSLog.Csv.LogPath
         $this.Levels = $json.PSLog.Csv.Levels
-        $this.MessageTemplate = $json.PSLog.Csv.MesageTemplate
+        $this.MessageTemplate = $json.PSLog.Csv.MessageTemplate
     }
 
     [string] $LogPath

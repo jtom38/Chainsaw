@@ -8,7 +8,7 @@
                 "Debug"
             ],
             "LogPath" : ".\\log.csv",
-            "MesageTemplate" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
+            "MessageTemplate" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
         },
         "Console" : {
             "Levels" : [
@@ -17,7 +17,7 @@
                 "Error",
                 "Debug"
             ],
-            "MesageTemplate" : "[#DateTime#] [#Level#] #Message#"
+            "MessageTemplate" : "[#DateTime#] [#Level#] #Message#"
         },
         "EventViewer" : {
             "Levels" : [
