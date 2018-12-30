@@ -2,19 +2,32 @@
 
 ## Description
 
-This will let you write to the Windows Event Viewer.  This uses the *-EventLog commands currently to do its work.  If you enable this end point you will need to make sure that you initialized the logs as an Administrator.  If you are running your process with Administrator permissions it will create the required logs for you.
+This will let you write to the Windows Event Viewer.  This uses the *-EventLog commands currently to do its work.  I recommend that you run ths setup commands before you need your script to work.  This way you can test to confirm that it is working for you.
+
+## Setup
 
 If you do not run your process as an administrator I have some commands that you will need to run to be ready for this endpoint.
 
 ```Powershell
 
-# Open PowerShell as Administrator
-# Pull in your config file to memory
-$ConfigPath = ".\config.json"
-$Config = Get-Content -Path $ConfigPath | ConvertFrom-Json
+$LogName = "Application"
+$Source = "PSLog"
 
-New-EventLog -LogName $Config.EventViewer.LogName -Source $Config.EventViewer.Source
 
-Write-EventLog -LogName $Config.EventViewer.LogName -Source $Config.EventViewer.Source -EventID 3001 -EntryType Information -Message "New log was initialized by $ENV:Username"
+$t = Get-EventLog -LogName $LogName -Source $Source -Newest 1 | Measure-Object
+if ( $t.Count -eq 0) {
+    try {
+        # Create a new log to store entries
+        [System.Diagnostics.EventLog]::CreateEventSource($Source, $LogName)
+
+        $event = [System.Diagnostics.EventLog]::new()
+        $event.Source = $this.Source
+        $event.Log = $this.LogName
+        $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information, 1)
+        Write-EventLog -LogName $LogName -Source $Source -EventID 1 -EntryType Information -Message "New log was initialized by $ENV:Username"
+    } catch {
+
+    }  
+}
 
 ```

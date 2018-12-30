@@ -44,23 +44,153 @@ class EventLogSettings : TemplateConverter {
     }
 
     [void] Write( [string] $Message, [string] $Level ) {
+        # check the results to find out if we can process this message
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            return 
+        }
 
+        if ( $this._SourceExists() -eq $false ) {
+            # Unable to Find/Create the log storage.  Throw a message to Console.
+            Write-Error -Message "Unable to use EventViewer EndPoint.  Please run this script as an Administrator or create the log as Administrator and try again."
+            continue
+        }
+
+        $event = [System.Diagnostics.EventLog]::new()
+        $event.Source = $this.Source
+        $event.Log = $this.LogName
+
+        # We have the log generated
+        switch ($Level.ToLower() ) {
+            "information" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information)
+            }
+            "warning" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Warning)
+            }
+            "error" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Error)
+            }
+            "debug" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information)
+            }
+            Default {}
+        }
+        
+    }
+
+    [void] Write([string] $Message, [string] $Level, [int] $ErrorCode) {
+        # check the results to find out if we can process this message
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            return 
+        }
+
+        if ( $this._SourceExists() -eq $false ) {
+            # Unable to Find/Create the log storage.  Throw a message to Console.
+            Write-Error -Message "Unable to use EventViewer EndPoint.  Please run this script as an Administrator or create the log as Administrator and try again."
+            continue
+        }
+
+        $event = [System.Diagnostics.EventLog]::new()
+        $event.Source = $this.Source
+        $event.Log = $this.LogName
+
+        # We have the log generated
+        switch ($Level.ToLower() ) {
+            "information" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information, $ErrorCode)
+            }
+            "warning" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Warning, $ErrorCode)
+            }
+            "error" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Error, $ErrorCode)
+            }
+            "debug" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information), $ErrorCode
+            }
+            Default {}
+        }
+    }
+
+    [void] Write([string] $Message, [string] $Level, [int] $ErrorCode, [string] $CallingFile, [int] $CallingLine) {
+        # check the results to find out if we can process this message
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            return 
+        }
+
+        if ( $this._SourceExists() -eq $false ) {
+            # Unable to Find/Create the log storage.  Throw a message to Console.
+            Write-Error -Message "Unable to use EventViewer EndPoint.  Please run this script as an Administrator or create the log as Administrator and try again."
+            continue
+        }
+
+        $event = [System.Diagnostics.EventLog]::new()
+        $event.Source = $this.Source
+        $event.Log = $this.LogName
+
+        # We have the log generated
+        switch ($Level.ToLower() ) {
+            "information" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information, $ErrorCode)
+            }
+            "warning" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Warning, $ErrorCode)
+            }
+            "error" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Error, $ErrorCode)
+            }
+            "debug" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information, $ErrorCode)
+            }
+            Default {}
+        }
+    }
+
+    [bool] _IsMessageValid([string] $Level) {
+        # Region 
         $Valid = $false
         foreach ( $l in $this.Levels) {
             if ( $l -eq $Level) {
                 $Valid = $true
             }
         }
+        return $Valid
 
-        # check the results to find out if we can process this message
-        if ( $Valid -eq $false ) {
-            # if we got a false, cancle out of this method
-            continue
-        }
-
-        # We are going to write to a custom source 
-
-        Write-EventLog -LogName $this.LogName -Source $this.Source -EntryType $Level
     }
 
+    [bool] _SourceExists(){
+        # We are going to write to a custom source 
+        $s = [System.Diagnostics.EventLog]::SourceExists($this.Source)
+
+        if ( $s -eq $false) {
+            #need to make the log
+            [System.Diagnostics.EventLog]::CreateEventSource($this.Source, $this.LogName)
+        }
+
+        $confirm = [System.Diagnostics.EventLog]::SourceExists($this.Source)
+        return $confirm
+    }
+
+    [string] _BuildMessage([string] $Message, [string] $CallingFile, [int] $CallingLine = 0) {
+
+        $msg = ""
+
+        if ( [System.String]::IsNullOrEmpty($Message) -eq $false ) {
+            $m = $Message + "\r" 
+            $msg += $m
+        }
+
+        if ( [System.String]::IsNullOrEmpty($CallingFile) -eq $false ) {
+            $msg += "Calling File: $CallingFile \r"
+        }
+
+        if ( $CallingLine.Equals(0) -eq $false ) {
+            $msg += "Calling Line: $CallingLine \r"
+        }
+
+        return $msg
+    }
 }
