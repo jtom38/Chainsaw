@@ -33,12 +33,12 @@ class TemplateConverter {
         }
 
         if( $s.Contains("#ErrorCode#") -eq $true){
-            $s = $s.Replace("#ErrorCode#", $ErrorCode)
+            #$s = $s.Replace("#ErrorCode#", $ErrorCode)
         }
-
         return $s
     }
 
-
-
+    [string] ConvertToMessageTemplate(  [string] $ErrorCode) {
+        return $null
+    }
 }

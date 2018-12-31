@@ -1,8 +1,9 @@
 
 # Import the classes 
 . "$psscriptroot\PsLogCsv\Classes\TemplateConverter.ps1"
-. "$psscriptroot\PsLogCsv\Classes\ConsoleSettings.ps1"
-. "$psscriptroot\PsLogCsv\Classes\CsvSettings.ps1"
+. "$psscriptroot\PsLogCsv\Classes\"
+. "$psscriptroot\PsLogCsv\Classes\PSLogConsole.ps1"
+. "$psscriptroot\PsLogCsv\Classes\PSLogCsv.ps1"
 . "$psscriptroot\PsLogCsv\Classes\PsLog.ps1"
 
 #Generate the CSV Settings based off the config file

@@ -1,13 +1,13 @@
 
-class EventLogSettings : TemplateConverter {
+class PSLogEventLog {
     
-    EventLogSettings([string[]] $Levels, [string] $LogName, [string] $Source) {
+    PSLogEventLog([string[]] $Levels, [string] $LogName, [string] $Source) {
         $this.Levels = $Levels
         $this.LogName = $LogName
         $this.Source = Source
     }
 
-    EventLogSettings([string] $PathConfig ) {
+    PSLogEventLog([string] $PathConfig ) {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
             Throw 'PathConfig: was null'
@@ -43,7 +43,7 @@ class EventLogSettings : TemplateConverter {
         return $false
     }
 
-    [void] Write( [string] $Message, [string] $Level ) {
+    [void] Write([string] $Level, [string] $Message ) {
         # check the results to find out if we can process this message
         if ( $this._IsMessageValid($Level) -eq $false ) {
             # if we got a false, cancle out of this method
@@ -79,7 +79,7 @@ class EventLogSettings : TemplateConverter {
         
     }
 
-    [void] Write([string] $Message, [string] $Level, [int] $ErrorCode) {
+    [void] Write([string] $Level, [string] $Message, [int] $ErrorCode) {
         # check the results to find out if we can process this message
         if ( $this._IsMessageValid($Level) -eq $false ) {
             # if we got a false, cancle out of this method
@@ -114,7 +114,7 @@ class EventLogSettings : TemplateConverter {
         }
     }
 
-    [void] Write([string] $Message, [string] $Level, [int] $ErrorCode, [string] $CallingFile, [int] $CallingLine) {
+    [void] Write([string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $CallingLine) {
         # check the results to find out if we can process this message
         if ( $this._IsMessageValid($Level) -eq $false ) {
             # if we got a false, cancle out of this method

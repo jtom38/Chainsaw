@@ -1,25 +1,30 @@
 
-class CsvSettings : TemplateConverter {
+class PSLogCsv : TemplateConverter {
     
-    CsvSettings([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
+    PSLogCsv([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
         $this.LogPath = $LogPath
         $this.MessageTemplate = $MessageTemplate
         $this.Levels = $Levels
+
+        $this._TemplateConverter::new()
     }
 
-    CsvSettings([string] $PathConfig) {
-        #TODO Add Conifg constructor
+    PSLogCsv([string] $PathConfig) {
         # Should have a valid file
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
 
         $this.LogPath = $json.PSLog.Csv.LogPath
         $this.Levels = $json.PSLog.Csv.Levels
         $this.MessageTemplate = $json.PSLog.Csv.MessageTemplate
+
+        $this._TemplateConverter::new()
     }
 
     [string] $LogPath
     [string] $MessageTemplate
     [string[]] $Levels
+
+    #[TemplateConverter] $_TemplateConverter
 
     # Private method to tell if we can use this endpoint for processing
     [bool] _isValidEndPoint() {
@@ -33,7 +38,15 @@ class CsvSettings : TemplateConverter {
     }
 
     # This is a generic class we will use to write the CSV Log
-    [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
+    [void] Write( [string] $Message, [string] $Level) {
+        throw "Placeholder"
+    }
+
+    [void] Write( [string] $Message, [string] $Level, [int] $ErrorCode ) {
+        throw "Placeholder"
+    }
+
+    [void] Write( [string] $Message, [string] $Level, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber ) {
 
         $Valid = $false
         foreach ( $l in $this.Levels) {
@@ -49,17 +62,7 @@ class CsvSettings : TemplateConverter {
         }
 
         # Confirm that we can find the log file.
-        $info = [System.IO.FileInfo]::new($this.LogPath)
-        if ( $info.Exists -eq $false ) {
-            # Generate where we ae going to store logging
-            New-Item -Path $info.Directory -Name $info.Name -ItemType "file" | Out-Null
-            
-            # Get the correct header that is needed 
-            $header = $this.ReturnHeader()
-
-            # Add that as the first line of the file.
-            Add-Content -Path $this.LogPath -Value $header
-        }
+        $this._GenerateCsvIfMissing()
 
         # Check for file lock status
         $isFileLocked = $this.CheckFileLock()
@@ -129,6 +132,24 @@ class CsvSettings : TemplateConverter {
             $s = $s.Replace("#File#", "File")
         }
 
+        if ( $s.Contains("#ErrorCode#") -eq $true) {
+            $s = $s.Replace("#ErrorCode#", "ErrorCode")
+        }
+
         return $s
     } 
+
+    [void] _GenerateCsvIfMissing() {
+        $info = [System.IO.FileInfo]::new($this.LogPath)
+        if ( $info.Exists -eq $false ) {
+            # Generate where we ae going to store logging
+            New-Item -Path $info.Directory -Name $info.Name -ItemType "file" | Out-Null
+            
+            # Get the correct header that is needed 
+            $header = $this.ReturnHeader()
+
+            # Add that as the first line of the file.
+            Add-Content -Path $this.LogPath -Value $header
+        }
+    }
 }

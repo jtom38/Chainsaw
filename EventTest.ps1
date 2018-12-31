@@ -1,4 +1,5 @@
 
+
 #Write a log with .net
 # https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.eventlog?view=netframework-4.7.2#methods
 $event = [System.Diagnostics.EventLog]::new()

@@ -1,0 +1,617 @@
+
+class FileLock {
+    
+    FileLock() {
+
+    }
+
+    [bool] GetFileLockStatus([string] $File) {
+        if ( [System.IO.File]::Exists($File) -eq $false ) {
+            throw "Unable to check File Lock because file was not found on disk."
+        }
+
+        try {
+            $Info = [System.IO.FileInfo]::new($File)
+            # Test with Streams
+            [System.IO.FileStream] $FileOpen = $Info.Open(
+                # Check to see if the File is open
+                [System.IO.FileMode]::Open,
+                # Check to see if we have ReadWrite to the file
+                [System.IO.FileAccess]::ReadWrite,
+                # Check to see if the file is accesed by a share.
+                [System.IO.FileShare]::None) 
+                
+                if ( $FileOpen ) {
+                     $FileOpen.Close()
+                }
+                return $false
+        }
+        catch {
+            # File is locked currently.
+            # Wonder if we get the process that locked it
+            return $true
+        }
+    }
+
+}
+
+# This is the entry point for PsLog.  
+# From here we can extend into other classes.
+class PsLog {
+  
+    PsLog() {
+        # Default is false
+        $this.StorageAllMessagesSent = $false
+    }
+
+    # If you want to store all the messages sent to the logger so you can call them later update this to true
+    [bool] $StorageAllMessagesSent
+
+    # Thought, Use this as a method to define what is enabled  
+    # Region Enable functions
+    [PSLogCsv] $CsvConfig
+    [PSLogConsole] $ConsoleConfig
+    [PSLogEventLog] $EventLogConfig
+    # End Region
+    
+    # Region Logging Methods
+
+    [void] Info( [string] $Message, [string] $CallingFile, [int] $LineNumber) {
+        
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write($Message, "Information", $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write($Message, "Information", $CallingFile, $LineNumber)
+        }
+        
+    }
+
+    [void] Error([string] $Message, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write($Message, "Error", $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write($Message, "Error", $CallingFile, $LineNumber)
+        }
+    }
+
+    [void] Warning ([string] $Message, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write($Message, "Warning", $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write($Message, "Warning", $CallingFile, $LineNumber)
+        }
+    }
+
+    [void] Debug([string] $Message, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write($Message, "Debug", $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write($Message, "Debug", $CallingFile, $LineNumber)
+        }
+    }
+
+    # End Region
+
+    [int] GetCurrentLineNumber() {
+        return $MyInvocation.ScriptLineNumber
+    }
+
+    [string] GetCurrentFileName() {
+        $info = [System.IO.FileInfo]::new($MyInvocation.ScriptName)
+        return $info.Name
+    }
+}
+
+# This class contains the settings needed to write messages to the console.
+class PSLogConsole : TemplateConverter {
+    
+    ConsoleSettings( [String] $MessageTemplate, [String[]] $Levels) {
+        $this.Levels = $Levels
+        $this.MessageTemplate = $MessageTemplate
+    }
+    
+    ConsoleSettings( [string] $PathConfig ) {
+
+        if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
+            Throw 'PathConfig: was null'
+        }
+
+        if ( [System.IO.File]::Exists($PathConfig) -eq $false ) {
+            Throw "PathConfig: $($PathConfig) was not found on disk."
+        }
+
+        $info = [System.IO.FileInfo]::new($PathConfig)
+
+        if ( $info.Extension.Equals("json") -eq $true ) {
+            Throw "PathConfig: is not a json file"
+        }
+
+        # Should have a valid file
+        $json = Get-Content -Path $PathConfig | ConvertFrom-Json
+
+        $this.MessageTemplate = $json.PSLog.Console.MessageTemplate
+        $this.Levels = $json.PSLog.Console.Levels
+
+    }
+
+    # Region Define public properties
+    # This defines the template we will use to format our messages
+    [string] $MessageTemplate
+    [string[]] $Levels 
+    # Region End
+
+    [bool] _isEndPointValid() {
+
+        if ( [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false) {
+            return $true
+        }
+
+        return $false
+    }
+
+    [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
+        
+        $matchFound = $false
+        foreach ( $l in $this.Levels) {
+            if ( $l -eq $Level) {
+                $matchFound = $true
+            }
+        }
+
+        if ( $matchFound -eq $false ) {
+            # We have a message that is not valid for Console, fail out
+            continue
+        }
+        
+        #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
+        $msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+
+        switch($Level.ToLower()) 
+        {
+            error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
+            information { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            warning { [System.Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
+            debug { [System.Console]::ForegroundColor = [System.ConsoleColor]::Magenta; Break; }
+            default { [System.Console]::ForegroundColor = [ConsoleColor]::White; Break }
+        }
+        [System.Console]::WriteLine($msg)
+
+        # Set the color back to normal for messages that do not pass though the logger
+        [Console]::ForegroundColor = [ConsoleColor]::White
+    }
+
+    [string] FormatMessage( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
+        $s = $this.Template
+        #$s = "[#DateTime#] [#Level#] #Message#"
+        
+        if( $s.Contains("#Level#") -eq $true ){
+            $s = $s.Replace("#Level#", "Level")
+        }
+
+        if( $s.Contains("#DateTime#") -eq $true ){
+            $s = $s.Replace("#DateTime#", "DateTime")
+        }
+
+        if( $s.Contains("#Message#") -eq $true ){
+            $s = $s.Replace("#Message#", "Message")
+        }
+
+        if( $s.Contains("#LineNumber#") -eq $true){
+            $s = $s.Replace("#LineNumber#", "LineNumber")
+        }
+
+        if( $s.Contains("#File#") -eq $true){
+            $s = $s.Replace("#File#", "File")
+        }
+
+        return $s
+    }
+
+}
+
+class PSLogCsv : TemplateConverter{
+    
+    PSLogCsv([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
+        $this.LogPath = $LogPath
+        $this.MessageTemplate = $MessageTemplate
+        $this.Levels = $Levels
+
+        $this._TemplateConverter::new()
+    }
+
+    PSLogCsv([string] $PathConfig) {
+        #TODO Add Conifg constructor
+        # Should have a valid file
+        $json = Get-Content -Path $PathConfig | ConvertFrom-Json
+
+        $this.LogPath = $json.PSLog.Csv.LogPath
+        $this.Levels = $json.PSLog.Csv.Levels
+        $this.MessageTemplate = $json.PSLog.Csv.MessageTemplate
+
+        $this._TemplateConverter::new()
+    }
+
+    [string] $LogPath
+    [string] $MessageTemplate
+    [string[]] $Levels
+
+    #[TemplateConverter] $_TemplateConverter
+
+    # Private method to tell if we can use this endpoint for processing
+    [bool] _isValidEndPoint() {
+
+        if ( [System.String]::IsNullOrEmpty($this.LogPath) -eq $false -and 
+             [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false ) {
+            return $true
+        }
+
+        return $false
+    }
+
+    # This is a generic class we will use to write the CSV Log
+    [void] Write( [string] $Message, [string] $Level) {
+        throw "Placeholder"
+    }
+
+    [void] Write( [string] $Message, [string] $Level, [int] $ErrorCode ) {
+        throw "Placeholder"
+    }
+
+    [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
+
+        $Valid = $false
+        foreach ( $l in $this.Levels) {
+            if ( $l -eq $Level) {
+                $Valid = $true
+            }
+        }
+
+        # check the results to find out if we can process this message
+        if ( $Valid -eq $false ) {
+            # if we got a false, cancle out of this method
+            continue
+        }
+
+        # Confirm that we can find the log file.
+        $this._GenerateCsvIfMissing()
+
+        # Check for file lock status
+        $isFileLocked = $this.CheckFileLock()
+
+        while ( $isFileLocked -eq $true ) {
+            # just keep checking
+            #TODO Add more logic here?
+        }
+
+        # Convert the Message Template to a csv message to load into the file
+        $msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+
+        Add-Content -Path $this.LogPath -Value $msg
+
+    }
+
+    # Use this to check if we the log file is currently avilable to write to.
+    [bool] CheckFileLock() {
+        if ( [System.IO.File]::Exists($this.LogPath) -eq $false ) {
+            throw "Unable to check File Lock because file was not found on disk."
+        }
+
+        try {
+            $Info = [System.IO.FileInfo]::new($this.LogPath)
+            # Test with Streams
+            [System.IO.FileStream] $FileOpen = $Info.Open(
+                # Check to see if the File is open
+                [System.IO.FileMode]::Open,
+                # Check to see if we have ReadWrite to the file
+                [System.IO.FileAccess]::ReadWrite,
+                # Check to see if the file is accesed by a share.
+                [System.IO.FileShare]::None) 
+                
+                if ( $FileOpen ) {
+                     $FileOpen.Close()
+                }
+                return $false
+        }
+        catch {
+            # File is locked currently.
+            # Wonder if we get the process that locked it
+            return $true
+        }
+    }
+
+    # This is used to return the header string for new csv files
+    [string] ReturnHeader() {
+        $s = $this.MessageTemplate
+
+        if( $s.Contains("#Level#") -eq $true ){
+            $s = $s.Replace("#Level#", "Level")
+        }
+
+        if( $s.Contains("#DateTime#") -eq $true ){
+            $s = $s.Replace("#DateTime#", "DateTime")
+        }
+
+        if( $s.Contains("#Message#") -eq $true ){
+            $s = $s.Replace("#Message#", "Message")
+        }
+
+        if( $s.Contains("#LineNumber#") -eq $true){
+            $s = $s.Replace("#LineNumber#", "LineNumber")
+        }
+
+        if( $s.Contains("#File#") -eq $true){
+            $s = $s.Replace("#File#", "File")
+        }
+
+        if ( $s.Contains("#ErrorCode#") -eq $true) {
+            $s = $s.Replace("#ErrorCode#", "ErrorCode")
+        }
+
+        return $s
+    } 
+
+    [void] _GenerateCsvIfMissing() {
+        $info = [System.IO.FileInfo]::new($this.LogPath)
+        if ( $info.Exists -eq $false ) {
+            # Generate where we ae going to store logging
+            New-Item -Path $info.Directory -Name $info.Name -ItemType "file" | Out-Null
+            
+            # Get the correct header that is needed 
+            $header = $this.ReturnHeader()
+
+            # Add that as the first line of the file.
+            Add-Content -Path $this.LogPath -Value $header
+        }
+    }
+}
+
+class PSLogEventLog : TemplateConverter {
+    
+    EventLogSettings([string[]] $Levels, [string] $LogName, [string] $Source) {
+        $this.Levels = $Levels
+        $this.LogName = $LogName
+        $this.Source = Source
+    }
+
+    EventLogSettings([string] $PathConfig ) {
+
+        if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
+            Throw 'PathConfig: was null'
+        }
+
+        if ( [System.IO.File]::Exists($PathConfig) -eq $false ) {
+            Throw "PathConfig: $($PathConfig) was not found on disk."
+        }
+
+        $info = [System.IO.FileInfo]::new($PathConfig)
+
+        if ( $info.Extension.Equals("json") -eq $true ) {
+            Throw "PathConfig: is not a json file"
+        }
+
+        $json = Get-Content -Path $PathConfig | ConvertFrom-Json
+        $this.Levels = $json.PSLog.EventViewer.Levels
+        $this.LogName = $json.PSLog.EventViewer.LogName
+        $this.Source = $json.PSLog.EventViewer.Source
+    }
+
+    [string[]] $Levels
+    [string] $LogName
+    [string] $Source
+
+    [TemplateConverter] $_TemplateConverter
+
+    [bool] _isEndPointValid(){
+
+        if ( [System.String]::IsNullOrEmpty($this.Levels) -eq $false -and
+             [System.String]::IsNullOrEmpty($this.LogName) -eq $false -and 
+             [System.String]::IsNullOrEmpty($this.Source) -eq $false) {
+                 return $true
+             }
+        return $false
+    }
+
+    [void] Write( [string] $Message, [string] $Level ) {
+        # check the results to find out if we can process this message
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            return 
+        }
+
+        if ( $this._SourceExists() -eq $false ) {
+            # Unable to Find/Create the log storage.  Throw a message to Console.
+            Write-Error -Message "Unable to use EventViewer EndPoint.  Please run this script as an Administrator or create the log as Administrator and try again."
+            continue
+        }
+
+        $event = [System.Diagnostics.EventLog]::new()
+        $event.Source = $this.Source
+        $event.Log = $this.LogName
+
+        # We have the log generated
+        switch ($Level.ToLower() ) {
+            "information" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information)
+            }
+            "warning" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Warning)
+            }
+            "error" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Error)
+            }
+            "debug" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information)
+            }
+            Default {}
+        }
+        
+    }
+
+    [void] Write([string] $Message, [string] $Level, [int] $ErrorCode) {
+        # check the results to find out if we can process this message
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            return 
+        }
+
+        if ( $this._SourceExists() -eq $false ) {
+            # Unable to Find/Create the log storage.  Throw a message to Console.
+            Write-Error -Message "Unable to use EventViewer EndPoint.  Please run this script as an Administrator or create the log as Administrator and try again."
+            continue
+        }
+
+        $event = [System.Diagnostics.EventLog]::new()
+        $event.Source = $this.Source
+        $event.Log = $this.LogName
+
+        # We have the log generated
+        switch ($Level.ToLower() ) {
+            "information" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information, $ErrorCode)
+            }
+            "warning" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Warning, $ErrorCode)
+            }
+            "error" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Error, $ErrorCode)
+            }
+            "debug" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information), $ErrorCode
+            }
+            Default {}
+        }
+    }
+
+    [void] Write([string] $Message, [string] $Level, [int] $ErrorCode, [string] $CallingFile, [int] $CallingLine) {
+        # check the results to find out if we can process this message
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            return 
+        }
+
+        if ( $this._SourceExists() -eq $false ) {
+            # Unable to Find/Create the log storage.  Throw a message to Console.
+            Write-Error -Message "Unable to use EventViewer EndPoint.  Please run this script as an Administrator or create the log as Administrator and try again."
+            continue
+        }
+
+        $event = [System.Diagnostics.EventLog]::new()
+        $event.Source = $this.Source
+        $event.Log = $this.LogName
+
+        # We have the log generated
+        switch ($Level.ToLower() ) {
+            "information" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information, $ErrorCode)
+            }
+            "warning" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Warning, $ErrorCode)
+            }
+            "error" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Error, $ErrorCode)
+            }
+            "debug" {
+                $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information, $ErrorCode)
+            }
+            Default {}
+        }
+    }
+
+    [bool] _IsMessageValid([string] $Level) {
+        # Region 
+        $Valid = $false
+        foreach ( $l in $this.Levels) {
+            if ( $l -eq $Level) {
+                $Valid = $true
+            }
+        }
+        return $Valid
+
+    }
+
+    [bool] _SourceExists(){
+        # We are going to write to a custom source 
+        $s = [System.Diagnostics.EventLog]::SourceExists($this.Source)
+
+        if ( $s -eq $false) {
+            #need to make the log
+            [System.Diagnostics.EventLog]::CreateEventSource($this.Source, $this.LogName)
+        }
+
+        $confirm = [System.Diagnostics.EventLog]::SourceExists($this.Source)
+        return $confirm
+    }
+
+    [string] _BuildMessage([string] $Message, [string] $CallingFile, [int] $CallingLine = 0) {
+
+        $msg = ""
+
+        if ( [System.String]::IsNullOrEmpty($Message) -eq $false ) {
+            $m = $Message + "\r" 
+            $msg += $m
+        }
+
+        if ( [System.String]::IsNullOrEmpty($CallingFile) -eq $false ) {
+            $msg += "Calling File: $CallingFile \r"
+        }
+
+        if ( $CallingLine.Equals(0) -eq $false ) {
+            $msg += "Calling Line: $CallingLine \r"
+        }
+
+        return $msg
+    }
+}
+
+class TemplateConverter {
+    
+    TemplateConverter(){
+
+    }
+
+    $TemErrorCode = -0
+    
+
+    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $LineNumber, [string] $CallingFile){
+        $s = $this.MessageTemplate
+
+        if( $s.Contains("#Level#") -eq $true ){
+            $s = $s.Replace("#Level#", $Level)
+        }
+
+        if( $s.Contains("#DateTime#") -eq $true ){
+            $dt = [System.DateTime]::Now
+            $s = $s.Replace("#DateTime#", $dt)
+        }
+
+        if( $s.Contains("#Message#") -eq $true ){
+            $s = $s.Replace("#Message#", $Message)
+        }
+
+        if( $s.Contains("#LineNumber#") -eq $true){
+            $s = $s.Replace("#LineNumber#", $LineNumber)
+        }
+
+        if( $s.Contains("#CallingFile#") -eq $true){
+            $s = $s.Replace("#CallingFile#", $CallingFile)
+        }
+
+        if( $s.Contains("#ErrorCode#") -eq $true){
+            #$s = $s.Replace("#ErrorCode#", $ErrorCode)
+        }
+        return $s
+    }
+
+    [string] ConvertToMessageTemplate(  [string] $ErrorCode) {
+        return $null
+    }
+}

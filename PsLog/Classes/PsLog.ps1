@@ -13,20 +13,41 @@ class PsLog {
 
     # Thought, Use this as a method to define what is enabled  
     # Region Enable functions
-    [CsvSettings] $CsvConfig
-    [ConsoleSettings] $ConsoleConfig
+    [PSLogCsv] $CsvConfig
+    [PSLogConsole] $ConsoleConfig
+    [PSLogEventLog] $EventLogConfig
     # End Region
     
     # Region Logging Methods
 
-    [void] Info( [string] $Message, [string] $CallingFile, [int] $LineNumber) {
+    [void] Info( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Information", $Message)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Information", $Message)
+        }
+    }
+
+    [void] Info( [string] $Message, [int] $ErrorCode ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Information", $Message, $ErrorCode)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Information", $Message, $ErrorCode)
+        }
+    }
+
+    [void] Info( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write($Message, "Information", $CallingFile, $LineNumber)
+            $this.CsvConfig.Write("Information", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
 
         if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write($Message, "Information", $CallingFile, $LineNumber)
+            $this.ConsoleConfig.Write("Information", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
         
     }

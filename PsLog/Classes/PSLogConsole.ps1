@@ -1,13 +1,13 @@
 
 # This class contains the settings needed to write messages to the console.
-class ConsoleSettings : TemplateConverter {
+class PSLogConsole : TemplateConverter {
     
-    ConsoleSettings( [String] $MessageTemplate, [String[]] $Levels) {
+    PSLogConsole( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
         $this.MessageTemplate = $MessageTemplate
     }
     
-    ConsoleSettings( [string] $PathConfig ) {
+    PSLogConsole( [string] $PathConfig ) {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
             Throw 'PathConfig: was null'
@@ -37,8 +37,6 @@ class ConsoleSettings : TemplateConverter {
     [string[]] $Levels 
     # Region End
 
-    
-
     [bool] _isEndPointValid() {
 
         if ( [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false) {
@@ -48,7 +46,15 @@ class ConsoleSettings : TemplateConverter {
         return $false
     }
 
-    [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
+    [void] Write([string] $Level, [string] $Message) {
+
+    }
+
+    [void] Write([string] $Level, [string] $Message, [int] $ErrorCode) {
+
+    }
+
+    [void] Write( [string] $Message, [string] $Level, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber ) {
         
         $matchFound = $false
         foreach ( $l in $this.Levels) {
