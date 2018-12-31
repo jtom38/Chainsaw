@@ -1,21 +1,17 @@
 
 # Import the classes 
-. "$psscriptroot\PsLogCsv\Classes\TemplateConverter.ps1"
-. "$psscriptroot\PsLogCsv\Classes\"
-. "$psscriptroot\PsLogCsv\Classes\PSLogConsole.ps1"
-. "$psscriptroot\PsLogCsv\Classes\PSLogCsv.ps1"
-. "$psscriptroot\PsLogCsv\Classes\PsLog.ps1"
+using module .\PSLog\PSLogClasses.psm1
 
 #Generate the CSV Settings based off the config file
-$CsvJson = [CsvSettings]::new(".\config.json")
+$CsvJson = [PSLogCsv]::new(".\config.json")
 
 # Generate the CSV Settings based off manual loading
-$MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
-$Levels = @("Information", "Warning", "Error", "Debug")
-$CsvManual = [CsvSettings]::new(".\log.csv", $MessageTemplate, $Levels) 
+#$MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
+#$Levels = @("Information", "Warning", "Error", "Debug")
+#$CsvManual = [PSLogCsv]::new(".\log.csv", $MessageTemplate, $Levels) 
 
 # Generate the Console Settings based off the config file
-$LogConsole = [ConsoleSettings]::new(".\config.json")
+$LogConsole = [PSLogConsole]::new(".\config.json")
 
 # Generate a blank PsLogger
 $Logger = [PsLog]::new()
@@ -25,7 +21,15 @@ $Logger.ConsoleConfig = $LogConsole
 $Logger.CsvConfig = $CsvJson
 
 # Start passing messages
-$Logger.Info("Test Info Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
+$Logger.Info("-Test- Message Only")
+$Logger.Info("Message and ErrorCode", 1)
+$Logger.Info("Message, ErrorCode, LineNumber, Calling File", 2, $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber() )
+
+$Logger.Warning("Message")
+$Logger.Warning("Message and ErrorCode", 1)
+$Logger.Warning("Message, ErrorCode, LineNumber, Calling File", 2, $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber() )
+
+
 $Logger.Error("Test Error Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
 $Logger.Warning("Test Warning Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
 $Logger.Debug("Test Debug Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())

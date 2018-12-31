@@ -8,7 +8,7 @@
                 "Debug"
             ],
             "LogPath" : ".\\log.csv",
-            "MessageTemplate" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
+            "MessageTemplate" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
         },
         "Console" : {
             "Levels" : [

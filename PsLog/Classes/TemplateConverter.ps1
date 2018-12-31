@@ -3,12 +3,49 @@ class TemplateConverter {
     
     TemplateConverter(){
 
+    }    
+
+    [string] ConvertToMessageTemplate([string] $Level, [string] $Message ){
+        $s = $this.MessageTemplate
+
+        if( $s.Contains("#Level#") -eq $true ){
+            $s = $s.Replace("#Level#", $Level)
+        }
+
+        if( $s.Contains("#DateTime#") -eq $true ){
+            $dt = [System.DateTime]::Now
+            $s = $s.Replace("#DateTime#", $dt)
+        }
+
+        if( $s.Contains("#Message#") -eq $true ){
+            $s = $s.Replace("#Message#", $Message)
+        }
+        return $s
     }
 
-    $TemErrorCode = -0
-    
+    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $ErrorCode){
+        $s = $this.MessageTemplate
 
-    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $LineNumber, [string] $CallingFile){
+        if( $s.Contains("#Level#") -eq $true ){
+            $s = $s.Replace("#Level#", $Level)
+        }
+
+        if( $s.Contains("#DateTime#") -eq $true ){
+            $dt = [System.DateTime]::Now
+            $s = $s.Replace("#DateTime#", $dt)
+        }
+
+        if( $s.Contains("#Message#") -eq $true ){
+            $s = $s.Replace("#Message#", $Message)
+        }
+
+        if( $s.Contains("#ErrorCode#") -eq $true ){
+            $s = $s.Replace("#ErrorCode#", $ErrorCode)
+        }
+        return $s
+    }
+
+    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber){
         $s = $this.MessageTemplate
 
         if( $s.Contains("#Level#") -eq $true ){
@@ -33,12 +70,9 @@ class TemplateConverter {
         }
 
         if( $s.Contains("#ErrorCode#") -eq $true){
-            #$s = $s.Replace("#ErrorCode#", $ErrorCode)
+            $s = $s.Replace("#ErrorCode#", $ErrorCode)
         }
         return $s
     }
 
-    [string] ConvertToMessageTemplate(  [string] $ErrorCode) {
-        return $null
-    }
 }

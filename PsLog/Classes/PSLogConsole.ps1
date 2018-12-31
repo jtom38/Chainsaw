@@ -1,10 +1,12 @@
 
 # This class contains the settings needed to write messages to the console.
-class PSLogConsole : TemplateConverter {
+class PSLogConsole {
     
     PSLogConsole( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
         $this.MessageTemplate = $MessageTemplate
+
+        $this._TemplateConverter = [TemplateConverter]::new()
     }
     
     PSLogConsole( [string] $PathConfig ) {
@@ -29,6 +31,8 @@ class PSLogConsole : TemplateConverter {
         $this.MessageTemplate = $json.PSLog.Console.MessageTemplate
         $this.Levels = $json.PSLog.Console.Levels
 
+        $this._TemplateConverter = [TemplateConverter]::new()
+
     }
 
     # Region Define public properties
@@ -36,6 +40,9 @@ class PSLogConsole : TemplateConverter {
     [string] $MessageTemplate
     [string[]] $Levels 
     # Region End
+
+    # Define required classes
+    [TemplateConverter] $_TemplateConverter
 
     [bool] _isEndPointValid() {
 
@@ -48,28 +55,14 @@ class PSLogConsole : TemplateConverter {
 
     [void] Write([string] $Level, [string] $Message) {
 
-    }
-
-    [void] Write([string] $Level, [string] $Message, [int] $ErrorCode) {
-
-    }
-
-    [void] Write( [string] $Message, [string] $Level, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber ) {
-        
-        $matchFound = $false
-        foreach ( $l in $this.Levels) {
-            if ( $l -eq $Level) {
-                $matchFound = $true
-            }
-        }
-
-        if ( $matchFound -eq $false ) {
-            # We have a message that is not valid for Console, fail out
-            continue
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            continue 
         }
         
         #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
-        $msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+        $msg = $this._TemplateConverter.ConvertToMessageTemplate($Level, $Message)
+        #$msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
 
         switch($Level.ToLower()) 
         {
@@ -86,7 +79,59 @@ class PSLogConsole : TemplateConverter {
         [Console]::ForegroundColor = [ConsoleColor]::White
     }
 
-    [string] FormatMessage( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
+    [void] Write([string] $Level, [string] $Message, [int] $ErrorCode) {
+        
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            continue 
+        }
+        
+        #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
+        $msg = $this._TemplateConverter.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
+        #$msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+
+        switch($Level.ToLower()) 
+        {
+            error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
+            information { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            warning { [System.Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
+            debug { [System.Console]::ForegroundColor = [System.ConsoleColor]::Magenta; Break; }
+            default { [System.Console]::ForegroundColor = [ConsoleColor]::White; Break }
+        }
+        [System.Console]::WriteLine($msg)
+
+        # Set the color back to normal for messages that do not pass though the logger
+        [Console]::ForegroundColor = [ConsoleColor]::White
+    }
+
+    [void] Write([string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber ) {
+
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            continue 
+        }
+        
+        #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
+        $msg = $this._TemplateConverter.ConvertToMessageTemplate($Level, $Message, $ErrorCode, $CallingFile, $LineNumber)
+        #$msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+
+        switch($Level.ToLower()) 
+        {
+            error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
+            information { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            warning { [System.Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
+            debug { [System.Console]::ForegroundColor = [System.ConsoleColor]::Magenta; Break; }
+            default { [System.Console]::ForegroundColor = [ConsoleColor]::White; Break }
+        }
+        [System.Console]::WriteLine($msg)
+
+        # Set the color back to normal for messages that do not pass though the logger
+        [Console]::ForegroundColor = [ConsoleColor]::White
+    }
+
+    [string] _FormatMessage( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
         $s = $this.Template
         #$s = "[#DateTime#] [#Level#] #Message#"
         
@@ -111,6 +156,18 @@ class PSLogConsole : TemplateConverter {
         }
 
         return $s
+    }
+
+    [bool] _IsMessageValid([string] $Level) {
+
+        $Valid = $false
+        foreach ( $l in $this.Levels) {
+            if ( $l -eq $Level) {
+                $Valid = $true
+            }
+        }
+        return $Valid
+
     }
 
 }

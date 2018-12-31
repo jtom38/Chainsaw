@@ -1,3 +1,4 @@
+# Generated 12/31/2018 15:24:50
 
 class FileLock {
     
@@ -56,45 +57,128 @@ class PsLog {
     
     # Region Logging Methods
 
-    [void] Info( [string] $Message, [string] $CallingFile, [int] $LineNumber) {
+    [void] Info( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Information", $Message)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Information", $Message)
+        }
+    }
+
+    [void] Info( [string] $Message, [int] $ErrorCode ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Information", $Message, $ErrorCode)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Information", $Message, $ErrorCode)
+        }
+    }
+
+    [void] Info( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write($Message, "Information", $CallingFile, $LineNumber)
+            $this.CsvConfig.Write("Information", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
 
         if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write($Message, "Information", $CallingFile, $LineNumber)
+            $this.ConsoleConfig.Write("Information", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
         
     }
 
-    [void] Error([string] $Message, [string] $CallingFile, [int] $LineNumber) {
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write($Message, "Error", $CallingFile, $LineNumber)
-        }
 
+    [void] Error( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Error", $Message)
+        }
         if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write($Message, "Error", $CallingFile, $LineNumber)
+            $this.ConsoleConfig.Write("Error", $Message)
         }
     }
 
-    [void] Warning ([string] $Message, [string] $CallingFile, [int] $LineNumber) {
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write($Message, "Warning", $CallingFile, $LineNumber)
-        }
+    [void] Error( [string] $Message, [int] $ErrorCode ) {
 
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Error", $Message, $ErrorCode)
+        }
         if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write($Message, "Warning", $CallingFile, $LineNumber)
+            $this.ConsoleConfig.Write("Error", $Message, $ErrorCode)
         }
     }
 
-    [void] Debug([string] $Message, [string] $CallingFile, [int] $LineNumber) {
+    [void] Error([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write($Message, "Debug", $CallingFile, $LineNumber)
+            $this.CsvConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
 
         if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write($Message, "Debug", $CallingFile, $LineNumber)
+            $this.ConsoleConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+    }
+
+
+    [void] Warning( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Warning", $Message)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Warning", $Message)
+        }
+    }
+
+    [void] Warning( [string] $Message, [int] $ErrorCode ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Warning", $Message, $ErrorCode)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Warning", $Message, $ErrorCode)
+        }
+    }
+
+    [void] Warning ([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+    }
+
+
+    [void] Debug( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Debug", $Message)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Debug", $Message)
+        }
+    }
+
+    [void] Debug( [string] $Message, [int] $ErrorCode ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Debug", $Message, $ErrorCode)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Debug", $Message, $ErrorCode)
+        }
+    }
+
+    [void] Debug([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
     }
 
@@ -111,14 +195,16 @@ class PsLog {
 }
 
 # This class contains the settings needed to write messages to the console.
-class PSLogConsole : TemplateConverter {
+class PSLogConsole {
     
-    ConsoleSettings( [String] $MessageTemplate, [String[]] $Levels) {
+    PSLogConsole( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
         $this.MessageTemplate = $MessageTemplate
+
+        $this._TemplateConverter = [TemplateConverter]::new()
     }
     
-    ConsoleSettings( [string] $PathConfig ) {
+    PSLogConsole( [string] $PathConfig ) {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
             Throw 'PathConfig: was null'
@@ -140,6 +226,8 @@ class PSLogConsole : TemplateConverter {
         $this.MessageTemplate = $json.PSLog.Console.MessageTemplate
         $this.Levels = $json.PSLog.Console.Levels
 
+        $this._TemplateConverter = [TemplateConverter]::new()
+
     }
 
     # Region Define public properties
@@ -147,6 +235,9 @@ class PSLogConsole : TemplateConverter {
     [string] $MessageTemplate
     [string[]] $Levels 
     # Region End
+
+    # Define required classes
+    [TemplateConverter] $_TemplateConverter
 
     [bool] _isEndPointValid() {
 
@@ -157,22 +248,16 @@ class PSLogConsole : TemplateConverter {
         return $false
     }
 
-    [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
-        
-        $matchFound = $false
-        foreach ( $l in $this.Levels) {
-            if ( $l -eq $Level) {
-                $matchFound = $true
-            }
-        }
+    [void] Write([string] $Level, [string] $Message) {
 
-        if ( $matchFound -eq $false ) {
-            # We have a message that is not valid for Console, fail out
-            continue
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            continue 
         }
         
         #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
-        $msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+        $msg = $this._TemplateConverter.ConvertToMessageTemplate($Level, $Message)
+        #$msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
 
         switch($Level.ToLower()) 
         {
@@ -189,7 +274,59 @@ class PSLogConsole : TemplateConverter {
         [Console]::ForegroundColor = [ConsoleColor]::White
     }
 
-    [string] FormatMessage( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
+    [void] Write([string] $Level, [string] $Message, [int] $ErrorCode) {
+        
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            continue 
+        }
+        
+        #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
+        $msg = $this._TemplateConverter.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
+        #$msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+
+        switch($Level.ToLower()) 
+        {
+            error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
+            information { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            warning { [System.Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
+            debug { [System.Console]::ForegroundColor = [System.ConsoleColor]::Magenta; Break; }
+            default { [System.Console]::ForegroundColor = [ConsoleColor]::White; Break }
+        }
+        [System.Console]::WriteLine($msg)
+
+        # Set the color back to normal for messages that do not pass though the logger
+        [Console]::ForegroundColor = [ConsoleColor]::White
+    }
+
+    [void] Write([string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber ) {
+
+        if ( $this._IsMessageValid($Level) -eq $false ) {
+            # if we got a false, cancle out of this method
+            continue 
+        }
+        
+        #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
+        $msg = $this._TemplateConverter.ConvertToMessageTemplate($Level, $Message, $ErrorCode, $CallingFile, $LineNumber)
+        #$msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+
+        switch($Level.ToLower()) 
+        {
+            error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
+            information { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            warning { [System.Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
+            debug { [System.Console]::ForegroundColor = [System.ConsoleColor]::Magenta; Break; }
+            default { [System.Console]::ForegroundColor = [ConsoleColor]::White; Break }
+        }
+        [System.Console]::WriteLine($msg)
+
+        # Set the color back to normal for messages that do not pass though the logger
+        [Console]::ForegroundColor = [ConsoleColor]::White
+    }
+
+    [string] _FormatMessage( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
         $s = $this.Template
         #$s = "[#DateTime#] [#Level#] #Message#"
         
@@ -216,20 +353,31 @@ class PSLogConsole : TemplateConverter {
         return $s
     }
 
+    [bool] _IsMessageValid([string] $Level) {
+
+        $Valid = $false
+        foreach ( $l in $this.Levels) {
+            if ( $l -eq $Level) {
+                $Valid = $true
+            }
+        }
+        return $Valid
+
+    }
+
 }
 
-class PSLogCsv : TemplateConverter{
+class PSLogCsv {
     
     PSLogCsv([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
         $this.LogPath = $LogPath
         $this.MessageTemplate = $MessageTemplate
         $this.Levels = $Levels
 
-        $this._TemplateConverter::new()
+        $this._TemplateConverter = [TemplateConverter]::new()
     }
 
     PSLogCsv([string] $PathConfig) {
-        #TODO Add Conifg constructor
         # Should have a valid file
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
 
@@ -237,14 +385,14 @@ class PSLogCsv : TemplateConverter{
         $this.Levels = $json.PSLog.Csv.Levels
         $this.MessageTemplate = $json.PSLog.Csv.MessageTemplate
 
-        $this._TemplateConverter::new()
+        $this._TemplateConverter = [TemplateConverter]::new()
     }
 
     [string] $LogPath
     [string] $MessageTemplate
     [string[]] $Levels
 
-    #[TemplateConverter] $_TemplateConverter
+    [TemplateConverter] $_TemplateConverter
 
     # Private method to tell if we can use this endpoint for processing
     [bool] _isValidEndPoint() {
@@ -258,26 +406,8 @@ class PSLogCsv : TemplateConverter{
     }
 
     # This is a generic class we will use to write the CSV Log
-    [void] Write( [string] $Message, [string] $Level) {
-        throw "Placeholder"
-    }
-
-    [void] Write( [string] $Message, [string] $Level, [int] $ErrorCode ) {
-        throw "Placeholder"
-    }
-
-    [void] Write( [string] $Message, [string] $Level, [string] $CallingFile, [int] $LineNumber ) {
-
-        $Valid = $false
-        foreach ( $l in $this.Levels) {
-            if ( $l -eq $Level) {
-                $Valid = $true
-            }
-        }
-
-        # check the results to find out if we can process this message
-        if ( $Valid -eq $false ) {
-            # if we got a false, cancle out of this method
+    [void] Write( [string] $Level, [string] $Message) {
+        if ( $this._IsMessageValid($Level) -eq $false) {
             continue
         }
 
@@ -293,7 +423,52 @@ class PSLogCsv : TemplateConverter{
         }
 
         # Convert the Message Template to a csv message to load into the file
-        $msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+        $msg = $this.ConvertToMessageTemplate($Level, $Message)
+
+        Add-Content -Path $this.LogPath -Value $msg
+    }
+
+    [void] Write( [string] $Level, [string] $Message, [int] $ErrorCode ) {
+        if ( $this._IsMessageValid($Level) -eq $false) {
+            continue
+        }
+
+        # Confirm that we can find the log file.
+        $this._GenerateCsvIfMissing()
+
+        # Check for file lock status
+        $isFileLocked = $this.CheckFileLock()
+
+        while ( $isFileLocked -eq $true ) {
+            # just keep checking
+            #TODO Add more logic here?
+        }
+
+        # Convert the Message Template to a csv message to load into the file
+        $msg = $this.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
+
+        Add-Content -Path $this.LogPath -Value $msg
+    }
+
+    [void] Write( [string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber ) {
+
+        if ( $this._IsMessageValid($Level) -eq $false) {
+            continue
+        }
+
+        # Confirm that we can find the log file.
+        $this._GenerateCsvIfMissing()
+
+        # Check for file lock status
+        $isFileLocked = $this.CheckFileLock()
+
+        while ( $isFileLocked -eq $true ) {
+            # just keep checking
+            #TODO Add more logic here?
+        }
+
+        # Convert the Message Template to a csv message to load into the file
+        $msg = $this.ConvertToMessageTemplate($Level, $Message, $ErrorCode, $CallingFile, $LineNumber )
 
         Add-Content -Path $this.LogPath -Value $msg
 
@@ -329,7 +504,7 @@ class PSLogCsv : TemplateConverter{
     }
 
     # This is used to return the header string for new csv files
-    [string] ReturnHeader() {
+    [string] _ReturnHeader() {
         $s = $this.MessageTemplate
 
         if( $s.Contains("#Level#") -eq $true ){
@@ -348,8 +523,8 @@ class PSLogCsv : TemplateConverter{
             $s = $s.Replace("#LineNumber#", "LineNumber")
         }
 
-        if( $s.Contains("#File#") -eq $true){
-            $s = $s.Replace("#File#", "File")
+        if( $s.Contains("#CallingFile#") -eq $true){
+            $s = $s.Replace("#CallingFile#", "CallingFile")
         }
 
         if ( $s.Contains("#ErrorCode#") -eq $true) {
@@ -372,17 +547,33 @@ class PSLogCsv : TemplateConverter{
             Add-Content -Path $this.LogPath -Value $header
         }
     }
+
+    [bool] _IsMessageValid([string] $Level) {
+        $Valid = $false
+        foreach ( $l in $this.Levels) {
+            if ( $l -eq $Level) {
+                $Valid = $true
+            }
+        }
+
+        # check the results to find out if we can process this message
+        if ( $Valid -eq $false ) {
+            # if we got a false, cancle out of this method
+            return $false
+        }
+        return $true
+    }
 }
 
-class PSLogEventLog : TemplateConverter {
+class PSLogEventLog {
     
-    EventLogSettings([string[]] $Levels, [string] $LogName, [string] $Source) {
+    PSLogEventLog([string[]] $Levels, [string] $LogName, [string] $Source) {
         $this.Levels = $Levels
         $this.LogName = $LogName
         $this.Source = Source
     }
 
-    EventLogSettings([string] $PathConfig ) {
+    PSLogEventLog([string] $PathConfig ) {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
             Throw 'PathConfig: was null'
@@ -408,8 +599,6 @@ class PSLogEventLog : TemplateConverter {
     [string] $LogName
     [string] $Source
 
-    [TemplateConverter] $_TemplateConverter
-
     [bool] _isEndPointValid(){
 
         if ( [System.String]::IsNullOrEmpty($this.Levels) -eq $false -and
@@ -420,7 +609,7 @@ class PSLogEventLog : TemplateConverter {
         return $false
     }
 
-    [void] Write( [string] $Message, [string] $Level ) {
+    [void] Write([string] $Level, [string] $Message ) {
         # check the results to find out if we can process this message
         if ( $this._IsMessageValid($Level) -eq $false ) {
             # if we got a false, cancle out of this method
@@ -456,7 +645,7 @@ class PSLogEventLog : TemplateConverter {
         
     }
 
-    [void] Write([string] $Message, [string] $Level, [int] $ErrorCode) {
+    [void] Write([string] $Level, [string] $Message, [int] $ErrorCode) {
         # check the results to find out if we can process this message
         if ( $this._IsMessageValid($Level) -eq $false ) {
             # if we got a false, cancle out of this method
@@ -491,11 +680,11 @@ class PSLogEventLog : TemplateConverter {
         }
     }
 
-    [void] Write([string] $Message, [string] $Level, [int] $ErrorCode, [string] $CallingFile, [int] $CallingLine) {
+    [void] Write([string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $CallingLine) {
         # check the results to find out if we can process this message
         if ( $this._IsMessageValid($Level) -eq $false ) {
             # if we got a false, cancle out of this method
-            return 
+            continue 
         }
 
         if ( $this._SourceExists() -eq $false ) {
@@ -527,7 +716,7 @@ class PSLogEventLog : TemplateConverter {
     }
 
     [bool] _IsMessageValid([string] $Level) {
-        # Region 
+
         $Valid = $false
         foreach ( $l in $this.Levels) {
             if ( $l -eq $Level) {
@@ -576,12 +765,49 @@ class TemplateConverter {
     
     TemplateConverter(){
 
+    }    
+
+    [string] ConvertToMessageTemplate([string] $Level, [string] $Message ){
+        $s = $this.MessageTemplate
+
+        if( $s.Contains("#Level#") -eq $true ){
+            $s = $s.Replace("#Level#", $Level)
+        }
+
+        if( $s.Contains("#DateTime#") -eq $true ){
+            $dt = [System.DateTime]::Now
+            $s = $s.Replace("#DateTime#", $dt)
+        }
+
+        if( $s.Contains("#Message#") -eq $true ){
+            $s = $s.Replace("#Message#", $Message)
+        }
+        return $s
     }
 
-    $TemErrorCode = -0
-    
+    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $ErrorCode){
+        $s = $this.MessageTemplate
 
-    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $LineNumber, [string] $CallingFile){
+        if( $s.Contains("#Level#") -eq $true ){
+            $s = $s.Replace("#Level#", $Level)
+        }
+
+        if( $s.Contains("#DateTime#") -eq $true ){
+            $dt = [System.DateTime]::Now
+            $s = $s.Replace("#DateTime#", $dt)
+        }
+
+        if( $s.Contains("#Message#") -eq $true ){
+            $s = $s.Replace("#Message#", $Message)
+        }
+
+        if( $s.Contains("#ErrorCode#") -eq $true ){
+            $s = $s.Replace("#ErrorCode#", $ErrorCode)
+        }
+        return $s
+    }
+
+    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber){
         $s = $this.MessageTemplate
 
         if( $s.Contains("#Level#") -eq $true ){
@@ -606,12 +832,9 @@ class TemplateConverter {
         }
 
         if( $s.Contains("#ErrorCode#") -eq $true){
-            #$s = $s.Replace("#ErrorCode#", $ErrorCode)
+            $s = $s.Replace("#ErrorCode#", $ErrorCode)
         }
         return $s
     }
 
-    [string] ConvertToMessageTemplate(  [string] $ErrorCode) {
-        return $null
-    }
 }

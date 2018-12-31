@@ -52,33 +52,96 @@ class PsLog {
         
     }
 
-    [void] Error([string] $Message, [string] $CallingFile, [int] $LineNumber) {
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write($Message, "Error", $CallingFile, $LineNumber)
-        }
 
+    [void] Error( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Error", $Message)
+        }
         if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write($Message, "Error", $CallingFile, $LineNumber)
+            $this.ConsoleConfig.Write("Error", $Message)
         }
     }
 
-    [void] Warning ([string] $Message, [string] $CallingFile, [int] $LineNumber) {
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write($Message, "Warning", $CallingFile, $LineNumber)
-        }
+    [void] Error( [string] $Message, [int] $ErrorCode ) {
 
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Error", $Message, $ErrorCode)
+        }
         if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write($Message, "Warning", $CallingFile, $LineNumber)
+            $this.ConsoleConfig.Write("Error", $Message, $ErrorCode)
         }
     }
 
-    [void] Debug([string] $Message, [string] $CallingFile, [int] $LineNumber) {
+    [void] Error([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write($Message, "Debug", $CallingFile, $LineNumber)
+            $this.CsvConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
 
         if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write($Message, "Debug", $CallingFile, $LineNumber)
+            $this.ConsoleConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+    }
+
+
+    [void] Warning( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Warning", $Message)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Warning", $Message)
+        }
+    }
+
+    [void] Warning( [string] $Message, [int] $ErrorCode ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Warning", $Message, $ErrorCode)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Warning", $Message, $ErrorCode)
+        }
+    }
+
+    [void] Warning ([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+    }
+
+
+    [void] Debug( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Debug", $Message)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Debug", $Message)
+        }
+    }
+
+    [void] Debug( [string] $Message, [int] $ErrorCode ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Debug", $Message, $ErrorCode)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Debug", $Message, $ErrorCode)
+        }
+    }
+
+    [void] Debug([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
     }
 

@@ -118,7 +118,7 @@ class PSLogEventLog {
         # check the results to find out if we can process this message
         if ( $this._IsMessageValid($Level) -eq $false ) {
             # if we got a false, cancle out of this method
-            return 
+            continue 
         }
 
         if ( $this._SourceExists() -eq $false ) {
@@ -150,7 +150,7 @@ class PSLogEventLog {
     }
 
     [bool] _IsMessageValid([string] $Level) {
-        # Region 
+
         $Valid = $false
         foreach ( $l in $this.Levels) {
             if ( $l -eq $Level) {

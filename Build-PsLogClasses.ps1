@@ -7,18 +7,20 @@ This is my building file.  Use this if you want to build a fresh class module if
 #>
 
 # Define where the classes are and pull them into memory
-$Files = Get-ChildItem -Path .\Classes
+$Files = Get-ChildItem -Path .\PSLog\Classes
 
 # Define where the new Module file will be
-$ClassModule = "$psscriptroot\PSLogClasses.psm1"
+$ClassModule = "$psscriptroot\PSLog\PSLogClasses.psm1"
 if ( [System.IO.File]::Exists($ClassModule) -eq $true ) {
     # Delete the old one
     [System.IO.File]::Delete($ClassModule)
 }
 
 # Generate the new blank file
-New-Item -Path ".\" -Name "PSLogClasses.psm1" | Out-Null
+New-Item -Path ".\PSLog" -Name "PSLogClasses.psm1" | Out-Null
 
+$dt = [datetime]::Now
+Add-Content -Path $ClassModule -Value "# Generated $dt"
 # Loop though each file and take the content and place it in the new file
 foreach ( $f in $Files) {
 

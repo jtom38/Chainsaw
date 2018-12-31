@@ -1,12 +1,12 @@
 
-class PSLogCsv : TemplateConverter {
+class PSLogCsv {
     
     PSLogCsv([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
         $this.LogPath = $LogPath
         $this.MessageTemplate = $MessageTemplate
         $this.Levels = $Levels
 
-        $this._TemplateConverter::new()
+        $this._TemplateConverter = [TemplateConverter]::new()
     }
 
     PSLogCsv([string] $PathConfig) {
@@ -17,14 +17,14 @@ class PSLogCsv : TemplateConverter {
         $this.Levels = $json.PSLog.Csv.Levels
         $this.MessageTemplate = $json.PSLog.Csv.MessageTemplate
 
-        $this._TemplateConverter::new()
+        $this._TemplateConverter = [TemplateConverter]::new()
     }
 
     [string] $LogPath
     [string] $MessageTemplate
     [string[]] $Levels
 
-    #[TemplateConverter] $_TemplateConverter
+    [TemplateConverter] $_TemplateConverter
 
     # Private method to tell if we can use this endpoint for processing
     [bool] _isValidEndPoint() {
@@ -38,26 +38,8 @@ class PSLogCsv : TemplateConverter {
     }
 
     # This is a generic class we will use to write the CSV Log
-    [void] Write( [string] $Message, [string] $Level) {
-        throw "Placeholder"
-    }
-
-    [void] Write( [string] $Message, [string] $Level, [int] $ErrorCode ) {
-        throw "Placeholder"
-    }
-
-    [void] Write( [string] $Message, [string] $Level, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber ) {
-
-        $Valid = $false
-        foreach ( $l in $this.Levels) {
-            if ( $l -eq $Level) {
-                $Valid = $true
-            }
-        }
-
-        # check the results to find out if we can process this message
-        if ( $Valid -eq $false ) {
-            # if we got a false, cancle out of this method
+    [void] Write( [string] $Level, [string] $Message) {
+        if ( $this._IsMessageValid($Level) -eq $false) {
             continue
         }
 
@@ -73,7 +55,52 @@ class PSLogCsv : TemplateConverter {
         }
 
         # Convert the Message Template to a csv message to load into the file
-        $msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
+        $msg = $this.ConvertToMessageTemplate($Level, $Message)
+
+        Add-Content -Path $this.LogPath -Value $msg
+    }
+
+    [void] Write( [string] $Level, [string] $Message, [int] $ErrorCode ) {
+        if ( $this._IsMessageValid($Level) -eq $false) {
+            continue
+        }
+
+        # Confirm that we can find the log file.
+        $this._GenerateCsvIfMissing()
+
+        # Check for file lock status
+        $isFileLocked = $this.CheckFileLock()
+
+        while ( $isFileLocked -eq $true ) {
+            # just keep checking
+            #TODO Add more logic here?
+        }
+
+        # Convert the Message Template to a csv message to load into the file
+        $msg = $this.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
+
+        Add-Content -Path $this.LogPath -Value $msg
+    }
+
+    [void] Write( [string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber ) {
+
+        if ( $this._IsMessageValid($Level) -eq $false) {
+            continue
+        }
+
+        # Confirm that we can find the log file.
+        $this._GenerateCsvIfMissing()
+
+        # Check for file lock status
+        $isFileLocked = $this.CheckFileLock()
+
+        while ( $isFileLocked -eq $true ) {
+            # just keep checking
+            #TODO Add more logic here?
+        }
+
+        # Convert the Message Template to a csv message to load into the file
+        $msg = $this.ConvertToMessageTemplate($Level, $Message, $ErrorCode, $CallingFile, $LineNumber )
 
         Add-Content -Path $this.LogPath -Value $msg
 
@@ -109,7 +136,7 @@ class PSLogCsv : TemplateConverter {
     }
 
     # This is used to return the header string for new csv files
-    [string] ReturnHeader() {
+    [string] _ReturnHeader() {
         $s = $this.MessageTemplate
 
         if( $s.Contains("#Level#") -eq $true ){
@@ -128,8 +155,8 @@ class PSLogCsv : TemplateConverter {
             $s = $s.Replace("#LineNumber#", "LineNumber")
         }
 
-        if( $s.Contains("#File#") -eq $true){
-            $s = $s.Replace("#File#", "File")
+        if( $s.Contains("#CallingFile#") -eq $true){
+            $s = $s.Replace("#CallingFile#", "CallingFile")
         }
 
         if ( $s.Contains("#ErrorCode#") -eq $true) {
@@ -151,5 +178,21 @@ class PSLogCsv : TemplateConverter {
             # Add that as the first line of the file.
             Add-Content -Path $this.LogPath -Value $header
         }
+    }
+
+    [bool] _IsMessageValid([string] $Level) {
+        $Valid = $false
+        foreach ( $l in $this.Levels) {
+            if ( $l -eq $Level) {
+                $Valid = $true
+            }
+        }
+
+        # check the results to find out if we can process this message
+        if ( $Valid -eq $false ) {
+            # if we got a false, cancle out of this method
+            return $false
+        }
+        return $true
     }
 }
