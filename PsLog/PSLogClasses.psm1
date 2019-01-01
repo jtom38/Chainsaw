@@ -1,4 +1,4 @@
-# Generated 12/31/2018 15:24:50
+# Generated 01/01/2019 08:37:04
 
 class FileLock {
     
@@ -593,6 +593,7 @@ class PSLogEventLog {
         $this.Levels = $json.PSLog.EventViewer.Levels
         $this.LogName = $json.PSLog.EventViewer.LogName
         $this.Source = $json.PSLog.EventViewer.Source
+        $this._SourceExists()
     }
 
     [string[]] $Levels

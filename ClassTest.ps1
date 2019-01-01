@@ -3,7 +3,7 @@
 using module .\PSLog\PSLogClasses.psm1
 
 #Generate the CSV Settings based off the config file
-$CsvJson = [PSLogCsv]::new(".\config.json")
+#$CsvJson = [PSLogCsv]::new(".\config.json")
 
 # Generate the CSV Settings based off manual loading
 #$MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
@@ -11,17 +11,18 @@ $CsvJson = [PSLogCsv]::new(".\config.json")
 #$CsvManual = [PSLogCsv]::new(".\log.csv", $MessageTemplate, $Levels) 
 
 # Generate the Console Settings based off the config file
-$LogConsole = [PSLogConsole]::new(".\config.json")
+#$LogConsole = [PSLogConsole]::new(".\config.json")
 
 # Generate a blank PsLogger
 $Logger = [PsLog]::new()
 
 # Define what endpoints we are goign to enable
-$Logger.ConsoleConfig = $LogConsole
-$Logger.CsvConfig = $CsvJson
+$Logger.ConsoleConfig = [PSLogConsole]::new(".\config.json")
+$Logger.CsvConfig = [PSLogCsv]::new(".\config.json")
+$Logger.EventLogConfig = [PSLogEventLog]::new(".\config.json")
 
 # Start passing messages
-$Logger.Info("-Test- Message Only")
+$Logger.Info("Message")
 $Logger.Info("Message and ErrorCode", 1)
 $Logger.Info("Message, ErrorCode, LineNumber, Calling File", 2, $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber() )
 
@@ -29,7 +30,10 @@ $Logger.Warning("Message")
 $Logger.Warning("Message and ErrorCode", 1)
 $Logger.Warning("Message, ErrorCode, LineNumber, Calling File", 2, $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber() )
 
+$Logger.Error("Message")
+$Logger.Error("Message and ErrorCode", 1)
+$Logger.Error("Message, ErrorCode, LineNumber, Calling File", 2, $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber() )
 
-$Logger.Error("Test Error Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
-$Logger.Warning("Test Warning Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
-$Logger.Debug("Test Debug Message", $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber())
+$Logger.Debug("Message")
+$Logger.Debug("Message and ErrorCode", 1)
+$Logger.Debug("Message, ErrorCode, LineNumber, Calling File", 2, $Logger.GetCurrentFileName(), $Logger.GetCurrentLineNumber() )

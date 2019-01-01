@@ -2,8 +2,6 @@
 #[cmdletbinding()]
 #param()
 
-
-
 Write-Debug -Message "Looking for all files in Public"
 $Public =  @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue)
 
