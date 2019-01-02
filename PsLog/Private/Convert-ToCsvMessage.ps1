@@ -1,14 +1,14 @@
+function Convert-ToCsvMessage {
+    param (
+        [Parameter(Mandatory=$true)][string] $Level,
+        [Parameter(Mandatory=$true)][string] $Message,
+        [Parameter(Mandatory=$true)][string] $LogFormat,
+        [Parameter(Mandatory=$false)][string] $LineNumber,
+        [Parameter(Mandatory=$false)][string] $CallingFile
+    )
 
-class TemplateConverter {
-    
-    TemplateConverter(){
-
-    }
-
-    
-
-    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $LineNumber, [string] $CallingFile){
-        $s = $this.MessageTemplate
+    Process{
+        $s = $LogFormat
 
         if( $s.Contains("#Level#") -eq $true ){
             $s = $s.Replace("#Level#", $Level)
@@ -33,7 +33,4 @@ class TemplateConverter {
 
         return $s
     }
-
-
-
 }

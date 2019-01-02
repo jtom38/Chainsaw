@@ -1,4 +1,4 @@
-# PsLogCsv
+# PsLog
 
 ## Description
 
@@ -10,7 +10,7 @@ Copy this directory and place it in the same folder.
 In the main script call the following command
 
     ```powershell
-    Import-Module .\PSLogCsv\PSLogCsv.psm1 -Force
+    Import-Module .\PSLog\PSLog.psm1 -Force
     Set-CsvConfig -LogPath ".\log.csv" -Template "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
     ```
 
