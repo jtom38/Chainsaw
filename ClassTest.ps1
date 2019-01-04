@@ -21,6 +21,14 @@ $Logger.ConsoleConfig = [PSLogConsole]::new(".\config.json")
 $Logger.CsvConfig = [PSLogCsv]::new(".\config.json")
 $Logger.EventLogConfig = [PSLogEventLog]::new(".\config.json")
 
+<#Used to as an example on how to generate a new Source
+$Levels = @("Information", "Warning", "Error", "Debug")
+$LogName = "Application"
+$Source = "PSLog"
+$Logger.EventLogConfig = [PSLogEventLog]::new($Levels, $LogName, $Source)
+$LogExists = $Logger.EventLogConfig.InitializeLog()
+#>
+
 # Start passing messages
 $Logger.Info("Message")
 $Logger.Info("Message and ErrorCode", 1)

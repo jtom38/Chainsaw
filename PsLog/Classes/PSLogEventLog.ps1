@@ -4,7 +4,7 @@ class PSLogEventLog {
     PSLogEventLog([string[]] $Levels, [string] $LogName, [string] $Source) {
         $this.Levels = $Levels
         $this.LogName = $LogName
-        $this.Source = Source
+        $this.Source = $Source
     }
 
     PSLogEventLog([string] $PathConfig ) {
@@ -33,16 +33,6 @@ class PSLogEventLog {
     [string[]] $Levels
     [string] $LogName
     [string] $Source
-
-    [bool] _isEndPointValid(){
-
-        if ( [System.String]::IsNullOrEmpty($this.Levels) -eq $false -and
-             [System.String]::IsNullOrEmpty($this.LogName) -eq $false -and 
-             [System.String]::IsNullOrEmpty($this.Source) -eq $false) {
-                 return $true
-             }
-        return $false
-    }
 
     [void] Write([string] $Level, [string] $Message ) {
         # check the results to find out if we can process this message
@@ -150,6 +140,47 @@ class PSLogEventLog {
         }
     }
 
+    # This is used to build the log.
+    # Administrator permissions are required to run this method.
+    [bool] InitializeLog() {
+        <#
+        try {
+            [System.Diagnostics.EventLog]::SourceExists($this.Source)
+            Write-Host "Log was already created."
+            continue
+        }
+        catch {
+            # We did not find the log, we are going to try to create it.
+        }
+        #>
+
+        try {
+            [System.Diagnostics.EventLog]::CreateEventSource($this.Source, $this.LogName)
+
+            $event = [System.Diagnostics.EventLog]::new()
+            $event.Source = $this.Source
+            $event.Log = $this.LogName
+            $Message = "New log was initialized by $ENV:Username"
+            $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information, 1)
+            Write-Host $Message
+            return $true
+        }
+        catch {
+            throw "Failed to generate the log.  Are you running as Administrator?"
+            return $false
+        }
+    }
+
+    [bool] _isEndPointValid(){
+
+        if ( [System.String]::IsNullOrEmpty($this.Levels) -eq $false -and
+             [System.String]::IsNullOrEmpty($this.LogName) -eq $false -and 
+             [System.String]::IsNullOrEmpty($this.Source) -eq $false) {
+                 return $true
+             }
+        return $false
+    }
+
     [bool] _IsMessageValid([string] $Level) {
 
         $Valid = $false
@@ -164,15 +195,22 @@ class PSLogEventLog {
 
     [bool] _SourceExists(){
         # We are going to write to a custom source 
-        $s = [System.Diagnostics.EventLog]::SourceExists($this.Source)
-
-        if ( $s -eq $false) {
-            #need to make the log
-            [System.Diagnostics.EventLog]::CreateEventSource($this.Source, $this.LogName)
+        try {
+            [System.Diagnostics.EventLog]::SourceExists($this.Source)
+            return $true
         }
-
-        $confirm = [System.Diagnostics.EventLog]::SourceExists($this.Source)
-        return $confirm
+        catch {
+            #need to make the log
+            try {
+                [System.Diagnostics.EventLog]::CreateEventSource($this.Source, $this.LogName)
+                return $true
+            }
+            catch {
+                Write-Host "Unable to create the log source.  Please try again as an administrator."
+                return $false
+            }
+        }
+        return $false
     }
 
     [string] _BuildMessage([string] $Message, [string] $CallingFile, [int] $CallingLine = 0) {

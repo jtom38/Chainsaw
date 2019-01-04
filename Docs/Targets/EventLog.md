@@ -10,24 +10,10 @@ If you do not run your process as an administrator I have some commands that you
 
 ```Powershell
 
+$Levels = @("Information", "Warning", "Error", "Debug")
 $LogName = "Application"
 $Source = "PSLog"
-
-
-$t = Get-EventLog -LogName $LogName -Source $Source -Newest 1 | Measure-Object
-if ( $t.Count -eq 0) {
-    try {
-        # Create a new log to store entries
-        [System.Diagnostics.EventLog]::CreateEventSource($Source, $LogName)
-
-        $event = [System.Diagnostics.EventLog]::new()
-        $event.Source = $this.Source
-        $event.Log = $this.LogName
-        $event.WriteEntry($Message, [System.Diagnostics.EventLogEntryType]::Information, 1)
-        Write-EventLog -LogName $LogName -Source $Source -EventID 1 -EntryType Information -Message "New log was initialized by $ENV:Username"
-    } catch {
-
-    }  
-}
+$ev = [PSLogEventLog]::new($Levels, $LogName, $Source)
+$ev.InitializeLog()
 
 ```
