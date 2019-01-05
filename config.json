@@ -36,6 +36,14 @@
             ],
             "Server" : "",
             "Database" : ""
+        },
+        "SMTP" : {
+            "Levels" : [
+                "Error"
+            ],
+            "Server" : "",
+            "Port" : 443,
+            ""
         }
     },
     "PsLogCsv":  {
