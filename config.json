@@ -19,7 +19,7 @@
             ],
             "MessageTemplate" : "[#DateTime#] [#Level#] #Message#"
         },
-        "EventViewer" : {
+        "EventLog" : {
             "Levels" : [
                 "Warning",
                 "Error"

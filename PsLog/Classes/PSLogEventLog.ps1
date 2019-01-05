@@ -24,9 +24,9 @@ class PSLogEventLog {
         }
 
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
-        $this.Levels = $json.PSLog.EventViewer.Levels
-        $this.LogName = $json.PSLog.EventViewer.LogName
-        $this.Source = $json.PSLog.EventViewer.Source
+        $this.Levels = $json.PSLog.EventLog.Levels
+        $this.LogName = $json.PSLog.EventLog.LogName
+        $this.Source = $json.PSLog.EventLog.Source
         $this._SourceExists()
     }
 

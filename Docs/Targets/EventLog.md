@@ -2,18 +2,56 @@
 
 ## Description
 
-This will let you write to the Windows Event Viewer.  This uses the *-EventLog commands currently to do its work.  I recommend that you run ths setup commands before you need your script to work.  This way you can test to confirm that it is working for you.
+This target alows you to enable the process you are building to be able to write to the EventLog depending on the type of message it is.  I use it to make it easier to have external log monitoring software be able to see what is going on with my services.  Depending on how you have it configured you can load your configuration via JSON or with inline code.  More information on that will be below.
 
-## Setup
+## Getting started with EventLog Target
 
-If you do not run your process as an administrator I have some commands that you will need to run to be ready for this endpoint.
+If you need to generate a new log on the computer that will run this process, use the code below.  You will need to run PowerShell as an administrator for this to work.  You will want to do this before you start to expect logs to generate.
 
 ```Powershell
 
+using module .\PSLogClasses.psm1
 $Levels = @("Information", "Warning", "Error", "Debug")
 $LogName = "Application"
 $Source = "PSLog"
 $ev = [PSLogEventLog]::new($Levels, $LogName, $Source)
 $ev.InitializeLog()
 
+```
+
+Once you run the command you will have a new log for you to look at.  Error code will be 1 bound to the Source name you provided.
+
+## Class
+
+Initilization of Target
+
+Building it from Inlinecode
+
+```PowerShell
+
+$Levels = @("Information", "Warning", "Error", "Debug")
+$LogName = "Application"
+$Source = "PSLog"
+[PSLogEventLog]::new($Levels, $LogName, $Source)
+```
+
+Building it from Json config
+
+```Json
+{
+    "PSLog": {
+        "EventLog" : {
+            "Levels" : [
+                "Warning",
+                "Error"
+            ],
+            "LogName" : "Application",
+            "Source" : "PSLog"
+        }
+    }
+}
+```
+
+```PowerShell
+[PSLogEventLog]::new(".\config.json")
 ```
