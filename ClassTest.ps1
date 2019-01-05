@@ -2,6 +2,11 @@
 # Import the classes 
 using module .\PSLog\PSLogClasses.psm1
 
+$packages = split-path -parent $MyInvocation.MyCommand.Definition
+#add-type -path (Join-Path $packages "MimeKit.dll") | Out-Null
+add-type -path (Join-Path $packages "MailKit.dll") | Out-Null
+
+$client = [MailKit.Net.Smtp.SmtpClient]::new()
 #Generate the CSV Settings based off the config file
 #$CsvJson = [PSLogCsv]::new(".\config.json")
 

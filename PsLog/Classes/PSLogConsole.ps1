@@ -5,8 +5,6 @@ class PSLogConsole {
     PSLogConsole( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
         $this.MessageTemplate = $MessageTemplate
-
-        $this._TemplateConverter = [TemplateConverter]::new()
     }
     
     PSLogConsole( [string] $PathConfig ) {
@@ -30,9 +28,6 @@ class PSLogConsole {
 
         $this.MessageTemplate = $json.PSLog.Console.MessageTemplate
         $this.Levels = $json.PSLog.Console.Levels
-
-        $this._TemplateConverter = [TemplateConverter]::new()
-
     }
 
     # Region Define public properties
@@ -40,9 +35,6 @@ class PSLogConsole {
     [string] $MessageTemplate
     [string[]] $Levels 
     # Region End
-
-    # Define required classes
-    [TemplateConverter] $_TemplateConverter
 
     [bool] _isEndPointValid() {
 
@@ -61,7 +53,8 @@ class PSLogConsole {
         }
         
         #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
-        $msg = $this._TemplateConverter.ConvertToMessageTemplate($Level, $Message)
+        $convert = [TemplateConverter]::new($this.MessageTemplate)
+        $msg = $convert.ConvertToMessageTemplate($Level, $Message)
         #$msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
 
         switch($Level.ToLower()) 
@@ -87,7 +80,8 @@ class PSLogConsole {
         }
         
         #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
-        $msg = $this._TemplateConverter.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
+        $convert = [TemplateConverter]::new($this.MessageTemplate)
+        $msg = $convert.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
         #$msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
 
         switch($Level.ToLower()) 
@@ -113,7 +107,8 @@ class PSLogConsole {
         }
         
         #$msg = $this.FormatMessage($Message, $Level, $CallingFile, $LineNumber)
-        $msg = $this._TemplateConverter.ConvertToMessageTemplate($Level, $Message, $ErrorCode, $CallingFile, $LineNumber)
+        $convert = [TemplateConverter]::new($this.MessageTemplate)
+        $msg = $convert.ConvertToMessageTemplate($Level, $Message, $ErrorCode, $CallingFile, $LineNumber)
         #$msg = $this.ConvertToMessageTemplate($Level, $Message, $LineNumber, $CallingFile)
 
         switch($Level.ToLower()) 
