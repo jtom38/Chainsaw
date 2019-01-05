@@ -2,7 +2,7 @@
 
 ## Description
 
-This target alows you to enable the process you are building to be able to write to the EventLog depending on the type of message it is.  I use it to make it easier to have external log monitoring software be able to see what is going on with my services.  Depending on how you have it configured you can load your configuration via JSON or with inline code.  More information on that will be below.
+This target allows you to enable the process you are building to be able to write to the EventLog depending on the type of message it is.  I use it to make it easier to have external log monitoring software be able to see what is going on with my services.  Depending on how you have it configured you can load your configuration via JSON or with inline code.  More information on that will be below.
 
 ## Getting started with EventLog Target
 
@@ -19,29 +19,13 @@ $ev.InitializeLog()
 
 ```
 
-Once you run the command you will have a new log for you to look at.  Error code will be 1 bound to the Source name you provided.
+Once you run the command you will have a new log for you to look at.  An error code will be 1 bound to the Source name you provided.
 
-## Class
+## Config File Layout
 
-Initilization of Target
-
-Building it from inline code
-
-```PowerShell
-
-$Logger = [PSLog]::new()
-$Levels = @("Information", "Warning", "Error", "Debug")
-$LogName = "Application"
-$Source = "PSLog"
-$Logger.EventLogConfig = [PSLogEventLog]::new($Levels, $LogName, $Source)
-$Logger.Info("I am a test message")
-```
-
-Building it from Json config
-
-```Json
+```JSON
 {
-    "PSLog": {
+    "PsLog" : {
         "EventLog" : {
             "Levels" : [
                 "Warning",
@@ -54,8 +38,37 @@ Building it from Json config
 }
 ```
 
+## Class Overview
+
+### Constructors
+
 ```PowerShell
-$Logger = [PSLog]::new()
-$Logger.EventLogConfig = [PSLogEventLog]::new(".\config.json")
-$Logger.Info("I am a test message")
+$LogName = "Application"
+$Source = "PSLog"
+$Levels = @("Information", "Warning", "Error", "Debug")
+
+$eventlog = [PSLogEventLog]::new()
+$eventlog.LogName = $LogName
+$eventlog.Source = $Source
+$eventlog.Levels = $Levels
+
+[PSLogEventLog]::new($Levels, $LogName, $Source)
+
+[PSLogEventLog]::new(".\config.json")
+```
+
+### Properties
+
+```PowerShell
+[string[]] $Levels
+[string] $LogName
+[string] $Source
+```
+
+### Methods
+
+```PowerShell
+Write(Level, Message)
+Write(Level, Message, ErrorCode)
+Write(Level, Message, ErrorCode, CallingFile, LineNumber)
 ```

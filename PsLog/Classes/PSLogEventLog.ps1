@@ -1,6 +1,10 @@
 
 class PSLogEventLog {
     
+    PSLogEventLog() {
+        
+    }
+
     PSLogEventLog([string[]] $Levels, [string] $LogName, [string] $Source) {
         $this.Levels = $Levels
         $this.LogName = $LogName

@@ -42,14 +42,7 @@
                 "Error"
             ],
             "Server" : "",
-            "Port" : 443,
-            ""
+            "Port" : 443
         }
-    },
-    "PsLogCsv":  {
-        "LogPath":  ".\\log.csv",
-        "Template":  "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#",
-        "ReturnMessage":  "[#DateTime#] [#Level#] #Message#",
-        "StoreMessagesSent" : "[#DateTime#] [#Level#] #Message#"
     }
 }
