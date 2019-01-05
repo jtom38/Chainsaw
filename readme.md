@@ -8,9 +8,9 @@ This project was designed around easy logging and also gives flex regarding how 
 
 If you use NLog you will know they have different targets so where you can write logs.  I went with the same general idea.  Currently, the following targets are enabled.
 
-* [Console](https://github.com/luther38/PSLog/blob/master/Docs/Targets/Console.md)
-* [CSV](https://github.com/luther38/PSLog/blob/master/Docs/Targets/CSV.md)
-* [EventLog](https://github.com/luther38/PSLog/blob/master/Docs/Targets/EventLog.md)
+* [Console](https://github.com/luther38/PSLog/blob/master/docs/Targets/Console.md)
+* [CSV](https://github.com/luther38/PSLog/blob/master/docs/Targets/CSV.md)
+* [EventLog](https://github.com/luther38/PSLog/blob/master/docs/Targets/EventLog.md)
 * SMTP - TBD
 * MSSQL - TBD
 
