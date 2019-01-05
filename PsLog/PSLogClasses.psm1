@@ -1,4 +1,4 @@
-# Generated 01/04/2019 21:36:17
+# Generated 01/04/2019 22:44:27
 
 class FileLock {
     
@@ -200,8 +200,6 @@ class PSLogConsole {
     PSLogConsole( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
         $this.MessageTemplate = $MessageTemplate
-
-        $this._TemplateConverter = [TemplateConverter]::new()
     }
     
     PSLogConsole( [string] $PathConfig ) {

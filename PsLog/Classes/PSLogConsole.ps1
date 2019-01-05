@@ -5,8 +5,6 @@ class PSLogConsole {
     PSLogConsole( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
         $this.MessageTemplate = $MessageTemplate
-
-        $this._TemplateConverter = [TemplateConverter]::new()
     }
     
     PSLogConsole( [string] $PathConfig ) {
