@@ -1,4 +1,0 @@
-# Endpoint - CSV
-
-## Description
-

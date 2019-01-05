@@ -2,6 +2,10 @@
 # This class contains the settings needed to write messages to the console.
 class PSLogConsole {
     
+    PSLogConsole() {
+        
+    }
+
     PSLogConsole( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
         $this.MessageTemplate = $MessageTemplate

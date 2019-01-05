@@ -1,6 +1,10 @@
 
 class PSLogCsv {
     
+    PSLogCsv() {
+        
+    }
+
     PSLogCsv([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
         $this.LogPath = $LogPath
         $this.MessageTemplate = $MessageTemplate

@@ -1,63 +1,41 @@
-# PsLog
+# PSLog
 
-## Description
+## About
 
-This is a quick and dirty way to deal with CSV Logging so I don't have to have it all over the place.  One module that can stay with the script.
+This project was designed around easy logging and also gives flex regarding how and where you want your logs to go.  I enjoyed working with [NLog](https://nlog-project.org) when I do C# work but more I had needed to automate processes with PowerShell but was not happy with some of the logging I found.  So with that, I started to work on this project PSLog to hopefully make logging easier for others and myself.
 
-## How To use
+## Targets
 
-Copy this directory and place it in the same folder.
-In the main script call the following command
+If you use NLog you will know they have different targets so where you can write logs.  I went with the same general idea.  Currently, the following targets are enabled.
 
-    ```powershell
-    Import-Module .\PSLog\PSLog.psm1 -Force
-    Set-CsvConfig -LogPath ".\log.csv" -Template "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
-    ```
+* [Console](https://github.com/luther38/PSLog/blob/master/docs/Targets/Console.md)
+* [CSV](https://github.com/luther38/PSLog/blob/master/docs/Targets/CSV.md)
+* [EventLog](https://github.com/luther38/PSLog/blob/master/docs/Targets/EventLog.md)
+* SMTP - TBD
+* MSSQL - TBD
 
-This will import the module in your session so you can call it from any sub files that might need to report logging.
+Wishlist
 
-To Import the settings from a config file:
+* Discord Webhook
+* Microsoft Teams Webhook
+* Slack
 
-    ```powershell
-    Set-CsvConfig -Config '.\config.json'
-    ```
+## Requirements
 
-    ```json
-    "PsLogCsv" : {
-        "LogPath" : ".\\log.csv",
-        "Template" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
-    }
-    ```
+Currently, I am targeting PowerShell 5+ because this is built with Classes currently.  I do have legacy commands but they need to be reworked.  Please do not use the legacy commands at this time.
 
-To send a csv message just use the following example.
+## Config File
 
-    ```powershell
-    Send-CsvMessage -Message "Testing" -Level "Debug" -CallingFile $(Get-CurrentFileName) -LineNumber $(Get-CurrentLineNumber)
-    ```
+Everything with PSLog was designed around the aspect of being able to adjust the logging with just a config file.  The processes that I build are all with a JSON config file so I can allow my other team members who do not want to touch code can make adjustments.  It also makes it easier to adjust configuration while the process is alive.  I do recommend using a config file to support your processes but I do have constructors that will allow you to use inline code if you desired to do so.
 
-If you want to capture what was sent to the CSV file so you can send the data back in a email or send it elsewhere enable the following.
+## How to help
 
-From inline code
+If you desire to help with the project please take a look at the active [Issues](https://github.com/luther38/PSLog/issues) and open tickets so I can keep track of what has been found.
 
-    ```powershell
-    Set-CsvSettings -LogPath ".\log.csv" -Template "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#" -ReturnMessage "[#DateTime#] [#Level#] #Message#"
-    ```
+## New Targets
 
-From Config file
+If you have a target that you want please create an issue and I will see what I can do to add it.  If you want to build the target please feel free to do a pull request and help out.
 
-    ```json
-    {
-        "PsLogCsv" : {
-            "LogPath":  ".\\log.csv",
-            "Template":  "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#",
-            "ReturnMessage" : "[#DateTime#] [#Level#] #Message#"
-        }
-    }
-    ```
+## Linux and MacOS
 
-To capture the message.  I use an array to store them so I can convert them back at the end of the process.
-
-    ```powershell
-    $EmailMessage = @()
-    $EmailMessage += Send-CsvMessage -Message "Testing" -Level "Debug" -CallingFile $(Get-CurrentFileName) -LineNumber $(Get-CurrentLineNumber)
-    ```
+These are untested platforms at this time.  Please report your findings if you try PSLog on these operating systems. 

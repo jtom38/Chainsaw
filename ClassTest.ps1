@@ -7,16 +7,6 @@ $packages = split-path -parent $MyInvocation.MyCommand.Definition
 add-type -path (Join-Path $packages "MailKit.dll") | Out-Null
 
 $client = [MailKit.Net.Smtp.SmtpClient]::new()
-#Generate the CSV Settings based off the config file
-#$CsvJson = [PSLogCsv]::new(".\config.json")
-
-# Generate the CSV Settings based off manual loading
-#$MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#"
-#$Levels = @("Information", "Warning", "Error", "Debug")
-#$CsvManual = [PSLogCsv]::new(".\log.csv", $MessageTemplate, $Levels) 
-
-# Generate the Console Settings based off the config file
-#$LogConsole = [PSLogConsole]::new(".\config.json")
 
 # Generate a blank PsLogger
 $Logger = [PsLog]::new()
