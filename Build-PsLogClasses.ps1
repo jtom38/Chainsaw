@@ -29,3 +29,6 @@ foreach ( $f in $Files) {
     Add-Content -Path $ClassModule -Value $raw
     
 }
+
+# Run the unit tests on the new build
+.\Run-UnitTests.ps1
