@@ -26,6 +26,16 @@
             ],
             "LogName" : "Application",
             "Source" : "PSLog"
+        },
+        "MSSQL" : {
+            "Levels" : [
+                "Information",
+                "Warning",
+                "Error",
+                "Debug"
+            ],
+            "Server" : "",
+            "Database" : ""
         }
     },
     "PsLogCsv":  {

@@ -5,8 +5,6 @@ class PSLogCsv {
         $this.LogPath = $LogPath
         $this.MessageTemplate = $MessageTemplate
         $this.Levels = $Levels
-
-        $this._TemplateConverter = [TemplateConverter]::new()
     }
 
     PSLogCsv([string] $PathConfig) {
@@ -16,15 +14,11 @@ class PSLogCsv {
         $this.LogPath = $json.PSLog.Csv.LogPath
         $this.Levels = $json.PSLog.Csv.Levels
         $this.MessageTemplate = $json.PSLog.Csv.MessageTemplate
-
-        $this._TemplateConverter = [TemplateConverter]::new()
     }
 
     [string] $LogPath
     [string] $MessageTemplate
     [string[]] $Levels
-
-    [TemplateConverter] $_TemplateConverter
 
     # Private method to tell if we can use this endpoint for processing
     [bool] _isValidEndPoint() {
@@ -55,7 +49,9 @@ class PSLogCsv {
         }
 
         # Convert the Message Template to a csv message to load into the file
-        $msg = $this.ConvertToMessageTemplate($Level, $Message)
+        $convert = [TemplateConverter]::new($this.MessageTemplate)
+        $msg = $convert.ConvertToMessageTemplate($Level, $Message)
+        #$msg = $this.ConvertToMessageTemplate($Level, $Message)
 
         Add-Content -Path $this.LogPath -Value $msg
     }
@@ -77,7 +73,8 @@ class PSLogCsv {
         }
 
         # Convert the Message Template to a csv message to load into the file
-        $msg = $this.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
+        $convert = [TemplateConverter]::new($this.MessageTemplate)
+        $msg = $convert.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
 
         Add-Content -Path $this.LogPath -Value $msg
     }
@@ -100,7 +97,8 @@ class PSLogCsv {
         }
 
         # Convert the Message Template to a csv message to load into the file
-        $msg = $this.ConvertToMessageTemplate($Level, $Message, $ErrorCode, $CallingFile, $LineNumber )
+        $convert = [TemplateConverter]::new($this.MessageTemplate)
+        $msg = $convert.ConvertToMessageTemplate($Level, $Message, $ErrorCode, $CallingFile, $LineNumber )
 
         Add-Content -Path $this.LogPath -Value $msg
 
@@ -173,7 +171,7 @@ class PSLogCsv {
             New-Item -Path $info.Directory -Name $info.Name -ItemType "file" | Out-Null
             
             # Get the correct header that is needed 
-            $header = $this.ReturnHeader()
+            $header = $this._ReturnHeader()
 
             # Add that as the first line of the file.
             Add-Content -Path $this.LogPath -Value $header

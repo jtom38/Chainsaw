@@ -25,14 +25,16 @@ Once you run the command you will have a new log for you to look at.  Error code
 
 Initilization of Target
 
-Building it from Inlinecode
+Building it from inline code
 
 ```PowerShell
 
+$Logger = [PSLog]::new()
 $Levels = @("Information", "Warning", "Error", "Debug")
 $LogName = "Application"
 $Source = "PSLog"
-[PSLogEventLog]::new($Levels, $LogName, $Source)
+$Logger.EventLogConfig = [PSLogEventLog]::new($Levels, $LogName, $Source)
+$Logger.Info("I am a test message")
 ```
 
 Building it from Json config
@@ -53,5 +55,7 @@ Building it from Json config
 ```
 
 ```PowerShell
-[PSLogEventLog]::new(".\config.json")
+$Logger = [PSLog]::new()
+$Logger.EventLogConfig = [PSLogEventLog]::new(".\config.json")
+$Logger.Info("I am a test message")
 ```

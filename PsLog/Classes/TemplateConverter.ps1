@@ -1,9 +1,11 @@
 
 class TemplateConverter {
     
-    TemplateConverter(){
-
+    TemplateConverter([string] $MessageTemplate){
+        $this.MessageTemplate = $MessageTemplate
     }    
+
+    [string] $MessageTemplate
 
     [string] ConvertToMessageTemplate([string] $Level, [string] $Message ){
         $s = $this.MessageTemplate
@@ -19,6 +21,18 @@ class TemplateConverter {
 
         if( $s.Contains("#Message#") -eq $true ){
             $s = $s.Replace("#Message#", $Message)
+        }
+
+        if( $s.Contains("#LineNumber#") -eq $true){
+            $s = $s.Replace("#LineNumber#", "")
+        }
+
+        if( $s.Contains("#CallingFile#") -eq $true){
+            $s = $s.Replace("#CallingFile#", "")
+        }
+
+        if( $s.Contains("#ErrorCode#") -eq $true){
+            $s = $s.Replace("#ErrorCode#", "")
         }
         return $s
     }
@@ -41,6 +55,18 @@ class TemplateConverter {
 
         if( $s.Contains("#ErrorCode#") -eq $true ){
             $s = $s.Replace("#ErrorCode#", $ErrorCode)
+        }
+
+        if( $s.Contains("#LineNumber#") -eq $true){
+            $s = $s.Replace("#LineNumber#", "")
+        }
+
+        if( $s.Contains("#CallingFile#") -eq $true){
+            $s = $s.Replace("#CallingFile#", "")
+        }
+
+        if( $s.Contains("#ErrorCode#") -eq $true){
+            $s = $s.Replace("#ErrorCode#", "")
         }
         return $s
     }
