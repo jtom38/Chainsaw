@@ -6,10 +6,6 @@ This way to import the lib you just call one file.
 This is my building file.  Use this if you want to build a fresh class module if you made changes to the source.
 #>
 
-# 
-
-
-
 Write-Host "Building class file based off of .\PSLog\Classes"
 # Define where the classes are and pull them into memory
 $Files = Get-ChildItem -Path .\PSLog\Classes
@@ -35,9 +31,9 @@ foreach ( $f in $Files) {
     
 }
 
-# Import Required Lib
-$packages = split-path -parent $MyInvocation.MyCommand.Definition
-add-type -path (Join-Path $packages "\PSLog\Lib\MailKit.dll") | Out-Null
+# Run to preloader
+Import-Module .\PsLog\PsLog.psm1
+. .\PsLog\ImportLib.ps1
 
 # Run the unit tests on the new build
 Write-Host "Starting Unit Testing"

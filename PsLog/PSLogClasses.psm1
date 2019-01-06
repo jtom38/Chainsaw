@@ -1,4 +1,4 @@
-# Generated 01/05/2019 18:18:37
+# Generated 01/06/2019 15:47:25
 
 class FileLock {
     
@@ -50,9 +50,9 @@ class PsLog {
 
     # Thought, Use this as a method to define what is enabled  
     # Region Enable functions
-    [PSLogCsv] $CsvConfig
-    [PSLogConsole] $ConsoleConfig
-    [PSLogEventLog] $EventLogConfig
+    [PSObject] $CsvConfig
+    [PSObject] $ConsoleConfig
+    [PSObject] $EventLogConfig
     # End Region
     
     # Region Logging Methods
@@ -826,8 +826,7 @@ class PSLogSmtp {
         $this.Username = $Username
         $this.Password = $Password
 
-        $client = $this.BuildSmtpClient()
-        
+        $client = $this.BuildSmtpClient()        
     }
 
     [string[]] $Levels
