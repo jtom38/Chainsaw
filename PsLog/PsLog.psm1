@@ -1,24 +1,39 @@
+#Requires -Version 5.0
+[cmdletbinding()]
+param()
 
-$packages = split-path -parent $MyInvocation.MyCommand.Definition
-add-type -path (Join-Path $packages "\PSLog\Lib\MailKit.dll") | Out-Null
+#Add-Type -Path "$PSScriptRoot\Lib\MimeKit.dll" -ErrorAction SilentlyContinue
+#Add-Type -Path "$PSScriptRoot\Lib\MailKit.dll" -ErrorAction SilentlyContinue
 
-#$classes = Get-ChildItem -Path $PSScriptRoot\Classes\*.ps1
+[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MimeKit.dll")
+[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MailKit.dll")
+# Test Mailkit
 
-$classes = @(
-    "FileLock.ps1",
+try {
+    $client = [MailKit.Net.Smtp.SmtpClient]::new()
+    if ( $client.IsConnected -eq $false ) {
+        # We imported correctly.
+    }
+} 
+catch {
+
+}
+
+# Import Classes
+$Classes = @(
     "TemplateConverter.ps1",
     "PSLogConsole.ps1",
     "PSLogCsv.ps1",
     "PSLogEventLog.ps1",
+    "PSLogSmtp.ps1",
     "PSLog.ps1"
 )
 
-foreach ( $c in $classes ) {
-    $file = "$PSScriptRoot\Classes\$c"
-    . $file
+foreach ( $class in $Classes ) {
+    . "$PSScriptRoot\Classes\$class"
 }
 
-$log = [PSLog]::new()
+# Import General functions 
 
 Write-Debug -Message "Looking for all files in Public"
 $Public =  @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue)

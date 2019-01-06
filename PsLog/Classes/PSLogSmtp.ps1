@@ -20,8 +20,7 @@ class PSLogSmtp {
         $this.Username = $Username
         $this.Password = $Password
 
-        $client = $this.BuildSmtpClient()
-        
+        $client = $this.BuildSmtpClient()        
     }
 
     [string[]] $Levels

@@ -16,7 +16,12 @@ function New-PSLogCsv {
             return New-PSLogConfig -PathConfig $PathConfig
         }
 
+        if ( [System.String]::IsNullOrEmpty($LogPath) -eq $false -and 
+             [System.String]::IsNullOrEmpty($MessageTemplate) -eq $false -and
+             [System.String]::IsNullOrEmpty($Levels) -eq $false) {
 
+            return New-PSLogCsvParam -LogPath $LogPath -MessageTemplate $MessageTemplate -Levels $Levels
+        }
 
     }
 }

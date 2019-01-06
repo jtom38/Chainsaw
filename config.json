@@ -45,7 +45,7 @@
             "Port" : 587,
             "SecureConnection" : true,
             "Authentication" : {
-                "UserName" : "luther38@gmail.com",
+                "UserName" : "",
                 "Password" : ""
             }
 
