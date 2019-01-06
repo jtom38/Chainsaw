@@ -1,12 +1,15 @@
 
 # Import the classes 
-using module .\PSLog\PSLogClasses.psm1
+#using module .\PSLog\PSLogClasses.psm1
+
+
 
 $packages = split-path -parent $MyInvocation.MyCommand.Definition
 #add-type -path (Join-Path $packages "MimeKit.dll") | Out-Null
 add-type -path (Join-Path $packages "MailKit.dll") | Out-Null
 
 $client = [MailKit.Net.Smtp.SmtpClient]::new()
+
 
 # Generate a blank PsLogger
 $Logger = [PsLog]::new()

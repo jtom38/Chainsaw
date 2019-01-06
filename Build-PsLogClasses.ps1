@@ -31,6 +31,10 @@ foreach ( $f in $Files) {
     
 }
 
+# Import Required Lib
+$packages = split-path -parent $MyInvocation.MyCommand.Definition
+add-type -path (Join-Path $packages "\PSLog\Lib\MailKit.dll") | Out-Null
+
 # Run the unit tests on the new build
 Write-Host "Starting Unit Testing"
 .\Run-UnitTests.ps1
