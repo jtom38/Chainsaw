@@ -1,8 +1,0 @@
-DateTime, #CallingFile#, LineNumber, Level, Message
-Info Message
-12/26/2018 21:59:12, ClassTest.ps1, 26, Information, Info Message
-12/26/2018 22:08:31, ClassTest.ps1, 27, Information, Info Message
-12/26/2018 23:07:28, ClassTest.ps1, 27, Information, Test Info Message
-12/26/2018 23:07:55, ClassTest.ps1, 28, Error, Test Error Message
-12/26/2018 23:08:13, ClassTest.ps1, 29, Warning, Test Warning Message
-12/26/2018 23:08:18, ClassTest.ps1, 30, Debug, Test Debug Message

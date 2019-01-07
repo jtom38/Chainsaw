@@ -1,4 +1,4 @@
-# Generated 01/04/2019 22:44:27
+# Generated 01/06/2019 15:47:25
 
 class FileLock {
     
@@ -50,9 +50,9 @@ class PsLog {
 
     # Thought, Use this as a method to define what is enabled  
     # Region Enable functions
-    [PSLogCsv] $CsvConfig
-    [PSLogConsole] $ConsoleConfig
-    [PSLogEventLog] $EventLogConfig
+    [PSObject] $CsvConfig
+    [PSObject] $ConsoleConfig
+    [PSObject] $EventLogConfig
     # End Region
     
     # Region Logging Methods
@@ -197,6 +197,10 @@ class PsLog {
 # This class contains the settings needed to write messages to the console.
 class PSLogConsole {
     
+    PSLogConsole() {
+        
+    }
+
     PSLogConsole( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
         $this.MessageTemplate = $MessageTemplate
@@ -364,6 +368,10 @@ class PSLogConsole {
 
 class PSLogCsv {
     
+    PSLogCsv() {
+        
+    }
+
     PSLogCsv([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
         $this.LogPath = $LogPath
         $this.MessageTemplate = $MessageTemplate
@@ -560,6 +568,10 @@ class PSLogCsv {
 
 class PSLogEventLog {
     
+    PSLogEventLog() {
+        
+    }
+
     PSLogEventLog([string[]] $Levels, [string] $LogName, [string] $Source) {
         $this.Levels = $Levels
         $this.LogName = $LogName
@@ -790,6 +802,76 @@ class PSLogEventLog {
         }
 
         return $msg
+    }
+}
+
+class PSLogSmtp {
+    
+    PSLogSmtp() {
+
+    }
+
+    PSLogSmtp([string[]] $Levels, [string] $Server, [int] $Port, [bool] $Security) {
+        $this.Levels = $Levels
+        $this.Server = $Server
+        $this.Port = $Port
+        $this.Security = $Security
+    }
+
+    PSLogSmtp([string[]] $Levels, [string] $Server, [int] $Port, [bool] $Security, [string] $Username, [string] $Password) {
+        $this.Levels = $Levels
+        $this.Server = $Server
+        $this.Port = $Port
+        $this.Security = $Security
+        $this.Username = $Username
+        $this.Password = $Password
+
+        $client = $this.BuildSmtpClient()        
+    }
+
+    [string[]] $Levels
+    [string] $Server
+    [int] $Port
+    [bool] $Security
+
+    [string] $Username
+    [string] $Password
+
+    [bool] _isValidEndPoint() {
+
+        if ( [System.String]::IsNullOrEmpty($this.Server) -eq $false -and 
+             [System.String]::IsNullOrEmpty($this.Port) -eq $false ) {
+            return $true
+        }
+
+        return $false
+    }
+
+    # This is a generic class we will use to write the CSV Log
+    [void] Write( [string] $Level, [string] $Message) {
+        if ( $this._IsMessageValid($Level) -eq $false) {
+            continue
+        }
+
+        
+    }
+
+    [MailKit.Net.Smtp.SmtpClient] BuildSmtpClient() {
+        $client = [MailKit.Net.Smtp.SmtpClient]::new()
+        $client.Connect($this.Server, $this.Port, $true)
+
+        if ( $client.IsConnected -eq $true ) {
+            return $client
+        }
+        else {
+            throw "Unable to connect to SMTP server"
+            return $null
+        }
+    }
+
+    [void] BuildMessage() {
+        
+
     }
 }
 

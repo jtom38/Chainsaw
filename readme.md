@@ -24,6 +24,11 @@ Wishlist
 
 Currently, I am targeting PowerShell 5+ because this is built with Classes currently.  I do have legacy commands but they need to be reworked.  Please do not use the legacy commands at this time.
 
+### Preload Script
+
+Due to limmitations of how PowerShell classes work I recomend building a Startup script that runs the before your script starts.  [Startup Script](https://github.com/luther38/PSLog/tree/master/Examples/Startup.ps1)
+
+
 ## Config File
 
 Everything with PSLog was designed around the aspect of being able to adjust the logging with just a config file.  The processes that I build are all with a JSON config file so I can allow my other team members who do not want to touch code can make adjustments.  It also makes it easier to adjust configuration while the process is alive.  I do recommend using a config file to support your processes but I do have constructors that will allow you to use inline code if you desired to do so.

@@ -4,6 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # Project test files
+*-Test.ps1
+*-dev.json
 *.csv
 
 # User-specific files

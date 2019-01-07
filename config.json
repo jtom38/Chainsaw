@@ -41,8 +41,14 @@
             "Levels" : [
                 "Error"
             ],
-            "Server" : "",
-            "Port" : 443
+            "Server" : "smtp.gmail.com",
+            "Port" : 587,
+            "SecureConnection" : true,
+            "Authentication" : {
+                "UserName" : "",
+                "Password" : ""
+            }
+
         }
     }
 }

@@ -13,9 +13,9 @@ class PsLog {
 
     # Thought, Use this as a method to define what is enabled  
     # Region Enable functions
-    [PSLogCsv] $CsvConfig
-    [PSLogConsole] $ConsoleConfig
-    [PSLogEventLog] $EventLogConfig
+    [PSObject] $CsvConfig
+    [PSObject] $ConsoleConfig
+    [PSObject] $EventLogConfig
     # End Region
     
     # Region Logging Methods
