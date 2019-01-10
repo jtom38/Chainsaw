@@ -11,14 +11,14 @@ Write-Host "Building class file based off of .\PSLog\Classes"
 $Files = Get-ChildItem -Path .\PSLog\Classes
 
 # Define where the new Module file will be
-$ClassModule = "$psscriptroot\PSLog\PSLogClasses.psm1"
+$ClassModule = "$psscriptroot\PSLog\PSLogClasses.ps1"
 if ( [System.IO.File]::Exists($ClassModule) -eq $true ) {
     # Delete the old one
     [System.IO.File]::Delete($ClassModule)
 }
 
 # Generate the new blank file
-New-Item -Path ".\PSLog" -Name "PSLogClasses.psm1" | Out-Null
+New-Item -Path ".\PSLog" -Name "PSLogClasses.ps1" | Out-Null
 
 $dt = [datetime]::Now
 Add-Content -Path $ClassModule -Value "# Generated $dt"
@@ -30,10 +30,6 @@ foreach ( $f in $Files) {
     Add-Content -Path $ClassModule -Value $raw
     
 }
-
-# Run to preloader
-Import-Module .\PsLog\PsLog.psm1
-. .\PsLog\ImportLib.ps1
 
 # Run the unit tests on the new build
 Write-Host "Starting Unit Testing"

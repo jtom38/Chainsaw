@@ -1,4 +1,4 @@
-# Generated 01/06/2019 15:47:25
+# Generated 01/10/2019 08:19:36
 
 class FileLock {
     
@@ -853,7 +853,9 @@ class PSLogSmtp {
             continue
         }
 
-        
+        $client = $this.BuildSmtpClient()
+
+
     }
 
     [MailKit.Net.Smtp.SmtpClient] BuildSmtpClient() {
