@@ -1,4 +1,4 @@
-using module ..\PsLog\PSLogClasses.psm1
+
 Describe "PSLogCsv" {
     It "Initialize with inline code:" {
         $Levels = @("Information")

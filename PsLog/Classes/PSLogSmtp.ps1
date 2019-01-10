@@ -47,7 +47,9 @@ class PSLogSmtp {
             continue
         }
 
-        
+        $client = $this.BuildSmtpClient()
+
+
     }
 
     [MailKit.Net.Smtp.SmtpClient] BuildSmtpClient() {
