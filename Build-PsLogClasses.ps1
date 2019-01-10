@@ -31,11 +31,6 @@ foreach ( $f in $Files) {
     
 }
 
-# Run to preloader
-Import-Module .\PsLog\PsLog.psm1
-. .\PsLog\PSLogClasses.ps1 -Force
-#. .\PsLog\ImportLib.ps1
-
 # Run the unit tests on the new build
 Write-Host "Starting Unit Testing"
 .\Run-UnitTests.ps1

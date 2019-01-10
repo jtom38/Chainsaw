@@ -24,10 +24,16 @@ Wishlist
 
 Currently, I am targeting PowerShell 5+ because this is built with Classes currently.  I do have legacy commands but they need to be reworked.  Please do not use the legacy commands at this time.
 
-### Preload Script
+### How to Use
 
-Due to limmitations of how PowerShell classes work I recomend building a Startup script that runs the before your script starts.  [Startup Script](https://github.com/luther38/PSLog/tree/master/Examples/Startup.ps1)
+Currently this module is only found on GitHub as I do not have it published, yet.  Download the master branch and take the PSLog folder and place it at the root of your script.  At the start of your script run the following to enable PSLog
 
+```PowerShell
+Import-Module .\Pslog\PsLog.psm1 -Force
+. .\PsLog\PSLogClasses.ps1 -Force
+```
+
+With those added you can call the rest of the classes as needed and build your logger.
 
 ## Config File
 

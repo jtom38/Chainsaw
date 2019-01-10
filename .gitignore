@@ -5,6 +5,7 @@
 
 # Project test files
 *-Test.ps1
+*-dev.ps1
 *-dev.json
 *.csv
 
