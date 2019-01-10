@@ -35,6 +35,8 @@ Import-Module .\Pslog\PsLog.psm1 -Force
 
 With those added you can call the rest of the classes as needed and build your logger.
 
+[Example Script](https://github.com/luther38/PSLog/blob/master/Examples/Basic-Logging.ps1)
+
 ## Config File
 
 Everything with PSLog was designed around the aspect of being able to adjust the logging with just a config file.  The processes that I build are all with a JSON config file so I can allow my other team members who do not want to touch code can make adjustments.  It also makes it easier to adjust configuration while the process is alive.  I do recommend using a config file to support your processes but I do have constructors that will allow you to use inline code if you desired to do so.
