@@ -1,107 +1,176 @@
 # Generated 02/01/2019 14:41:47
 
-class TemplateConverter {
+<#
+.Synopsis
+This class is the primary management point for logging.  Once you have this class active you will want to enable your targets.  This class will not enable targets for you.
+
+.Description
+Once the targets are active use the methods from PSLog to write your messages to the desired Targets.
+
+.Example
+$Logger = [PSLog]::new()
+$Logger.Info()
+
+#>
+class PsLog {
+  
+    PsLog() {
+        # Default is false
+        $this.StorageAllMessagesSent = $false
+    }
+
+    PsLog( [string] $PathConfig ){
+        
+    }
+
+    # If you want to store all the messages sent to the logger so you can call them later update this to true
+    [bool] $StorageAllMessagesSent
+
+    # Thought, Use this as a method to define what is enabled  
+    # Region Enable functions
+    [PSObject] $CsvConfig
+    [PSObject] $ConsoleConfig
+    [PSObject] $EventLogConfig
+    # End Region
     
-    TemplateConverter([string] $MessageTemplate){
-        $this.MessageTemplate = $MessageTemplate
-    }    
+    # Region Logging Methods
 
-    [string] $MessageTemplate
+    ###
+    [void] Info( [string] $Message ) {
 
-    [string] ConvertToMessageTemplate([string] $Level, [string] $Message ){
-        $s = $this.MessageTemplate
-
-        if( $s.Contains("#Level#") -eq $true ){
-            $s = $s.Replace("#Level#", $Level)
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Information", $Message)
         }
-
-        if( $s.Contains("#DateTime#") -eq $true ){
-            $dt = [System.DateTime]::Now
-            $s = $s.Replace("#DateTime#", $dt)
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Information", $Message)
         }
-
-        if( $s.Contains("#Message#") -eq $true ){
-            $s = $s.Replace("#Message#", $Message)
-        }
-
-        if( $s.Contains("#LineNumber#") -eq $true){
-            $s = $s.Replace("#LineNumber#", "")
-        }
-
-        if( $s.Contains("#CallingFile#") -eq $true){
-            $s = $s.Replace("#CallingFile#", "")
-        }
-
-        if( $s.Contains("#ErrorCode#") -eq $true){
-            $s = $s.Replace("#ErrorCode#", "")
-        }
-        return $s
     }
 
-    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $ErrorCode){
-        $s = $this.MessageTemplate
+    [void] Info( [string] $Message, [int] $ErrorCode ) {
 
-        if( $s.Contains("#Level#") -eq $true ){
-            $s = $s.Replace("#Level#", $Level)
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Information", $Message, $ErrorCode)
         }
-
-        if( $s.Contains("#DateTime#") -eq $true ){
-            $dt = [System.DateTime]::Now
-            $s = $s.Replace("#DateTime#", $dt)
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Information", $Message, $ErrorCode)
         }
-
-        if( $s.Contains("#Message#") -eq $true ){
-            $s = $s.Replace("#Message#", $Message)
-        }
-
-        if( $s.Contains("#ErrorCode#") -eq $true ){
-            $s = $s.Replace("#ErrorCode#", $ErrorCode)
-        }
-
-        if( $s.Contains("#LineNumber#") -eq $true){
-            $s = $s.Replace("#LineNumber#", "")
-        }
-
-        if( $s.Contains("#CallingFile#") -eq $true){
-            $s = $s.Replace("#CallingFile#", "")
-        }
-
-        if( $s.Contains("#ErrorCode#") -eq $true){
-            $s = $s.Replace("#ErrorCode#", "")
-        }
-        return $s
     }
 
-    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber){
-        $s = $this.MessageTemplate
-
-        if( $s.Contains("#Level#") -eq $true ){
-            $s = $s.Replace("#Level#", $Level)
+    [void] Info( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Information", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
 
-        if( $s.Contains("#DateTime#") -eq $true ){
-            $dt = [System.DateTime]::Now
-            $s = $s.Replace("#DateTime#", $dt)
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Information", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
-
-        if( $s.Contains("#Message#") -eq $true ){
-            $s = $s.Replace("#Message#", $Message)
-        }
-
-        if( $s.Contains("#LineNumber#") -eq $true){
-            $s = $s.Replace("#LineNumber#", $LineNumber)
-        }
-
-        if( $s.Contains("#CallingFile#") -eq $true){
-            $s = $s.Replace("#CallingFile#", $CallingFile)
-        }
-
-        if( $s.Contains("#ErrorCode#") -eq $true){
-            $s = $s.Replace("#ErrorCode#", $ErrorCode)
-        }
-        return $s
+        
     }
 
+
+    [void] Error( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Error", $Message)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Error", $Message)
+        }
+    }
+
+    [void] Error( [string] $Message, [int] $ErrorCode ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Error", $Message, $ErrorCode)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Error", $Message, $ErrorCode)
+        }
+    }
+
+    [void] Error( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+    }
+
+
+    [void] Warning( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Warning", $Message)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Warning", $Message)
+        }
+    }
+
+    [void] Warning( [string] $Message, [int] $ErrorCode ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Warning", $Message, $ErrorCode)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Warning", $Message, $ErrorCode)
+        }
+    }
+
+    [void] Warning( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+    }
+
+
+    [void] Debug( [string] $Message ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Debug", $Message)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Debug", $Message)
+        }
+    }
+
+    [void] Debug( [string] $Message, [int] $ErrorCode ) {
+
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Debug", $Message, $ErrorCode)
+        }
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Debug", $Message, $ErrorCode)
+        }
+    }
+
+    [void] Debug( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
+            $this.CsvConfig.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+
+        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
+            $this.ConsoleConfig.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        }
+    }
+
+    # End Region
+
+    [int] GetCurrentLineNumber() {
+        return $MyInvocation.ScriptLineNumber
+    }
+
+    [string] GetCurrentFileName() {
+        $info = [System.IO.FileInfo]::new($MyInvocation.ScriptName)
+        return $info.Name
+    }
 }
 
 <#
@@ -820,175 +889,176 @@ class PSLogEventLog {
     }
 }
 
-<#
-.Synopsis
-This class is the primary management point for logging.  Once you have this class active you will want to enable your targets.  This class will not enable targets for you.
-
-.Description
-Once the targets are active use the methods from PSLog to write your messages to the desired Targets.
-
-.Example
-$Logger = [PSLog]::new()
-$Logger.Info()
-
-#>
-class PsLog {
-  
-    PsLog() {
-        # Default is false
-        $this.StorageAllMessagesSent = $false
-    }
-
-    PsLog( [string] $PathConfig ){
-        
-    }
-
-    # If you want to store all the messages sent to the logger so you can call them later update this to true
-    [bool] $StorageAllMessagesSent
-
-    # Thought, Use this as a method to define what is enabled  
-    # Region Enable functions
-    [PSObject] $CsvConfig
-    [PSObject] $ConsoleConfig
-    [PSObject] $EventLogConfig
-    # End Region
+class PSLogSmtp : System.Net.Mail.SmtpClient {
     
-    # Region Logging Methods
+    PSLogSmtp() {
 
-    ###
-    [void] Info( [string] $Message ) {
+    }
 
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Information", $Message)
+    PSLogSmtp([string[]] $Levels, [string] $Server, [int] $Port, [bool] $Security) {
+        $this.Levels = $Levels
+        $this.Server = $Server
+        $this.Port = $Port
+        $this.Security = $Security
+    }
+
+    PSLogSmtp([string[]] $Levels, [string] $Server, [int] $Port, [bool] $Security, [string] $Username, [string] $Password) {
+        $this.Levels = $Levels
+        $this.Server = $Server
+        $this.Port = $Port
+        $this.Security = $Security
+        $this.Username = $Username
+        $this.Password = $Password
+
+        $client = $this.BuildSmtpClient()        
+    }
+
+    [string[]] $Levels
+    [string] $Server
+    [int] $Port
+    [bool] $Security
+
+    [string] $Username
+    [string] $Password
+
+    [bool] _isValidEndPoint() {
+
+        if ( [System.String]::IsNullOrEmpty($this.Server) -eq $false -and 
+             [System.String]::IsNullOrEmpty($this.Port) -eq $false ) {
+            return $true
         }
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Information", $Message)
+
+        return $false
+    }
+
+    # This is a generic class we will use to write the CSV Log
+    [void] Write( [string] $Level, [string] $Message) {
+        if ( $this._IsMessageValid($Level) -eq $false) {
+            continue
+        }
+
+        $client = $this.BuildSmtpClient()
+    }
+
+    [void] BuildSmtpClient() {
+        $client = [System.Net.Mail.SmtpClient]::new()
+        #$client.Connect($this.Server, $this.Port, $true)
+
+        if ( $client.IsConnected -eq $true ) {
+            #return $client
+        }
+        else {
+            throw "Unable to connect to SMTP server"
+            #return $null
         }
     }
 
-    [void] Info( [string] $Message, [int] $ErrorCode ) {
-
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Information", $Message, $ErrorCode)
-        }
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Information", $Message, $ErrorCode)
-        }
-    }
-
-    [void] Info( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+    [void] BuildMessage() {
         
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Information", $Message, $ErrorCode, $CallingFile, $LineNumber)
+
+    }
+}
+
+class TemplateConverter {
+    
+    TemplateConverter([string] $MessageTemplate){
+        $this.MessageTemplate = $MessageTemplate
+    }    
+
+    [string] $MessageTemplate
+
+    [string] ConvertToMessageTemplate([string] $Level, [string] $Message ){
+        $s = $this.MessageTemplate
+
+        if( $s.Contains("#Level#") -eq $true ){
+            $s = $s.Replace("#Level#", $Level)
         }
 
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Information", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        if( $s.Contains("#DateTime#") -eq $true ){
+            $dt = [System.DateTime]::Now
+            $s = $s.Replace("#DateTime#", $dt)
         }
-        
+
+        if( $s.Contains("#Message#") -eq $true ){
+            $s = $s.Replace("#Message#", $Message)
+        }
+
+        if( $s.Contains("#LineNumber#") -eq $true){
+            $s = $s.Replace("#LineNumber#", "")
+        }
+
+        if( $s.Contains("#CallingFile#") -eq $true){
+            $s = $s.Replace("#CallingFile#", "")
+        }
+
+        if( $s.Contains("#ErrorCode#") -eq $true){
+            $s = $s.Replace("#ErrorCode#", "")
+        }
+        return $s
     }
 
+    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $ErrorCode){
+        $s = $this.MessageTemplate
 
-    [void] Error( [string] $Message ) {
+        if( $s.Contains("#Level#") -eq $true ){
+            $s = $s.Replace("#Level#", $Level)
+        }
 
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Error", $Message)
+        if( $s.Contains("#DateTime#") -eq $true ){
+            $dt = [System.DateTime]::Now
+            $s = $s.Replace("#DateTime#", $dt)
         }
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Error", $Message)
+
+        if( $s.Contains("#Message#") -eq $true ){
+            $s = $s.Replace("#Message#", $Message)
         }
+
+        if( $s.Contains("#ErrorCode#") -eq $true ){
+            $s = $s.Replace("#ErrorCode#", $ErrorCode)
+        }
+
+        if( $s.Contains("#LineNumber#") -eq $true){
+            $s = $s.Replace("#LineNumber#", "")
+        }
+
+        if( $s.Contains("#CallingFile#") -eq $true){
+            $s = $s.Replace("#CallingFile#", "")
+        }
+
+        if( $s.Contains("#ErrorCode#") -eq $true){
+            $s = $s.Replace("#ErrorCode#", "")
+        }
+        return $s
     }
 
-    [void] Error( [string] $Message, [int] $ErrorCode ) {
+    [string] ConvertToMessageTemplate([string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber){
+        $s = $this.MessageTemplate
 
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Error", $Message, $ErrorCode)
+        if( $s.Contains("#Level#") -eq $true ){
+            $s = $s.Replace("#Level#", $Level)
         }
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Error", $Message, $ErrorCode)
+
+        if( $s.Contains("#DateTime#") -eq $true ){
+            $dt = [System.DateTime]::Now
+            $s = $s.Replace("#DateTime#", $dt)
         }
+
+        if( $s.Contains("#Message#") -eq $true ){
+            $s = $s.Replace("#Message#", $Message)
+        }
+
+        if( $s.Contains("#LineNumber#") -eq $true){
+            $s = $s.Replace("#LineNumber#", $LineNumber)
+        }
+
+        if( $s.Contains("#CallingFile#") -eq $true){
+            $s = $s.Replace("#CallingFile#", $CallingFile)
+        }
+
+        if( $s.Contains("#ErrorCode#") -eq $true){
+            $s = $s.Replace("#ErrorCode#", $ErrorCode)
+        }
+        return $s
     }
 
-    [void] Error( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
-        }
-
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
-        }
-    }
-
-
-    [void] Warning( [string] $Message ) {
-
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Warning", $Message)
-        }
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Warning", $Message)
-        }
-    }
-
-    [void] Warning( [string] $Message, [int] $ErrorCode ) {
-
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Warning", $Message, $ErrorCode)
-        }
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Warning", $Message, $ErrorCode)
-        }
-    }
-
-    [void] Warning( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
-        }
-
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
-        }
-    }
-
-
-    [void] Debug( [string] $Message ) {
-
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Debug", $Message)
-        }
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Debug", $Message)
-        }
-    }
-
-    [void] Debug( [string] $Message, [int] $ErrorCode ) {
-
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Debug", $Message, $ErrorCode)
-        }
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Debug", $Message, $ErrorCode)
-        }
-    }
-
-    [void] Debug( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
-        if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
-            $this.CsvConfig.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
-        }
-
-        if ( $this.ConsoleConfig._isEndPointValid() -eq $true ) {
-            $this.ConsoleConfig.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
-        }
-    }
-
-    # End Region
-
-    [int] GetCurrentLineNumber() {
-        return $MyInvocation.ScriptLineNumber
-    }
-
-    [string] GetCurrentFileName() {
-        $info = [System.IO.FileInfo]::new($MyInvocation.ScriptName)
-        return $info.Name
-    }
 }
