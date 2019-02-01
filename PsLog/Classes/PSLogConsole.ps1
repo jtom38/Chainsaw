@@ -1,5 +1,39 @@
 
-# This class contains the settings needed to write messages to the console.
+<#
+.Synopsis
+This target will send the log message to the Console window.
+
+.Description
+Config Template
+{
+    "PsLog" : {
+        "Console" : {
+            "Levels" : [
+                "Information",
+                "Warning",
+                "Error",
+                "Debug"
+            ],
+            "MessageTemplate" : "[#DateTime#] [#Level#] #Message#"
+        }
+    }
+}
+
+.Example
+$Logger = [PSLog]::new()
+$Logger.ConsoleConfig = [PSLogConsole]::new(".\config.json")
+
+$Logger = [PSLog]::new()
+$console = [PSLogConsole]::new()
+$console.LogPath = ".\log.csv"
+$console.MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
+$console.Levels = @("Information", "Warning", "Error", "Debug")
+$Logger.ConsoleConfig = $console
+
+$Logger = [PSLog]::new()
+$Logger.ConsoleConfig = [PSLogConsole]::new($LogPath, $MessageTemplate, $Levels)
+
+#>
 class PSLogConsole {
     
     PSLogConsole() {

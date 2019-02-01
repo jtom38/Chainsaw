@@ -1,11 +1,25 @@
 
-# This is the entry point for PsLog.  
-# From here we can extend into other classes.
+<#
+.Synopsis
+This class is the primary management point for logging.  Once you have this class active you will want to enable your targets.  This class will not enable targets for you.
+
+.Description
+Once the targets are active use the methods from PSLog to write your messages to the desired Targets.
+
+.Example
+$Logger = [PSLog]::new()
+$Logger.Info()
+
+#>
 class PsLog {
   
     PsLog() {
         # Default is false
         $this.StorageAllMessagesSent = $false
+    }
+
+    PsLog( [string] $PathConfig ){
+        
     }
 
     # If you want to store all the messages sent to the logger so you can call them later update this to true
@@ -20,6 +34,7 @@ class PsLog {
     
     # Region Logging Methods
 
+    ###
     [void] Info( [string] $Message ) {
 
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
@@ -73,7 +88,7 @@ class PsLog {
         }
     }
 
-    [void] Error([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+    [void] Error( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
             $this.CsvConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
@@ -104,7 +119,7 @@ class PsLog {
         }
     }
 
-    [void] Warning ([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+    [void] Warning( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
             $this.CsvConfig.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
@@ -135,7 +150,7 @@ class PsLog {
         }
     }
 
-    [void] Debug([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+    [void] Debug( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
             $this.CsvConfig.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }

@@ -1,48 +1,26 @@
-# Generated 01/10/2019 09:25:12
+# Generated 02/01/2019 14:41:47
 
-class FileLock {
-    
-    FileLock() {
+<#
+.Synopsis
+This class is the primary management point for logging.  Once you have this class active you will want to enable your targets.  This class will not enable targets for you.
 
-    }
+.Description
+Once the targets are active use the methods from PSLog to write your messages to the desired Targets.
 
-    [bool] GetFileLockStatus([string] $File) {
-        if ( [System.IO.File]::Exists($File) -eq $false ) {
-            throw "Unable to check File Lock because file was not found on disk."
-        }
+.Example
+$Logger = [PSLog]::new()
+$Logger.Info()
 
-        try {
-            $Info = [System.IO.FileInfo]::new($File)
-            # Test with Streams
-            [System.IO.FileStream] $FileOpen = $Info.Open(
-                # Check to see if the File is open
-                [System.IO.FileMode]::Open,
-                # Check to see if we have ReadWrite to the file
-                [System.IO.FileAccess]::ReadWrite,
-                # Check to see if the file is accesed by a share.
-                [System.IO.FileShare]::None) 
-                
-                if ( $FileOpen ) {
-                     $FileOpen.Close()
-                }
-                return $false
-        }
-        catch {
-            # File is locked currently.
-            # Wonder if we get the process that locked it
-            return $true
-        }
-    }
-
-}
-
-# This is the entry point for PsLog.  
-# From here we can extend into other classes.
+#>
 class PsLog {
   
     PsLog() {
         # Default is false
         $this.StorageAllMessagesSent = $false
+    }
+
+    PsLog( [string] $PathConfig ){
+        
     }
 
     # If you want to store all the messages sent to the logger so you can call them later update this to true
@@ -57,6 +35,7 @@ class PsLog {
     
     # Region Logging Methods
 
+    ###
     [void] Info( [string] $Message ) {
 
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
@@ -110,7 +89,7 @@ class PsLog {
         }
     }
 
-    [void] Error([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+    [void] Error( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
             $this.CsvConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
@@ -141,7 +120,7 @@ class PsLog {
         }
     }
 
-    [void] Warning ([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+    [void] Warning( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
             $this.CsvConfig.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
@@ -172,7 +151,7 @@ class PsLog {
         }
     }
 
-    [void] Debug([string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+    [void] Debug( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         if ( $this.CsvConfig._isValidEndPoint() -eq $true ) {
             $this.CsvConfig.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
         }
@@ -194,7 +173,41 @@ class PsLog {
     }
 }
 
-# This class contains the settings needed to write messages to the console.
+<#
+.Synopsis
+This target will send the log message to the Console window.
+
+.Description
+Config Template
+{
+    "PsLog" : {
+        "Console" : {
+            "Levels" : [
+                "Information",
+                "Warning",
+                "Error",
+                "Debug"
+            ],
+            "MessageTemplate" : "[#DateTime#] [#Level#] #Message#"
+        }
+    }
+}
+
+.Example
+$Logger = [PSLog]::new()
+$Logger.ConsoleConfig = [PSLogConsole]::new(".\config.json")
+
+$Logger = [PSLog]::new()
+$console = [PSLogConsole]::new()
+$console.LogPath = ".\log.csv"
+$console.MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
+$console.Levels = @("Information", "Warning", "Error", "Debug")
+$Logger.ConsoleConfig = $console
+
+$Logger = [PSLog]::new()
+$Logger.ConsoleConfig = [PSLogConsole]::new($LogPath, $MessageTemplate, $Levels)
+
+#>
 class PSLogConsole {
     
     PSLogConsole() {
@@ -365,7 +378,42 @@ class PSLogConsole {
     }
 
 }
+<#
+.Synopsis
+This target will write logs to a defined CSV file
 
+.Description
+Config Tempalte:
+{
+    "PsLog" : {
+        "CSV" : {
+            "Levels" : [
+                "Information",
+                "Warning",
+                "Error",
+                "Debug"
+            ],
+            "LogPath" : ".\\log.csv",
+            "MessageTemplate" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
+        }
+    }
+}
+
+.Example
+$LogPath = ".\log.csv"
+$MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
+$Levels = @("Information", "Warning", "Error", "Debug")
+
+$csv = [PSLogCsv]::new()
+$csv.LogPath = $LogPath
+$csv.MessageTemplate = $MessageTemplate
+$csv.Levels = $Levels
+
+[PSLogCsv]::new($LogPath, $MessageTemplate, $Levels)
+
+[PSLogCsv]::new(".\config.json")
+
+#>
 class PSLogCsv {
     
     PSLogCsv() {
@@ -476,7 +524,7 @@ class PSLogCsv {
     }
 
     # Use this to check if we the log file is currently avilable to write to.
-    [bool] CheckFileLock() {
+    hidden [bool] CheckFileLock() {
         if ( [System.IO.File]::Exists($this.LogPath) -eq $false ) {
             throw "Unable to check File Lock because file was not found on disk."
         }
@@ -505,7 +553,7 @@ class PSLogCsv {
     }
 
     # This is used to return the header string for new csv files
-    [string] _ReturnHeader() {
+    hidden [string] _ReturnHeader() {
         $s = $this.MessageTemplate
 
         if( $s.Contains("#Level#") -eq $true ){
@@ -535,7 +583,7 @@ class PSLogCsv {
         return $s
     } 
 
-    [void] _GenerateCsvIfMissing() {
+    hidden [void] _GenerateCsvIfMissing() {
         $info = [System.IO.FileInfo]::new($this.LogPath)
         if ( $info.Exists -eq $false ) {
             # Generate where we ae going to store logging
@@ -549,7 +597,7 @@ class PSLogCsv {
         }
     }
 
-    [bool] _IsMessageValid([string] $Level) {
+    hidden [bool] _IsMessageValid([string] $Level) {
         $Valid = $false
         foreach ( $l in $this.Levels) {
             if ( $l -eq $Level) {
@@ -565,7 +613,43 @@ class PSLogCsv {
         return $true
     }
 }
+<#
+.Synopsis
+This target will write to the Windows Event Log.
 
+.Description
+Config Template:
+{
+    "PsLog" : {
+        "EventLog" : {
+            "Levels" : [
+                "Warning",
+                "Error"
+            ],
+            "LogName" : "Application",
+            "Source" : "PSLog"
+        }
+    }
+}
+
+In order to use this target you will need to initalize the log as an administrator ahead of time.  To do so 
+
+
+.Example
+$LogName = "Application"
+$Source = "PSLog"
+$Levels = @("Information", "Warning", "Error", "Debug")
+
+$eventlog = [PSLogEventLog]::new()
+$eventlog.LogName = $LogName
+$eventlog.Source = $Source
+$eventlog.Levels = $Levels
+
+[PSLogEventLog]::new($Levels, $LogName, $Source)
+
+[PSLogEventLog]::new(".\config.json")
+
+#>
 class PSLogEventLog {
     
     PSLogEventLog() {
@@ -742,7 +826,7 @@ class PSLogEventLog {
         }
     }
 
-    [bool] _isEndPointValid(){
+    hidden [bool] _isEndPointValid(){
 
         if ( [System.String]::IsNullOrEmpty($this.Levels) -eq $false -and
              [System.String]::IsNullOrEmpty($this.LogName) -eq $false -and 
@@ -752,7 +836,7 @@ class PSLogEventLog {
         return $false
     }
 
-    [bool] _IsMessageValid([string] $Level) {
+    hidden [bool] _IsMessageValid([string] $Level) {
 
         $Valid = $false
         foreach ( $l in $this.Levels) {
@@ -764,7 +848,7 @@ class PSLogEventLog {
 
     }
 
-    [bool] _SourceExists(){
+    hidden [bool] _SourceExists(){
         # We are going to write to a custom source 
         try {
             [System.Diagnostics.EventLog]::SourceExists($this.Source)
@@ -784,7 +868,7 @@ class PSLogEventLog {
         return $false
     }
 
-    [string] _BuildMessage([string] $Message, [string] $CallingFile, [int] $CallingLine = 0) {
+    hidden [string] _BuildMessage([string] $Message, [string] $CallingFile, [int] $CallingLine = 0) {
 
         $msg = ""
 
@@ -805,7 +889,7 @@ class PSLogEventLog {
     }
 }
 
-class PSLogSmtp {
+class PSLogSmtp : System.Net.Mail.SmtpClient {
     
     PSLogSmtp() {
 
@@ -854,20 +938,18 @@ class PSLogSmtp {
         }
 
         $client = $this.BuildSmtpClient()
-
-
     }
 
-    [MailKit.Net.Smtp.SmtpClient] BuildSmtpClient() {
-        $client = [MailKit.Net.Smtp.SmtpClient]::new()
-        $client.Connect($this.Server, $this.Port, $true)
+    [void] BuildSmtpClient() {
+        $client = [System.Net.Mail.SmtpClient]::new()
+        #$client.Connect($this.Server, $this.Port, $true)
 
         if ( $client.IsConnected -eq $true ) {
-            return $client
+            #return $client
         }
         else {
             throw "Unable to connect to SMTP server"
-            return $null
+            #return $null
         }
     }
 

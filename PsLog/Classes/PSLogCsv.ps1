@@ -1,4 +1,39 @@
+<#
+.Synopsis
+This target will write logs to a defined CSV file
 
+.Description
+Config Tempalte:
+{
+    "PsLog" : {
+        "CSV" : {
+            "Levels" : [
+                "Information",
+                "Warning",
+                "Error",
+                "Debug"
+            ],
+            "LogPath" : ".\\log.csv",
+            "MessageTemplate" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
+        }
+    }
+}
+
+.Example
+$LogPath = ".\log.csv"
+$MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
+$Levels = @("Information", "Warning", "Error", "Debug")
+
+$csv = [PSLogCsv]::new()
+$csv.LogPath = $LogPath
+$csv.MessageTemplate = $MessageTemplate
+$csv.Levels = $Levels
+
+[PSLogCsv]::new($LogPath, $MessageTemplate, $Levels)
+
+[PSLogCsv]::new(".\config.json")
+
+#>
 class PSLogCsv {
     
     PSLogCsv() {
@@ -109,7 +144,7 @@ class PSLogCsv {
     }
 
     # Use this to check if we the log file is currently avilable to write to.
-    [bool] CheckFileLock() {
+    hidden [bool] CheckFileLock() {
         if ( [System.IO.File]::Exists($this.LogPath) -eq $false ) {
             throw "Unable to check File Lock because file was not found on disk."
         }
@@ -138,7 +173,7 @@ class PSLogCsv {
     }
 
     # This is used to return the header string for new csv files
-    [string] _ReturnHeader() {
+    hidden [string] _ReturnHeader() {
         $s = $this.MessageTemplate
 
         if( $s.Contains("#Level#") -eq $true ){
@@ -168,7 +203,7 @@ class PSLogCsv {
         return $s
     } 
 
-    [void] _GenerateCsvIfMissing() {
+    hidden [void] _GenerateCsvIfMissing() {
         $info = [System.IO.FileInfo]::new($this.LogPath)
         if ( $info.Exists -eq $false ) {
             # Generate where we ae going to store logging
@@ -182,7 +217,7 @@ class PSLogCsv {
         }
     }
 
-    [bool] _IsMessageValid([string] $Level) {
+    hidden [bool] _IsMessageValid([string] $Level) {
         $Valid = $false
         foreach ( $l in $this.Levels) {
             if ( $l -eq $Level) {

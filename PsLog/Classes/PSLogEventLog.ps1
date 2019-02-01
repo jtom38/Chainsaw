@@ -1,4 +1,40 @@
+<#
+.Synopsis
+This target will write to the Windows Event Log.
 
+.Description
+Config Template:
+{
+    "PsLog" : {
+        "EventLog" : {
+            "Levels" : [
+                "Warning",
+                "Error"
+            ],
+            "LogName" : "Application",
+            "Source" : "PSLog"
+        }
+    }
+}
+
+In order to use this target you will need to initalize the log as an administrator ahead of time.  To do so 
+
+
+.Example
+$LogName = "Application"
+$Source = "PSLog"
+$Levels = @("Information", "Warning", "Error", "Debug")
+
+$eventlog = [PSLogEventLog]::new()
+$eventlog.LogName = $LogName
+$eventlog.Source = $Source
+$eventlog.Levels = $Levels
+
+[PSLogEventLog]::new($Levels, $LogName, $Source)
+
+[PSLogEventLog]::new(".\config.json")
+
+#>
 class PSLogEventLog {
     
     PSLogEventLog() {
@@ -175,7 +211,7 @@ class PSLogEventLog {
         }
     }
 
-    [bool] _isEndPointValid(){
+    hidden [bool] _isEndPointValid(){
 
         if ( [System.String]::IsNullOrEmpty($this.Levels) -eq $false -and
              [System.String]::IsNullOrEmpty($this.LogName) -eq $false -and 
@@ -185,7 +221,7 @@ class PSLogEventLog {
         return $false
     }
 
-    [bool] _IsMessageValid([string] $Level) {
+    hidden [bool] _IsMessageValid([string] $Level) {
 
         $Valid = $false
         foreach ( $l in $this.Levels) {
@@ -197,7 +233,7 @@ class PSLogEventLog {
 
     }
 
-    [bool] _SourceExists(){
+    hidden [bool] _SourceExists(){
         # We are going to write to a custom source 
         try {
             [System.Diagnostics.EventLog]::SourceExists($this.Source)
@@ -217,7 +253,7 @@ class PSLogEventLog {
         return $false
     }
 
-    [string] _BuildMessage([string] $Message, [string] $CallingFile, [int] $CallingLine = 0) {
+    hidden [string] _BuildMessage([string] $Message, [string] $CallingFile, [int] $CallingLine = 0) {
 
         $msg = ""
 

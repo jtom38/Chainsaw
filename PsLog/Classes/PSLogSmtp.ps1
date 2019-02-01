@@ -1,5 +1,5 @@
 
-class PSLogSmtp {
+class PSLogSmtp : System.Net.Mail.SmtpClient {
     
     PSLogSmtp() {
 
@@ -48,20 +48,18 @@ class PSLogSmtp {
         }
 
         $client = $this.BuildSmtpClient()
-
-
     }
 
-    [MailKit.Net.Smtp.SmtpClient] BuildSmtpClient() {
-        $client = [MailKit.Net.Smtp.SmtpClient]::new()
-        $client.Connect($this.Server, $this.Port, $true)
+    [void] BuildSmtpClient() {
+        $client = [System.Net.Mail.SmtpClient]::new()
+        #$client.Connect($this.Server, $this.Port, $true)
 
         if ( $client.IsConnected -eq $true ) {
-            return $client
+            #return $client
         }
         else {
             throw "Unable to connect to SMTP server"
-            return $null
+            #return $null
         }
     }
 
