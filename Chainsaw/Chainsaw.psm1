@@ -2,8 +2,8 @@
 [cmdletbinding()]
 param()
 
-[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MimeKit.dll")
-[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MailKit.dll")
+#[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MimeKit.dll")
+#[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MailKit.dll")
 
 # Import General functions 
 
@@ -13,9 +13,9 @@ $Public =  @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction Silent
 Write-Debug -Message "Looking for all files in Private"
 $Private = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue)
 
-# Import-PSLogClasses exists at PSScriptRoot because of path issues
+# Import-ChainsawClasses exists at PSScriptRoot because of path issues
 
-$class = "$PSScriptRoot\Import-PSLogClasses.ps1"
+$class = "$PSScriptRoot\Import-ChainsawClasses.ps1"
 $importClasses = Get-ChildItem -Path $class -ErrorAction SilentlyContinue
 . $class
 

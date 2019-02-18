@@ -6,7 +6,7 @@ This target will send the log message to the Console window.
 .Description
 Config Template
 {
-    "PsLog" : {
+    "Chainsaw" : {
         "Console" : {
             "Levels" : [
                 "Information",
@@ -20,32 +20,32 @@ Config Template
 }
 
 .Example
-$Logger = [PSLog]::new()
-$Logger.ConsoleConfig = [PSLogConsole]::new(".\config.json")
+$Logger = [Chainsaw]::new()
+$Logger.ConsoleConfig = [ChainsawConsole]::new(".\config.json")
 
-$Logger = [PSLog]::new()
-$console = [PSLogConsole]::new()
+$Logger = [Chainsaw]::new()
+$console = [ChainsawConsole]::new()
 $console.LogPath = ".\log.csv"
 $console.MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
 $console.Levels = @("Information", "Warning", "Error", "Debug")
 $Logger.ConsoleConfig = $console
 
-$Logger = [PSLog]::new()
-$Logger.ConsoleConfig = [PSLogConsole]::new($LogPath, $MessageTemplate, $Levels)
+$Logger = [Chainsaw]::new()
+$Logger.ConsoleConfig = [ChainsawConsole]::new($LogPath, $MessageTemplate, $Levels)
 
 #>
-class PSLogConsole {
+class ChainsawConsole {
     
-    PSLogConsole() {
+    ChainsawConsole() {
         
     }
 
-    PSLogConsole( [String] $MessageTemplate, [String[]] $Levels) {
+    ChainsawConsole( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
         $this.MessageTemplate = $MessageTemplate
     }
     
-    PSLogConsole( [string] $PathConfig ) {
+    ChainsawConsole( [string] $PathConfig ) {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
             Throw 'PathConfig: was null'
@@ -64,8 +64,8 @@ class PSLogConsole {
         # Should have a valid file
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
 
-        $this.MessageTemplate = $json.PSLog.Console.MessageTemplate
-        $this.Levels = $json.PSLog.Console.Levels
+        $this.MessageTemplate = $json.Chainsaw.Console.MessageTemplate
+        $this.Levels = $json.Chainsaw.Console.Levels
     }
 
     # Region Define public properties

@@ -1,5 +1,5 @@
 
-function New-PSLogConsole {
+function New-ChainsawConsole {
     param (
         [String] $MessageTemplate, 
         [String[]] $Levels,
@@ -10,14 +10,14 @@ function New-PSLogConsole {
     Process {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $false ){
-            return [PSLogConsole]::new($PathConfig)
+            return [ChainsawConsole]::new($PathConfig)
         }
         elseif ( [System.String]::IsNullOrEmpty($MessageTemplate) -eq $false -and
             [System.String]::IsNullOrEmpty($Levels) -eq $false ) {
-            return [PSLogConsole]::new($MessageTemplate, $Levels)
+            return [ChainsawConsole]::new($MessageTemplate, $Levels)
         }
         else {
-            return [PSLogConsole]::new()
+            return [ChainsawConsole]::new()
         }
 
     }

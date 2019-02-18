@@ -1,5 +1,5 @@
 
-function New-PSLogCsv {
+function New-ChainsawCsv {
     [cmdletbinding()]
     param (
         [string] $LogPath, 
@@ -13,16 +13,16 @@ function New-PSLogCsv {
         
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $false ) {
             # If we get the config path we will use that first
-            return [PSLogCsv]::new($PathConfig)
+            return [ChainsawCsv]::new($PathConfig)
         }
         elseif ( [System.String]::IsNullOrEmpty($LogPath) -eq $false -and 
              [System.String]::IsNullOrEmpty($MessageTemplate) -eq $false -and
              [System.String]::IsNullOrEmpty($Levels) -eq $false) {
 
-            return [PSLogCsv]::new($LogPath, $MessageTemplate, $Levels)
+            return [ChainsawCsv]::new($LogPath, $MessageTemplate, $Levels)
         }
         else {
-            return [PSLogCsv]::new()
+            return [ChainsawCsv]::new()
         }
 
     }

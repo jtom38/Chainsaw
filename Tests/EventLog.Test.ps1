@@ -1,5 +1,5 @@
 
-function New-PSLogEventLog {
+function New-ChainsawEventLog {
     param (
         [string[]] $Levels, 
         [string] $LogName, 
@@ -11,7 +11,7 @@ function New-PSLogEventLog {
     Process {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $false ) {
-            return [PSLogEventLog]::new($PathConfig)
+            return [ChainsawEventLog]::new($PathConfig)
         }
 
     }

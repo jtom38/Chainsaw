@@ -10,11 +10,11 @@ If you need to generate a new log on the computer that will run this process, us
 
 ```Powershell
 
-using module .\PSLogClasses.psm1
+using module .\ChainsawClasses.psm1
 $Levels = @("Information", "Warning", "Error", "Debug")
 $LogName = "Application"
-$Source = "PSLog"
-$ev = [PSLogEventLog]::new($Levels, $LogName, $Source)
+$Source = "Chainsaw"
+$ev = [ChainsawEventLog]::new($Levels, $LogName, $Source)
 $ev.InitializeLog()
 
 ```
@@ -25,14 +25,14 @@ Once you run the command you will have a new log for you to look at.  An error c
 
 ```JSON
 {
-    "PsLog" : {
+    "Chainsaw" : {
         "EventLog" : {
             "Levels" : [
                 "Warning",
                 "Error"
             ],
             "LogName" : "Application",
-            "Source" : "PSLog"
+            "Source" : "Chainsaw"
         }
     }
 }
@@ -44,17 +44,17 @@ Once you run the command you will have a new log for you to look at.  An error c
 
 ```PowerShell
 $LogName = "Application"
-$Source = "PSLog"
+$Source = "Chainsaw"
 $Levels = @("Information", "Warning", "Error", "Debug")
 
-$eventlog = [PSLogEventLog]::new()
+$eventlog = [ChainsawEventLog]::new()
 $eventlog.LogName = $LogName
 $eventlog.Source = $Source
 $eventlog.Levels = $Levels
 
-[PSLogEventLog]::new($Levels, $LogName, $Source)
+[ChainsawEventLog]::new($Levels, $LogName, $Source)
 
-[PSLogEventLog]::new(".\config.json")
+[ChainsawEventLog]::new(".\config.json")
 ```
 
 ### Properties

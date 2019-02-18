@@ -1,4 +1,4 @@
-# Generated 02/01/2019 14:41:47
+# Generated 02/18/2019 09:18:22
 
 class TemplateConverter {
     
@@ -111,7 +111,7 @@ This target will send the log message to the Console window.
 .Description
 Config Template
 {
-    "PsLog" : {
+    "Chainsaw" : {
         "Console" : {
             "Levels" : [
                 "Information",
@@ -125,32 +125,32 @@ Config Template
 }
 
 .Example
-$Logger = [PSLog]::new()
-$Logger.ConsoleConfig = [PSLogConsole]::new(".\config.json")
+$Logger = [Chainsaw]::new()
+$Logger.ConsoleConfig = [ChainsawConsole]::new(".\config.json")
 
-$Logger = [PSLog]::new()
-$console = [PSLogConsole]::new()
+$Logger = [Chainsaw]::new()
+$console = [ChainsawConsole]::new()
 $console.LogPath = ".\log.csv"
 $console.MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
 $console.Levels = @("Information", "Warning", "Error", "Debug")
 $Logger.ConsoleConfig = $console
 
-$Logger = [PSLog]::new()
-$Logger.ConsoleConfig = [PSLogConsole]::new($LogPath, $MessageTemplate, $Levels)
+$Logger = [Chainsaw]::new()
+$Logger.ConsoleConfig = [ChainsawConsole]::new($LogPath, $MessageTemplate, $Levels)
 
 #>
-class PSLogConsole {
+class ChainsawConsole {
     
-    PSLogConsole() {
+    ChainsawConsole() {
         
     }
 
-    PSLogConsole( [String] $MessageTemplate, [String[]] $Levels) {
+    ChainsawConsole( [String] $MessageTemplate, [String[]] $Levels) {
         $this.Levels = $Levels
         $this.MessageTemplate = $MessageTemplate
     }
     
-    PSLogConsole( [string] $PathConfig ) {
+    ChainsawConsole( [string] $PathConfig ) {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
             Throw 'PathConfig: was null'
@@ -169,8 +169,8 @@ class PSLogConsole {
         # Should have a valid file
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
 
-        $this.MessageTemplate = $json.PSLog.Console.MessageTemplate
-        $this.Levels = $json.PSLog.Console.Levels
+        $this.MessageTemplate = $json.Chainsaw.Console.MessageTemplate
+        $this.Levels = $json.Chainsaw.Console.Levels
     }
 
     # Region Define public properties
@@ -316,7 +316,7 @@ This target will write logs to a defined CSV file
 .Description
 Config Tempalte:
 {
-    "PsLog" : {
+    "Chainsaw" : {
         "CSV" : {
             "Levels" : [
                 "Information",
@@ -335,35 +335,35 @@ $LogPath = ".\log.csv"
 $MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
 $Levels = @("Information", "Warning", "Error", "Debug")
 
-$csv = [PSLogCsv]::new()
+$csv = [ChainsawCsv]::new()
 $csv.LogPath = $LogPath
 $csv.MessageTemplate = $MessageTemplate
 $csv.Levels = $Levels
 
-[PSLogCsv]::new($LogPath, $MessageTemplate, $Levels)
+[ChainsawCsv]::new($LogPath, $MessageTemplate, $Levels)
 
-[PSLogCsv]::new(".\config.json")
+[ChainsawCsv]::new(".\config.json")
 
 #>
-class PSLogCsv {
+class ChainsawCsv {
     
-    PSLogCsv() {
+    ChainsawCsv() {
         
     }
 
-    PSLogCsv([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
+    ChainsawCsv([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
         $this.LogPath = $LogPath
         $this.MessageTemplate = $MessageTemplate
         $this.Levels = $Levels
     }
 
-    PSLogCsv([string] $PathConfig) {
+    ChainsawCsv([string] $PathConfig) {
         # Should have a valid file
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
 
-        $this.LogPath = $json.PSLog.Csv.LogPath
-        $this.Levels = $json.PSLog.Csv.Levels
-        $this.MessageTemplate = $json.PSLog.Csv.MessageTemplate
+        $this.LogPath = $json.Chainsaw.Csv.LogPath
+        $this.Levels = $json.Chainsaw.Csv.Levels
+        $this.MessageTemplate = $json.Chainsaw.Csv.MessageTemplate
     }
 
     [string] $LogPath
@@ -551,14 +551,14 @@ This target will write to the Windows Event Log.
 .Description
 Config Template:
 {
-    "PsLog" : {
+    "Chainsaw" : {
         "EventLog" : {
             "Levels" : [
                 "Warning",
                 "Error"
             ],
             "LogName" : "Application",
-            "Source" : "PSLog"
+            "Source" : "Chainsaw"
         }
     }
 }
@@ -568,32 +568,32 @@ In order to use this target you will need to initalize the log as an administrat
 
 .Example
 $LogName = "Application"
-$Source = "PSLog"
+$Source = "Chainsaw"
 $Levels = @("Information", "Warning", "Error", "Debug")
 
-$eventlog = [PSLogEventLog]::new()
+$eventlog = [ChainsawEventLog]::new()
 $eventlog.LogName = $LogName
 $eventlog.Source = $Source
 $eventlog.Levels = $Levels
 
-[PSLogEventLog]::new($Levels, $LogName, $Source)
+[ChainsawEventLog]::new($Levels, $LogName, $Source)
 
-[PSLogEventLog]::new(".\config.json")
+[ChainsawEventLog]::new(".\config.json")
 
 #>
-class PSLogEventLog {
+class ChainsawEventLog {
     
-    PSLogEventLog() {
+    ChainsawEventLog() {
         
     }
 
-    PSLogEventLog([string[]] $Levels, [string] $LogName, [string] $Source) {
+    ChainsawEventLog([string[]] $Levels, [string] $LogName, [string] $Source) {
         $this.Levels = $Levels
         $this.LogName = $LogName
         $this.Source = $Source
     }
 
-    PSLogEventLog([string] $PathConfig ) {
+    ChainsawEventLog([string] $PathConfig ) {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
             Throw 'PathConfig: was null'
@@ -610,9 +610,9 @@ class PSLogEventLog {
         }
 
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
-        $this.Levels = $json.PSLog.EventLog.Levels
-        $this.LogName = $json.PSLog.EventLog.LogName
-        $this.Source = $json.PSLog.EventLog.Source
+        $this.Levels = $json.Chainsaw.EventLog.Levels
+        $this.LogName = $json.Chainsaw.EventLog.LogName
+        $this.Source = $json.Chainsaw.EventLog.Source
         $this._SourceExists()
     }
 
@@ -825,21 +825,21 @@ class PSLogEventLog {
 This class is the primary management point for logging.  Once you have this class active you will want to enable your targets.  This class will not enable targets for you.
 
 .Description
-Once the targets are active use the methods from PSLog to write your messages to the desired Targets.
+Once the targets are active use the methods from Chainsaw to write your messages to the desired Targets.
 
 .Example
-$Logger = [PSLog]::new()
+$Logger = [Chainsaw]::new()
 $Logger.Info()
 
 #>
-class PsLog {
+class Chainsaw {
   
-    PsLog() {
+    Chainsaw() {
         # Default is false
         $this.StorageAllMessagesSent = $false
     }
 
-    PsLog( [string] $PathConfig ){
+    Chainsaw( [string] $PathConfig ){
         
     }
 

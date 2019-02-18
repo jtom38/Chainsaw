@@ -1,10 +1,10 @@
-Describe "Classes - PSLogConsole" {
+Describe "Classes - ChainsawConsole" {
 
     It "Initialize with inline code:" {
         $Levels = @("Information")
         $MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
 
-        $c = [PSLogConsole]::new($MessageTemplate, $Levels)
+        $c = [ChainsawConsole]::new($MessageTemplate, $Levels)
         $valid = $c._isEndPointValid() 
         $valid | Should -Be $true
     }
@@ -12,13 +12,13 @@ Describe "Classes - PSLogConsole" {
     It "Initialize with config file:" {
         $PathConfig = ".\config.json"
 
-        $c = [PSLogConsole]::new($PathConfig)   
+        $c = [ChainsawConsole]::new($PathConfig)   
         $valid = $c._isEndPointValid() 
         $valid | Should -Be $true
     }
 
-    It "New-PSLogConsole blank" {
-        $c = New-PSLogConsole 
+    It "New-ChainsawConsole blank" {
+        $c = New-ChainsawConsole 
         $valid = $c._isEndPointValid() 
         $valid | Should -Be $false
     }
@@ -27,7 +27,7 @@ Describe "Classes - PSLogConsole" {
         $Levels = @("Information")
         $MessageTemplate = "#CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
 
-        $csv = [PSLogConsole]::new($MessageTemplate, $Levels)
+        $csv = [ChainsawConsole]::new($MessageTemplate, $Levels)
         $csv.Write("Information", "Unit Testing")
 
     }
@@ -36,34 +36,34 @@ Describe "Classes - PSLogConsole" {
         $Levels = @("Information")
         $MessageTemplate = "#CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
 
-        $csv = [PSLogConsole]::new($MessageTemplate, $Levels)
+        $csv = [ChainsawConsole]::new($MessageTemplate, $Levels)
         $csv.Write("Information", "Unit Testing", 1)
 
     }
 
 }
 
-Describe "Functions - PSLogConsole" {
+Describe "Functions - ChainsawConsole" {
 
-    It "New-PSLogConsole Inline code:" {
+    It "New-ChainsawConsole Inline code:" {
         $Levels = @("Information")
         $MessageTemplate = "#CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
 
-        $c = New-PSLogConsole -MessageTemplate $MessageTemplate -Levels $Levels
+        $c = New-ChainsawConsole -MessageTemplate $MessageTemplate -Levels $Levels
         $valid = $c._isEndPointValid()
         $valid | Should -Be $true
     }
 
-    It "New-PSLogConsole config file" {
+    It "New-ChainsawConsole config file" {
         $PathConfig = ".\config.json"
 
-        $c = New-PSLogConsole -PathConfig $PathConfig  
+        $c = New-ChainsawConsole -PathConfig $PathConfig  
         $valid = $c._isEndPointValid() 
         $valid | Should -Be $true
     }
 
-    It "New-PSLogConsole blank" {
-        $c = New-PSLogConsole 
+    It "New-ChainsawConsole blank" {
+        $c = New-ChainsawConsole 
         $valid = $c._isEndPointValid() 
         $valid | Should -Be $false
     }
