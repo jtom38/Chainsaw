@@ -2,8 +2,8 @@
 [cmdletbinding()]
 param()
 
-[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MimeKit.dll")
-[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MailKit.dll")
+#[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MimeKit.dll")
+#[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MailKit.dll")
 
 # Import General functions 
 
