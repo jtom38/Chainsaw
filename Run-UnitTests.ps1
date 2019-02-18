@@ -1,7 +1,7 @@
 
 # Import the new class file we built
-Import-Module .\PsLog\PsLog.psm1
-. .\PsLog\PSLogClasses.ps1 -Force
+Import-Module .\Chainsaw\Chainsaw.psm1
+. .\Chainsaw\ChainsawClasses.ps1 -Force
 
 # Import Pester to run our tests
 Import-Module Pester

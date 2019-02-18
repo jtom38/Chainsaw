@@ -1,5 +1,5 @@
 
-function Set-PSLogInfo {
+function Set-ChainsawInfo {
     param (
         [string] $Message, 
         [int] $ErrorCode, 

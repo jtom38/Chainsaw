@@ -1,18 +1,18 @@
 
-class PSLogSmtp : System.Net.Mail.SmtpClient {
+class ChainsawSmtp : System.Net.Mail.SmtpClient {
     
-    PSLogSmtp() {
+    ChainsawSmtp() {
 
     }
 
-    PSLogSmtp([string[]] $Levels, [string] $Server, [int] $Port, [bool] $Security) {
+    ChainsawSmtp([string[]] $Levels, [string] $Server, [int] $Port, [bool] $Security) {
         $this.Levels = $Levels
         $this.Server = $Server
         $this.Port = $Port
         $this.Security = $Security
     }
 
-    PSLogSmtp([string[]] $Levels, [string] $Server, [int] $Port, [bool] $Security, [string] $Username, [string] $Password) {
+    ChainsawSmtp([string[]] $Levels, [string] $Server, [int] $Port, [bool] $Security, [string] $Username, [string] $Password) {
         $this.Levels = $Levels
         $this.Server = $Server
         $this.Port = $Port

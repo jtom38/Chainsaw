@@ -5,7 +5,7 @@ This target will write logs to a defined CSV file
 .Description
 Config Tempalte:
 {
-    "PsLog" : {
+    "Chainsaw" : {
         "CSV" : {
             "Levels" : [
                 "Information",
@@ -24,35 +24,35 @@ $LogPath = ".\log.csv"
 $MessageTemplate = "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#"
 $Levels = @("Information", "Warning", "Error", "Debug")
 
-$csv = [PSLogCsv]::new()
+$csv = [ChainsawCsv]::new()
 $csv.LogPath = $LogPath
 $csv.MessageTemplate = $MessageTemplate
 $csv.Levels = $Levels
 
-[PSLogCsv]::new($LogPath, $MessageTemplate, $Levels)
+[ChainsawCsv]::new($LogPath, $MessageTemplate, $Levels)
 
-[PSLogCsv]::new(".\config.json")
+[ChainsawCsv]::new(".\config.json")
 
 #>
-class PSLogCsv {
+class ChainsawCsv {
     
-    PSLogCsv() {
+    ChainsawCsv() {
         
     }
 
-    PSLogCsv([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
+    ChainsawCsv([string] $LogPath, [string] $MessageTemplate, [string[]] $Levels) {
         $this.LogPath = $LogPath
         $this.MessageTemplate = $MessageTemplate
         $this.Levels = $Levels
     }
 
-    PSLogCsv([string] $PathConfig) {
+    ChainsawCsv([string] $PathConfig) {
         # Should have a valid file
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
 
-        $this.LogPath = $json.PSLog.Csv.LogPath
-        $this.Levels = $json.PSLog.Csv.Levels
-        $this.MessageTemplate = $json.PSLog.Csv.MessageTemplate
+        $this.LogPath = $json.Chainsaw.Csv.LogPath
+        $this.Levels = $json.Chainsaw.Csv.Levels
+        $this.MessageTemplate = $json.Chainsaw.Csv.MessageTemplate
     }
 
     [string] $LogPath

@@ -5,14 +5,14 @@ This target will write to the Windows Event Log.
 .Description
 Config Template:
 {
-    "PsLog" : {
+    "Chainsaw" : {
         "EventLog" : {
             "Levels" : [
                 "Warning",
                 "Error"
             ],
             "LogName" : "Application",
-            "Source" : "PSLog"
+            "Source" : "Chainsaw"
         }
     }
 }
@@ -22,32 +22,32 @@ In order to use this target you will need to initalize the log as an administrat
 
 .Example
 $LogName = "Application"
-$Source = "PSLog"
+$Source = "Chainsaw"
 $Levels = @("Information", "Warning", "Error", "Debug")
 
-$eventlog = [PSLogEventLog]::new()
+$eventlog = [ChainsawEventLog]::new()
 $eventlog.LogName = $LogName
 $eventlog.Source = $Source
 $eventlog.Levels = $Levels
 
-[PSLogEventLog]::new($Levels, $LogName, $Source)
+[ChainsawEventLog]::new($Levels, $LogName, $Source)
 
-[PSLogEventLog]::new(".\config.json")
+[ChainsawEventLog]::new(".\config.json")
 
 #>
-class PSLogEventLog {
+class ChainsawEventLog {
     
-    PSLogEventLog() {
+    ChainsawEventLog() {
         
     }
 
-    PSLogEventLog([string[]] $Levels, [string] $LogName, [string] $Source) {
+    ChainsawEventLog([string[]] $Levels, [string] $LogName, [string] $Source) {
         $this.Levels = $Levels
         $this.LogName = $LogName
         $this.Source = $Source
     }
 
-    PSLogEventLog([string] $PathConfig ) {
+    ChainsawEventLog([string] $PathConfig ) {
 
         if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $true ) {
             Throw 'PathConfig: was null'
@@ -64,9 +64,9 @@ class PSLogEventLog {
         }
 
         $json = Get-Content -Path $PathConfig | ConvertFrom-Json
-        $this.Levels = $json.PSLog.EventLog.Levels
-        $this.LogName = $json.PSLog.EventLog.LogName
-        $this.Source = $json.PSLog.EventLog.Source
+        $this.Levels = $json.Chainsaw.EventLog.Levels
+        $this.LogName = $json.Chainsaw.EventLog.LogName
+        $this.Source = $json.Chainsaw.EventLog.Source
         $this._SourceExists()
     }
 

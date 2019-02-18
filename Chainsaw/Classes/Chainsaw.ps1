@@ -4,21 +4,21 @@
 This class is the primary management point for logging.  Once you have this class active you will want to enable your targets.  This class will not enable targets for you.
 
 .Description
-Once the targets are active use the methods from PSLog to write your messages to the desired Targets.
+Once the targets are active use the methods from Chainsaw to write your messages to the desired Targets.
 
 .Example
-$Logger = [PSLog]::new()
+$Logger = [Chainsaw]::new()
 $Logger.Info()
 
 #>
-class PsLog {
+class Chainsaw {
   
-    PsLog() {
+    Chainsaw() {
         # Default is false
         $this.StorageAllMessagesSent = $false
     }
 
-    PsLog( [string] $PathConfig ){
+    Chainsaw( [string] $PathConfig ){
         
     }
 
