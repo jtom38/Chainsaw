@@ -42,29 +42,55 @@ class Chainsaw {
     # Region Logging Methods
 
     ###
-    [void] Info( [string] $Message ) {
-        $this.CsvConfig.Write("Information", $Message)
+    [void] Emergency( [string] $Message ) {
+        $this.Write("Emergency", $Message)
     }
 
-    [void] Info( [string] $Message, [int] $ErrorCode ) {
-        $this.CsvConfig.Write("Information", $Message, $ErrorCode)
+    [void] Emergency( [string] $Message, [int] $ErrorCode ) {
+        $this.Write("Emergency", $Message, $ErrorCode)
     }
 
-    [void] Info( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
-        $this.CsvConfig.Write("Information", $Message, $ErrorCode, $CallingFile, $LineNumber)
+    [void] Emergency( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        $this.Write("Emergency", $Message, $ErrorCode, $CallingFile, $LineNumber)
+    }
+
+
+    [void] Alert( [string] $Message ) {
+        $this.Write("Alert", $Message)
+    }
+
+    [void] Alert( [string] $Message, [int] $ErrorCode ) {
+        $this.Write("Alert", $Message, $ErrorCode)
+    }
+
+    [void] Alert( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        $this.Write("Alert", $Message, $ErrorCode, $CallingFile, $LineNumber)
+    }
+
+
+    [void] Critical( [string] $Message ) {
+        $this.Write("Critical", $Message)
+    }
+
+    [void] Critical( [string] $Message, [int] $ErrorCode ) {
+        $this.Write("Critical", $Message, $ErrorCode)
+    }
+
+    [void] Critical( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        $this.Write("Critical", $Message, $ErrorCode, $CallingFile, $LineNumber)
     }
 
 
     [void] Error( [string] $Message ) {
-        $this.CsvConfig.Write("Error", $Message)
+        $this.Write("Error", $Message)
     }
 
     [void] Error( [string] $Message, [int] $ErrorCode ) {
-        $this.CsvConfig.Write("Error", $Message, $ErrorCode)
+        $this.Write("Error", $Message, $ErrorCode)
     }
 
     [void] Error( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {        
-        $this.CsvConfig.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
+        $this.Write("Error", $Message, $ErrorCode, $CallingFile, $LineNumber)
     }
 
 
@@ -78,6 +104,32 @@ class Chainsaw {
 
     [void] Warning( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
         $this.Write("Warning", $Message, $ErrorCode, $CallingFile, $LineNumber)
+    }
+
+    
+    [void] Notice( [string] $Message ) {
+        $this.CsvConfig.Write("Notice", $Message)
+    }
+
+    [void] Notice( [string] $Message, [int] $ErrorCode ) {
+        $this.CsvConfig.Write("Notice", $Message, $ErrorCode)
+    }
+
+    [void] Notice( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        $this.CsvConfig.Write("Notice", $Message, $ErrorCode, $CallingFile, $LineNumber)
+    }
+
+
+    [void] Info( [string] $Message ) {
+        $this.CsvConfig.Write("Information", $Message)
+    }
+
+    [void] Info( [string] $Message, [int] $ErrorCode ) {
+        $this.CsvConfig.Write("Information", $Message, $ErrorCode)
+    }
+
+    [void] Info( [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        $this.CsvConfig.Write("Information", $Message, $ErrorCode, $CallingFile, $LineNumber)
     }
 
 
