@@ -2,9 +2,13 @@
     "Chainsaw" : {
         "CSV" : {
             "Levels" : [
-                "Information",
-                "Warning",
+                "Emergency",
+                "Alert",
+                "Critical",
                 "Error",
+                "Warning",
+                "Notice",
+                "Information",
                 "Debug"
             ],
             "LogPath" : ".\\log.csv",
@@ -12,9 +16,13 @@
         },
         "Console" : {
             "Levels" : [
-                "Information",
-                "Warning",
+                "Emergency",
+                "Alert",
+                "Critical",
                 "Error",
+                "Warning",
+                "Notice",
+                "Information",
                 "Debug"
             ],
             "MessageTemplate" : "[#DateTime#] [#Level#] #Message#"

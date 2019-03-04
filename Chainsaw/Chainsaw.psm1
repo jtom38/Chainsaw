@@ -1,11 +1,4 @@
 #Requires -Version 5.0
-[cmdletbinding()]
-param()
-
-#[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MimeKit.dll")
-#[Reflection.Assembly]::LoadFile("$PSScriptRoot\Lib\MailKit.dll")
-
-# Import General functions 
 
 Write-Debug -Message "Looking for all files in Public"
 $Public =  @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue)

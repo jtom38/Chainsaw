@@ -6,8 +6,8 @@ This way to import the lib you just call one file.
 This is my building file.  Use this if you want to build a fresh class module if you made changes to the source.
 #>
 
-$prod = "$psscriptroot\Chainsaw\ChainsawClasses.ps1"
-$dev = "$psscriptroot\Chainsaw\ChainsawClassesDev.ps1"
+$prod = "$psscriptroot\Chainsaw\Public\ChainsawClasses.ps1"
+$dev = "$psscriptroot\Chainsaw\Public\ChainsawClassesDev.ps1"
 
 Write-Host "Starting build of Dev Classes."
 Write-Host "Building class file based off of .\Chainsaw\Classes"
@@ -22,7 +22,7 @@ if ( [System.IO.File]::Exists($dev) -eq $true ) {
 }
 
 # Generate the new blank file
-New-Item -Path ".\Chainsaw" -Name "ChainsawClassesDev.ps1" | Out-Null
+New-Item -Path ".\Chainsaw\Public" -Name "ChainsawClassesDev.ps1" | Out-Null
 
 $dt = [datetime]::Now
 Add-Content -Path $dev -Value "# Generated $dt"
@@ -43,7 +43,7 @@ if ( [System.IO.File]::Exists($prod) -eq $true ) {
 }
 
 # Generate the new blank file
-New-Item -Path ".\Chainsaw" -Name "ChainsawClasses.ps1" | Out-Null
+New-Item -Path ".\Chainsaw\Public" -Name "ChainsawClasses.ps1" | Out-Null
 
 $dt = [datetime]::Now
 Add-Content -Path $prod -Value "# Generated $dt"
@@ -65,6 +65,10 @@ foreach ( $f in $Files) {
     Add-Content -Path $prod -Value $raw
     
 }
+
+# Run the installer so we can call the module by name
+Write-Host "Installing module into user profile"
+.\Install.ps1
 
 # Run the unit tests on the new build
 Write-Host "Starting Unit Testing"

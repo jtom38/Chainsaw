@@ -10,4 +10,5 @@ Write-Verbose -Message "Starting tests on Classes"
 . .\Tests\Csv.Test.ps1
 . .\Tests\Console.Test.ps1
 
-#Write-Verbose -Message "Starting tests on Functions."
+Write-Verbose -Message "Starting tests on Functions."
+. .\Tests\New-ChainsawConfig.Test.ps1
