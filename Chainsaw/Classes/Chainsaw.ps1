@@ -145,6 +145,18 @@ class Chainsaw {
         $this.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
     }
 
+    [void] Custom( [string] $Level, [string] $Message ) {
+        $this.Write($Level, $Message)
+    }
+
+    [void] Custom( [string] $Level, [string] $Message, [int] $ErrorCode ) {
+        $this.Write($Level, $Message, $ErrorCode)
+    }
+
+    [void] Custom( [string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        $this.Write($Level, $Message, $ErrorCode, $CallingFile, $LineNumber)
+    }
+
     hidden [void] Write( [string] $Level, [string] $Message ) {
 
         try{

@@ -8,9 +8,9 @@ $Private = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction Silen
 
 # Import-ChainsawClasses exists at PSScriptRoot because of path issues
 
-$class = "$PSScriptRoot\Import-ChainsawClasses.ps1"
-$importClasses = Get-ChildItem -Path $class -ErrorAction SilentlyContinue
-. $class
+#$class = "$PSScriptRoot\Import-ChainsawClasses.ps1"
+#$importClasses = Get-ChildItem -Path $class -ErrorAction SilentlyContinue
+#. $class
 
 foreach($import in @($Public + $Private)){
 

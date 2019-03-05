@@ -35,6 +35,14 @@
             "LogName" : "Application",
             "Source" : "PSLog"
         },
+        "Teams" : {
+            "Levels" : [
+                "Debug"
+            ],
+            "MessageTemplate" : "#DateTime#, #CallingFile#, #LineNumber#, #Level#, #Message#, #ErrorCode#",
+            "URI": "",
+            "MessageTitle" : "Chainsaw"
+        },
         "MSSQL" : {
             "Levels" : [
                 "Information",

@@ -74,7 +74,7 @@ class ChainsawConsole {
     [string[]] $Levels 
     # Region End
 
-    [bool] _isEndPointValid() {
+    hidden [bool] _isEndPointValid() {
 
         if ( [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false) {
             return $true
@@ -151,10 +151,13 @@ class ChainsawConsole {
 
         switch($Level.ToLower()) 
         {
+            emergency { [System.Console]::ForegroundColor = [System.ConsoleColor]::DarkRed; break}
+            alert {[System.Console]::ForegroundColor = [ConsoleColor]::DarkYellow; Break }
+            critical {[System.Console]::ForegroundColor = [ConsoleColor]::DarkMagenta ; Break}
             error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
-            information { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
-            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
             warning { [System.Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
+            notice { [System.Console]::ForegroundColor = [ConsoleColor]::Blue; Break}
+            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
             debug { [System.Console]::ForegroundColor = [System.ConsoleColor]::Magenta; Break; }
             default { [System.Console]::ForegroundColor = [ConsoleColor]::White; Break }
         }
