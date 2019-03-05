@@ -6,12 +6,24 @@ function New-ChainsawCsv {
         [string] $MessageTemplate, 
         [string[]] $Levels,
 
-        [string] $PathConfig
+        [string] $PathConfig,
+
+        [hashtable] $HashConfig
     )
     
     Process {
-        
-        if ( [System.String]::IsNullOrEmpty($PathConfig) -eq $false ) {
+        . "$($PSScriptRoot)\Classes\TemplateConverter.ps1"
+        . "$($PSScriptRoot)\Classes\ChainsawCsv.ps1"
+
+        if( [string]::IsNullOrEmpty($HashConfig.Values.LogPath) -eq $false -and 
+            [string]::IsNullOrEmpty($HashConfig.Values.MessageTemplate) -eq $false -and
+            [string]::IsNullOrEmpty($HashConfig.Values.Levels) -eq $false ){
+                return [ChainsawCsv]::new(
+                    $HashConfig.Values.LogPath,
+                    $HashConfig.Values.MessageTemplate,
+                    $HashConfig.Values.Levels)
+        }
+        elseif ( [System.String]::IsNullOrEmpty($PathConfig) -eq $false ) {
             # If we get the config path we will use that first
             return [ChainsawCsv]::new($PathConfig)
         }

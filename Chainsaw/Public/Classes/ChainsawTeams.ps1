@@ -6,9 +6,11 @@ class ChainsawTeams {
 
     }
 
-    ChainsawTeams([string] $URI, [string] $MessageTemplate, [string] $MessageTitle){
-
-        $this.Converter = [TemplateConverter]::new($MessageTemplate)
+    ChainsawTeams([string] $URI, [string] $MessageTemplate, [string] $MessageTitle, [string[]] $Levels){
+        $this.Levels = $Levels
+        $this.URI = $URI
+        $this.MessageTemplate = $MessageTemplate
+        $this.MessageTitle = $MessageTitle
     }
 
     ChainsawTeams([string] $PathConfig){  
