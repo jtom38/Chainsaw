@@ -3,12 +3,16 @@
 function New-ChainsawConfig {
 
     param(
+        # Defines what configs to return
         [switch] $CSV,
         [switch] $Console,
         [switch] $Teams,
 
         # This will return the config hashtable but make sure it is empty
         [switch] $Empty
+
+        # Defines where to take the request and export it.
+        #[string] $JsonPathExport 
     )
 
     if( $CSV ){
@@ -69,6 +73,8 @@ function New-ChainsawConfig {
                 Levels = @(
                 )
                 MessageTemplate = ""
+                MessageTitle = ""
+                URI = ""
             }
         }
         else{
@@ -84,12 +90,11 @@ function New-ChainsawConfig {
                     "Debug"
                 )
                 MessageTemplate = "[#DateTime#] [#Level#] #Message#"
+                MessageTitle = "Teams Header"
+                URI = "URLForWebHook"
             }
         }
 
         return $Config
     }
 }
-
-$r = New-ChainsawConfig -CSV -Empty
-$r
