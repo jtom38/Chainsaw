@@ -30,28 +30,35 @@ class ChainsawTeams {
     hidden [bool] _isValidEndPoint(){
         if( [System.String]::IsNullOrEmpty($this.URI) -eq $false -and
             [System.String]::IsNullOrEmpty($this.MessageTitle) -eq $false -and
-            [System.String]::IsNullOrEmpty($this.MessageSubtitle) -eq $false ){
+            [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false -and 
+            [string]::IsNullOrEmpty($this.Levels) -eq $false){
                 return $true
         }
         return $false
     }
 
     [void] Write([string] $Level, [string] $Message){
-        $convert = [TemplateConverter]::new($this.MessageTemplate)
-        [string] $sum = $convert.ConvertToMessageTemplate($Level, $Message)
-        $this.SendMessage($sum)
+        if( $this._isValidEndPoint() -eq $true ){
+            $convert = [TemplateConverter]::new($this.MessageTemplate)
+            [string] $sum = $convert.ConvertToMessageTemplate($Level, $Message)
+            $this.SendMessage($sum)
+        }
     }
 
     [void] Write([string] $Level, [string] $Message, [int] $ErrorCode){
-        $convert = [TemplateConverter]::new($this.MessageTemplate)
-        [string] $sum = $convert.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
-        $this.SendMessage($sum)
+        if( $this._isValidEndPoint() -eq $true ){
+            $convert = [TemplateConverter]::new($this.MessageTemplate)
+            [string] $sum = $convert.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
+            $this.SendMessage($sum)
+        }
     }
 
     [void] Write([string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber){
-        $convert = [TemplateConverter]::new($this.MessageTemplate)
-        [string] $sum = $convert.ConvertToMessageTemplate($Level, $Message, $ErrorCode, $CallingFile, $LineNumber)
-        $this.SendMessage($sum)
+        if( $this._isValidEndPoint() -eq $true ){
+            $convert = [TemplateConverter]::new($this.MessageTemplate)
+            [string] $sum = $convert.ConvertToMessageTemplate($Level, $Message, $ErrorCode)
+            $this.SendMessage($sum)
+        }
     }
 
     hidden [void] SendMessage([string] $MessageSummary){

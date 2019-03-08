@@ -1,4 +1,17 @@
+<#
+.Synopsis
+Returns you a new [ChainsawTeams] variable
 
+.Example
+New-ChainsawTeams -JsonConfig ".\config.json"
+
+.Example
+$HashConfig = New-ChainsawConfig -Teams
+New-ChainsawTeams -HashConfig $HashConfig
+
+.Example
+New-ChainsawTeams -Levels 
+#>
 function New-ChainsawTeams {
     param (
         [string[]] $Levels,
@@ -16,10 +29,11 @@ function New-ChainsawTeams {
         . "$($PSScriptRoot)\Classes\TemplateConverter.ps1"
         . "$($PSScriptRoot)\Classes\ChainsawTeams.ps1"
 
-        if( [string]::IsNullOrEmpty($HashConfig.Values.URI) -eq $false -and
-            [string]::IsNullOrEmpty($HashConfig.Values.MessageTemplate) -eq $false -and
-            [string]::IsNullOrEmpty($HashConfig.Values.MessageTitle) -eq $false -and 
-            [string]::IsNullOrEmpty($HashConfig.Values.Levels) -eq $false) {
+        $HashConfig.Levels
+        if( [string]::IsNullOrEmpty($HashConfig.URI.Value) -eq $false -and
+            [string]::IsNullOrEmpty($HashConfig.MessageTemplate.Value) -eq $false -and
+            [string]::IsNullOrEmpty($HashConfig.MessageTitle.Value) -eq $false -and 
+            [string]::IsNullOrEmpty($HashConfig.Levels.Value) -eq $false) {
                 return [ChainsawTeams]::new()
         }
         elseif( [string]::IsNullOrEmpty($JsonConfig) -eq $false ){
