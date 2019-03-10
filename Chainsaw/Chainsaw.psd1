@@ -60,10 +60,7 @@
     
     # Script files (.ps1) that are run in the caller's environment prior to importing this module.
     <#
-    ScriptsToProcess = @(
-        ".\ImportLib.ps1",
-        ".\ImportClasses.ps1"
-    )
+    ScriptsToProcess = @()
     #>
     
     # Type files (.ps1xml) to be loaded when importing this module
@@ -102,19 +99,19 @@
         PSData = @{
     
             # Tags applied to this module. These help with module discovery in online galleries.
-            # Tags = @()
+            Tags = @('logging', 'console', 'csv', 'teams')
     
             # A URL to the license for this module.
             # LicenseUri = ''
     
             # A URL to the main website for this project.
-            # ProjectUri = ''
+            ProjectUri = 'https://github.com/luther38/Chainsaw'
     
             # A URL to an icon representing this module.
             # IconUri = ''
     
             # ReleaseNotes of this module
-            # ReleaseNotes = ''
+            ReleaseNotes = 'https://github.com/luther38/Chainsaw/releases'
     
         } # End of PSData hashtable
     

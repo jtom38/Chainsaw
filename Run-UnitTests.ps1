@@ -1,14 +1,10 @@
 
 # Import the new class file we built
-Import-Module .\Chainsaw\Chainsaw.psm1 -Force
-. .\Chainsaw\ChainsawClasses.ps1 -Force
+. .\Install.ps1
+Import-Module Chainsaw -Force
 
 # Import Pester to run our tests
 Import-Module Pester
 
-Write-Verbose -Message "Starting tests on Classes"
-. .\Tests\Csv.Test.ps1
-. .\Tests\Console.Test.ps1
-
-Write-Verbose -Message "Starting tests on Functions."
-. .\Tests\New-ChainsawConfig.Test.ps1
+#. .\Tests\Import-Module.Test.ps1
+. .\Tests\TargetConsole.Test.ps1

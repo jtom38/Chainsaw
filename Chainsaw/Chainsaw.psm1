@@ -15,8 +15,7 @@ foreach($import in @($Public + $Private)){
     }
 }
 
-[hashtable] $script:Chainsaw = @{
-    ph = "coo"
+[hashtable] $Chainsaw = @{
     CSV = @{
         LogPath = ""
         Levels = @()
@@ -33,6 +32,9 @@ foreach($import in @($Public + $Private)){
 
     }
 }
+
+$Script:Chainsaw = $Chainsaw
+$Global:Chainsaw = $Chainsaw
 
 Export-ModuleMember -Function $Public.Basename
 #Export-ModuleMember -Function $importClasses.Basename

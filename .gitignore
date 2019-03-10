@@ -335,3 +335,5 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 log.csv
+PesterConsole.json
+Export.json
