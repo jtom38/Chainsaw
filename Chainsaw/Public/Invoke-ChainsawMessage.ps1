@@ -1,6 +1,6 @@
 
 function Invoke-ChainsawMessage {
-    [cmdletbinding()]
+    #[cmdletbinding()]
     param (
         [switch] $Emergency,
         [switch] $Alert,
@@ -9,7 +9,7 @@ function Invoke-ChainsawMessage {
         [switch] $Warning,
         [switch] $Notice,
         [switch] $Info,
-        #[switch] $Debug,
+        [switch] $Debug,
 
         [string] $Message,
         [int] $ErrorCode,

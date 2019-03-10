@@ -42,7 +42,7 @@ Describe "Enpoint: Console Config"{
     }
 
     it "Should update Console.Levels and Console.MessageTemplate"{
-        Enable-ChainsawConsole -MessageTemplate 'Demo' `
+        Enable-ChainsawConsole -MessageTemplate '[#DateTime#] [#Level#] #Message#' `
             -Levels @('Info') `
             -ScopeGlobal
         [hashtable] $hash = $Global:Chainsaw.Console
@@ -102,11 +102,149 @@ Describe "Endpoint Console Export"{
         Remove-item $json
     }
 
-    it "Should store updated values from config" {
+    it "Should store updated values from config and export" {
         [string] $json = ".\PesterConsole.json"
         #Clean up if found
-        Remove-item -Path $json
-        Enable-ChainsawConsole -Levels @('Info') -MessageTemplate 'Demo' -ScopeGlobal
+        #Remove-item -Path $json
+        $Levels = @(
+            'Emergency',
+            'Alert',
+            'Critical',
+            'Error',
+            'Warning',
+            'Notice',
+            'Info',
+            'Debug'
+        )
+        Enable-ChainsawConsole -Levels $Levels `
+            -MessageTemplate '[#DateTime#] [#Level#] #Message#' `
+            -ScopeGlobal
+
+        [bool] $result = $false
+        try{
+            Export-ChainsawConfig -JsonPath $json -ScopeGlobal
+            $result = $true
+        }catch{
+
+        }
+        $result | Should -Be $true
+    }
+
+    it "should have stored config information"{
+        [string] $json = ".\PesterConsole.json"
+        $jsonData = Get-Content -Path $json | ConvertFrom-Json
+
+        [bool] $result = $false
+        if ([string]::IsNullOrEmpty($jsonData.Console.MessageTemplate) -eq $false -and 
+            [string]::IsNullOrEmpty($jsonData.Console.Levels) -eq $false){
+                $result = $true
+        }
+
+        $result | Should -Be $true
+    }
+}
+
+Describe "Endpoint Console Import Config"{
+    it "Should Import config"{
+        [string] $json = ".\PesterConsole.json"
+
+        $configFound = Test-Path -Path $json
+        if($configFound -eq $false){
+            throw "Unable to find $json"
+        }
+
+        Enable-ChainsawConsole -JsonConfig $json -ScopeGlobal
+
+        [bool] $result = $false
+        $hash = $Global:Chainsaw.Console
+        if ([string]::IsNullOrEmpty($hash.Levels) -eq $false -and 
+            [string]::IsNullOrEmpty($hash.MessageTemplate) -eq $false){
+                $result = $true
+        }
         
+        $result | Should -Be $true
+    }
+}
+
+Describe "Sending Messages"{
+    it "Should Accept -Emergency"{
+        [bool] $result = $false
+        try{
+            Invoke-ChainsawMessage -Emergency -Message "Pester" | Out-Null
+            $result = $true
+        }catch{
+
+        }
+        $result | Should -Be $true
+    }
+    it "Should take -Alert"{
+        [bool] $result = $false
+        try{
+            Invoke-ChainsawMessage -Alert -Message "Pester" | Out-Null
+            $result = $true
+        }catch{
+
+        }
+        $result | Should -Be $true
+    }
+    it "Should take -Critical"{
+        [bool] $result = $false
+        try{
+            Invoke-ChainsawMessage -Critical -Message "Pester" | Out-Null
+            $result = $true
+        }catch{
+
+        }
+        $result | Should -Be $true
+    }
+    it "Should take -Error"{
+        [bool] $result = $false
+        try{
+            Invoke-ChainsawMessage -Error -Message "Pester" | Out-Null
+            $result = $true
+        }catch{
+
+        }
+        $result | Should -Be $true
+    }
+    it "Should take -Warning"{
+        [bool] $result = $false
+        try{
+            Invoke-ChainsawMessage -Warning -Message "Pester" | Out-Null
+            $result = $true
+        }catch{
+
+        }
+        $result | Should -Be $true
+    }
+    it "Should take -Notice"{
+        [bool] $result = $false
+        try{
+            Invoke-ChainsawMessage -Notice -Message "Pester" | Out-Null
+            $result = $true
+        }catch{
+
+        }
+        $result | Should -Be $true
+    }
+    it "Should take -Info"{
+        [bool] $result = $false
+        try{
+            Invoke-ChainsawMessage -Info -Message "Pester" | Out-Null
+            $result = $true
+        }catch{
+
+        }
+        $result | Should -Be $true
+    }
+    it "Should take -Debug"{
+        [bool] $result = $false
+        try{
+            Invoke-ChainsawMessage -Debug -Message "Pester" | Out-Null
+            $result = $true
+        }catch{
+
+        }
+        $result | Should -Be $true
     }
 }
