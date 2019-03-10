@@ -9,6 +9,7 @@ function Format-ChainsawMessage {
         [string] $Level, 
         [string] $CallingFile, 
         [int] $LineNumber,
+        [string] $ErrorCode,
 
         [switch] $Header
     )
@@ -37,6 +38,10 @@ function Format-ChainsawMessage {
             if( $s.Contains("#CallingFile#") -eq $true){
                 $s = $s.Replace("#CallingFile#", 'CallingFile')
             }
+
+            if( $s.Contains("#ErrorCode#") -eq $true){
+                $s = $s.Replace("#ErrorCode#", 'ErrorCode')
+            }
     
             return $s
         }
@@ -60,6 +65,10 @@ function Format-ChainsawMessage {
     
             if( $s.Contains("#File#") -eq $true){
                 $s = $s.Replace("#File#", $File)
+            }
+
+            if( $s.Contains("#ErrorCode#") -eq $true){
+                $s = $s.Replace("#ErrorCode#", $ErrorCode)
             }
 
             return $s

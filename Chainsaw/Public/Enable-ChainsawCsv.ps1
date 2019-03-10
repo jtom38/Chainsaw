@@ -8,9 +8,21 @@ function Enable-ChainsawCsv {
         [string] $MessageTemplate
 
         #[string] $JsonConfig
+
+        [switch] $ExportJson,
+        [switch] $Force
+
     )
     
     Process{
+
+        if($ExportJson){
+            $json ConvertTo-Json -InputObject $Script:Chainsaw.Csv
+
+            if($Force){
+                
+            }
+        }
         if( [string]::IsNullOrEmpty($Levels) -eq $false) {
             $Script:Chainsaw.CSV.Levels = $Levels
         }
