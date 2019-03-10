@@ -63,7 +63,7 @@ Describe "Endpoint Console Export"{
     it "Should export blank Console Config"{
         [string] $json = ".\PesterConsole.json"
         #Clean up if found
-        Remove-item -Path $json
+        #Remove-item -Path $json
 
         Export-ChainsawConfig -JsonPath $json -ScopeGlobal
         $result = Test-Path -Path $json
@@ -162,20 +162,20 @@ Describe "Endpoint Console Import Config"{
                 $result = $true
         }
         
+        Remove-Item -Path $json
         $result | Should -Be $true
     }
 }
 
 Describe "Sending Messages"{
     it "Should Accept -Emergency"{
-        [bool] $result = $false
-        try{
-            Invoke-ChainsawMessage -Emergency -Message "Pester" | Out-Null
-            $result = $true
-        }catch{
+        Invoke-ChainsawMessage -Emergency `
+            -Message "Pester"
+            
+        Invoke-ChainsawMessage -Emergency `
+            -Message "Pester" `
+            -
 
-        }
-        $result | Should -Be $true
     }
     it "Should take -Alert"{
         [bool] $result = $false
