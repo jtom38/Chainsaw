@@ -15,7 +15,7 @@ class Chainsaw {
   
     Chainsaw() {
         # Default is false
-        $this.StorageAllMessagesSent = $false
+        #$this.StorageAllMessagesSent = $false
         $this.CsvConfig = [ChainsawCsv]::new()
         $this.ConsoleConfig = [ChainsawConsole]::new()
         $this.EventLogConfig = [ChainsawEventLog]::new()
@@ -23,20 +23,21 @@ class Chainsaw {
     }
 
     Chainsaw( [string] $PathConfig ){
-        $this.StorageAllMessagesSent = $false
+        #$this.StorageAllMessagesSent = $false
         $this.CsvConfig = [ChainsawCsv]::new()
         $this.ConsoleConfig = [ChainsawConsole]::new()
         $this.EventLogConfig = [ChainsawEventLog]::new()
     }
 
     # If you want to store all the messages sent to the logger so you can call them later update this to true
-    [bool] $StorageAllMessagesSent
+    #[bool] $StorageAllMessagesSent
 
     # Thought, Use this as a method to define what is enabled  
     # Region Enable functions
     [PSObject] $CsvConfig
     [PSObject] $ConsoleConfig
     [PSObject] $EventLogConfig
+    [psobject] $TeamsConfig
     # End Region
     
     # Region Logging Methods
@@ -179,6 +180,8 @@ class Chainsaw {
             }
         }
         catch{ }
+
+        
 
     }
 

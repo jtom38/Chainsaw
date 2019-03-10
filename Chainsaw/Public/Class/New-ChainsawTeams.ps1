@@ -30,11 +30,16 @@ function New-ChainsawTeams {
         . "$($PSScriptRoot)\Classes\ChainsawTeams.ps1"
 
         $HashConfig.Levels
-        if( [string]::IsNullOrEmpty($HashConfig.URI.Value) -eq $false -and
-            [string]::IsNullOrEmpty($HashConfig.MessageTemplate.Value) -eq $false -and
-            [string]::IsNullOrEmpty($HashConfig.MessageTitle.Value) -eq $false -and 
-            [string]::IsNullOrEmpty($HashConfig.Levels.Value) -eq $false) {
-                return [ChainsawTeams]::new()
+        if( [string]::IsNullOrEmpty($HashConfig.URI) -eq $false -and
+            [string]::IsNullOrEmpty($HashConfig.MessageTemplate) -eq $false -and
+            [string]::IsNullOrEmpty($HashConfig.MessageTitle) -eq $false -and 
+            [string]::IsNullOrEmpty($HashConfig.Levels) -eq $false) {
+                return [ChainsawTeams]::new(
+                    $HashConfig.URI,
+                    $HashConfig.MessageTemplate,
+                    $HashConfig.MessageTitle,
+                    $HashConfig.Levels
+                )
         }
         elseif( [string]::IsNullOrEmpty($JsonConfig) -eq $false ){
             return [ChainsawTeams]::new($JsonConfig)
@@ -43,7 +48,12 @@ function New-ChainsawTeams {
             [string]::IsNullOrEmpty($URI) -eq $false -and
             [string]::IsNullOrEmpty($MessageTemplate) -eq $false -and
             [string]::IsNullOrEmpty($MessageTitle) -eq $false ){
-                return [ChainsawTeams]::new()
+                return [ChainsawTeams]::new(
+                    $URI,
+                    $MessageTemplate,
+                    $MessageTitle,
+                    $Levels
+                )
         }
         else{
             return [ChainsawTeams]::new()

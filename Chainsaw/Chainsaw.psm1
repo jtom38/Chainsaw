@@ -6,12 +6,6 @@ $Public =  @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction Silent
 Write-Debug -Message "Looking for all files in Private"
 $Private = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue)
 
-# Import-ChainsawClasses exists at PSScriptRoot because of path issues
-
-#$class = "$PSScriptRoot\Import-ChainsawClasses.ps1"
-#$importClasses = Get-ChildItem -Path $class -ErrorAction SilentlyContinue
-#. $class
-
 foreach($import in @($Public + $Private)){
 
     try{
@@ -21,5 +15,24 @@ foreach($import in @($Public + $Private)){
     }
 }
 
+[hashtable] $script:Chainsaw = @{
+    ph = "coo"
+    CSV = @{
+        LogPath = ""
+        Levels = @()
+        MessageTemplate = ""
+    }
+    Console = @{
+        Levels = @()
+        MessageTemplate = ""
+    }
+    EventViewer = @{
+
+    }
+    Teams = @{
+
+    }
+}
+
 Export-ModuleMember -Function $Public.Basename
-Export-ModuleMember -Function $importClasses.Basename
+#Export-ModuleMember -Function $importClasses.Basename

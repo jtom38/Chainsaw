@@ -1,4 +1,5 @@
-# Generated 03/03/2019 08:38:53
+# Generated 03/08/2019 18:06:09
+# Generated 03/08/2019 18:08:04
 
 class TemplateConverter {
     
@@ -179,7 +180,7 @@ class ChainsawConsole {
     [string[]] $Levels 
     # Region End
 
-    [bool] _isEndPointValid() {
+    hidden [bool] _isEndPointValid() {
 
         if ( [System.String]::IsNullOrEmpty($this.MessageTemplate) -eq $false) {
             return $true
@@ -256,10 +257,13 @@ class ChainsawConsole {
 
         switch($Level.ToLower()) 
         {
+            emergency { [System.Console]::ForegroundColor = [System.ConsoleColor]::DarkRed; break}
+            alert {[System.Console]::ForegroundColor = [ConsoleColor]::DarkYellow; Break }
+            critical {[System.Console]::ForegroundColor = [ConsoleColor]::DarkMagenta ; Break}
             error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
-            information { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
-            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
             warning { [System.Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
+            notice { [System.Console]::ForegroundColor = [ConsoleColor]::Blue; Break}
+            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
             debug { [System.Console]::ForegroundColor = [System.ConsoleColor]::Magenta; Break; }
             default { [System.Console]::ForegroundColor = [ConsoleColor]::White; Break }
         }
@@ -836,7 +840,7 @@ class Chainsaw {
   
     Chainsaw() {
         # Default is false
-        $this.StorageAllMessagesSent = $false
+        #$this.StorageAllMessagesSent = $false
         $this.CsvConfig = [ChainsawCsv]::new()
         $this.ConsoleConfig = [ChainsawConsole]::new()
         $this.EventLogConfig = [ChainsawEventLog]::new()
@@ -844,20 +848,21 @@ class Chainsaw {
     }
 
     Chainsaw( [string] $PathConfig ){
-        $this.StorageAllMessagesSent = $false
+        #$this.StorageAllMessagesSent = $false
         $this.CsvConfig = [ChainsawCsv]::new()
         $this.ConsoleConfig = [ChainsawConsole]::new()
         $this.EventLogConfig = [ChainsawEventLog]::new()
     }
 
     # If you want to store all the messages sent to the logger so you can call them later update this to true
-    [bool] $StorageAllMessagesSent
+    #[bool] $StorageAllMessagesSent
 
     # Thought, Use this as a method to define what is enabled  
     # Region Enable functions
     [PSObject] $CsvConfig
     [PSObject] $ConsoleConfig
     [PSObject] $EventLogConfig
+    [psobject] $TeamsConfig
     # End Region
     
     # Region Logging Methods
@@ -966,6 +971,18 @@ class Chainsaw {
         $this.Write("Debug", $Message, $ErrorCode, $CallingFile, $LineNumber)
     }
 
+    [void] Custom( [string] $Level, [string] $Message ) {
+        $this.Write($Level, $Message)
+    }
+
+    [void] Custom( [string] $Level, [string] $Message, [int] $ErrorCode ) {
+        $this.Write($Level, $Message, $ErrorCode)
+    }
+
+    [void] Custom( [string] $Level, [string] $Message, [int] $ErrorCode, [string] $CallingFile, [int] $LineNumber) {
+        $this.Write($Level, $Message, $ErrorCode, $CallingFile, $LineNumber)
+    }
+
     hidden [void] Write( [string] $Level, [string] $Message ) {
 
         try{
@@ -988,6 +1005,8 @@ class Chainsaw {
             }
         }
         catch{ }
+
+        
 
     }
 

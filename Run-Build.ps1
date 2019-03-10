@@ -6,8 +6,8 @@ This way to import the lib you just call one file.
 This is my building file.  Use this if you want to build a fresh class module if you made changes to the source.
 #>
 
-$prod = "$psscriptroot\Chainsaw\Public\ChainsawClasses.ps1"
-$dev = "$psscriptroot\Chainsaw\Public\ChainsawClassesDev.ps1"
+$prod = "$($PSScriptRoot)\Chainsaw\Public\ChainsawClasses.ps1"
+$dev = "$($PSScriptRoot)\Chainsaw\Public\ChainsawClassesDev.ps1"
 
 Write-Host "Starting build of Dev Classes."
 Write-Host "Building class file based off of .\Chainsaw\Classes"
