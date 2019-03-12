@@ -117,7 +117,7 @@ Describe "Endpoint Console Export"{
             'Debug'
         )
         Enable-ChainsawConsole -Levels $Levels `
-            -MessageTemplate '[#DateTime#] [#Level#] #Message#' `
+            -MessageTemplate '[#DateTime#] [#Level#] [#CallingFile#] [#ErrorCode#] [#LineNumber#] #Message#' `
             -ScopeGlobal
 
         [bool] $result = $false
@@ -174,77 +174,151 @@ Describe "Sending Messages"{
             
         Invoke-ChainsawMessage -Emergency `
             -Message "Pester" `
-            -
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Emergency `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Emergency `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
 
     }
     it "Should take -Alert"{
-        [bool] $result = $false
-        try{
-            Invoke-ChainsawMessage -Alert -Message "Pester" | Out-Null
-            $result = $true
-        }catch{
+        Invoke-ChainsawMessage -Alert `
+            -Message "Pester"
 
-        }
-        $result | Should -Be $true
+        Invoke-ChainsawMessage -Alert `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Alert `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Alert `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
     }
     it "Should take -Critical"{
-        [bool] $result = $false
-        try{
-            Invoke-ChainsawMessage -Critical -Message "Pester" | Out-Null
-            $result = $true
-        }catch{
+        Invoke-ChainsawMessage -Critical `
+            -Message "Pester"
 
-        }
-        $result | Should -Be $true
+        Invoke-ChainsawMessage -Critical `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Critical `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Critical `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
     }
     it "Should take -Error"{
-        [bool] $result = $false
-        try{
-            Invoke-ChainsawMessage -Error -Message "Pester" | Out-Null
-            $result = $true
-        }catch{
+        Invoke-ChainsawMessage -Error `
+            -Message "Pester"
 
-        }
-        $result | Should -Be $true
+        Invoke-ChainsawMessage -Error `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Error `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Error `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
     }
     it "Should take -Warning"{
-        [bool] $result = $false
-        try{
-            Invoke-ChainsawMessage -Warning -Message "Pester" | Out-Null
-            $result = $true
-        }catch{
+        Invoke-ChainsawMessage -Warning `
+            -Message "Pester"
 
-        }
-        $result | Should -Be $true
+        Invoke-ChainsawMessage -Warning `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Warning `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Warning `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
     }
     it "Should take -Notice"{
-        [bool] $result = $false
-        try{
-            Invoke-ChainsawMessage -Notice -Message "Pester" | Out-Null
-            $result = $true
-        }catch{
+        Invoke-ChainsawMessage -Notice `
+            -Message "Pester"
 
-        }
-        $result | Should -Be $true
+        Invoke-ChainsawMessage -Notice `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Notice `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Notice `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
     }
     it "Should take -Info"{
-        [bool] $result = $false
-        try{
-            Invoke-ChainsawMessage -Info -Message "Pester" | Out-Null
-            $result = $true
-        }catch{
+        Invoke-ChainsawMessage -Info `
+            -Message "Pester"
 
-        }
-        $result | Should -Be $true
+        Invoke-ChainsawMessage -Info `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Info `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Info `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
     }
     it "Should take -Debug"{
-        [bool] $result = $false
-        try{
-            Invoke-ChainsawMessage -Debug -Message "Pester" | Out-Null
-            $result = $true
-        }catch{
+        Invoke-ChainsawMessage -Debug `
+            -Message "Pester"
 
-        }
-        $result | Should -Be $true
+        Invoke-ChainsawMessage -Debug `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Debug `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Debug `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
     }
 }

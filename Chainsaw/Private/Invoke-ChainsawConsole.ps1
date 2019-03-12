@@ -16,7 +16,8 @@ function Invoke-ChainsawConsole {
             -Message $Message `
             -Level $Level `
             -CallingFile $CallingFile `
-            -LineNumber $levelTest
+            -LineNumber $LineNumber `
+            -ErrorCode $ErrorCode
 
         switch($Level.ToLower()) 
         {
