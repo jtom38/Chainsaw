@@ -1,5 +1,5 @@
 
-Describe "Enpoint: Console Config"{
+Describe "Enpoint: Console [Config]"{
 
     It "Should have blank config"{
         [hashtable] $hash = $Global:Chainsaw.Console
@@ -59,7 +59,7 @@ Describe "Enpoint: Console Config"{
     }
 }
 
-Describe "Endpoint Console Export"{
+Describe "Endpoint: Console [Export Config]"{
     it "Should export blank Console Config"{
         [string] $json = ".\PesterConsole.json"
         #Clean up if found
@@ -144,7 +144,7 @@ Describe "Endpoint Console Export"{
     }
 }
 
-Describe "Endpoint Console Import Config"{
+Describe "Endpoint: Console [Import Config]"{
     it "Should Import config"{
         [string] $json = ".\PesterConsole.json"
 

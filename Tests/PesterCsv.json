@@ -1,0 +1,22 @@
+{
+  "Console": {
+    "Levels": [],
+    "MessageTemplate": ""
+  },
+  "CSV": {
+    "MessageTemplate": "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#",
+    "Levels": [
+      "Emergency",
+      "Alert",
+      "Critical",
+      "Error",
+      "Warning",
+      "Notice",
+      "Info",
+      "Debug"
+    ],
+    "LogPath": ".\\Pester.csv"
+  },
+  "EventViewer": {},
+  "Teams": {}
+}

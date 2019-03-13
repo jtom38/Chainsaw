@@ -7,25 +7,48 @@ function Enable-ChainsawCsv {
         [string[]] $Levels,
         [string] $MessageTemplate,
 
-        [switch] $ScopeGlobal
+        [switch] $ScopeGlobal,
 
-        #[string] $JsonConfig
+        [string] $JsonConfig
 
     )
     
     Process{
 
+        if ($ScopeGlobal -and [string]::IsNullOrEmpty($JsonConfig))
+
         if ($ScopeGlobal){
-            if([string]::IsNullOrEmpty($Levels) -eq $false) {
-                $Global:Chainsaw.CSV.Levels = $Levels
+
+            if([string]::IsNullOrEmpty($JsonConfig) -eq $false){
+                [bool] $found = Test-Path -Path $JsonConfig
+                if ( $found -eq $true){
+                    $json = Get-Content -Path $JsonConfig | ConvertFrom-Json
+                    if([string]::IsNullOrEmpty($json.CSV.Levels) -eq $false) {
+                        $Global:Chainsaw.CSV.Levels = $json.CSV.Levels
+                    }
+                    if([string]::IsNullOrEmpty($json.CSV.MessageTemplate) -eq $false) {
+                        $Global:Chainsaw.CSV.MessageTemplate = $json.CSV.MessageTemplate
+                    }
+                    if( [string]::IsNullOrEmpty($json.CSV.LogPath) -eq $false){
+                        $Global:Chainsaw.CSV.LogPath = $json.CSV.LogPath
+                    }
+                }
+            } else {
+                if([string]::IsNullOrEmpty($Levels) -eq $false) {
+                    $Global:Chainsaw.CSV.Levels = $Levels
+                }
+                if([string]::IsNullOrEmpty($MessageTemplate) -eq $false) {
+                    $Global:Chainsaw.CSV.MessageTemplate = $MessageTemplate
+                }
+                if( [string]::IsNullOrEmpty($LogPath) -eq $false){
+                    $Global:Chainsaw.CSV.LogPath = $LogPath
+                }
             }
-            if([string]::IsNullOrEmpty($MessageTemplate) -eq $false) {
-                $Global:Chainsaw.CSV.MessageTemplate = $MessageTemplate
-            }
-            if( [string]::IsNullOrEmpty($LogPath) -eq $false){
-                $Global:Chainsaw.CSV.LogPath = $LogPath
-            }
+
         }else{
+
+
+
             if([string]::IsNullOrEmpty($Levels) -eq $false) {
                 $Script:Chainsaw.CSV.Levels = $Levels
             }
