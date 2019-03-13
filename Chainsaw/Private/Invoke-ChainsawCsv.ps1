@@ -15,16 +15,18 @@ function Invoke-ChainsawCsv {
         $hash = $Script:Chainsaw.Csv
 
         # Check to see if we need to generate a new file
-        $info = [System.IO.FileInfo]::new($hash.LogPath)
-        if( $info.Exists -eq $false){
+        #$info = [System.IO.FileInfo]::new($hash.LogPath)
+        [bool] $res = Test-Path -Path $hash.LogPath
+        if( $res -eq $false){
             $headerMsg = Format-ChainsawMessage `
                 -Header `
                 -Template $hash.MessageTemplate
 
+            $info = [System.IO.FileInfo]::new($hash.LogPath)
             New-Item -Path $info.Directory.FullName `
                 -ItemType "file" `
                 -Name $info.Name `
-                -Value "$($headerMsg)`r`n" | Out-Null
+                -Value "$($headerMsg)`r" | Out-Null
         }
 
         # Get our message from the Template
@@ -36,7 +38,7 @@ function Invoke-ChainsawCsv {
             -CallingFile $CallingFile `
             -LineNumber $LineNumber
 
-        Add-Content -Path $info.FullName `
-            -Value "$($msg)`r`n"
+        Add-Content -Path $hash.LogPath `
+            -Value "$($msg)`r"
     }
 }

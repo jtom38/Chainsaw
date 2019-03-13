@@ -214,5 +214,188 @@ Describe "Endpoint: CSV Import Config"{
         }
 
         Enable-ChainsawCsv -JsonConfig $json -ScopeGlobal
+
+        [hashtable] $h = $Global:Chainsaw.CSV
+
+        #Expecting three filled values
+        [bool] $r = $false
+
+        if( [string]::IsNullOrEmpty($h.LogPath) -eq $false -and
+            [string]::IsNullOrEmpty($h.MessageTemplate) -eq $false -and 
+            [string]::IsNullOrEmpty($h.Levels) -eq $false){
+            $r = $true
+        }
+
+        Remove-item -Path $json
+
+        $r | Should -Be $true
+
+    }
+}
+
+Describe "Sending Messages"{
+    it "Should take -Emergency"{
+        Invoke-ChainsawMessage -Emergency `
+            -Message "Pester"
+            
+        Invoke-ChainsawMessage -Emergency `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Emergency `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Emergency `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
+    }
+    it "Should take -Alert"{
+        Invoke-ChainsawMessage -Alert `
+            -Message "Pester"
+
+        Invoke-ChainsawMessage -Alert `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Alert `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Alert `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
+    }
+    it "Should take -Critical"{
+        Invoke-ChainsawMessage -Critical `
+            -Message "Pester"
+
+        Invoke-ChainsawMessage -Critical `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Critical `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Critical `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
+    }
+    it "Should take -Error"{
+        Invoke-ChainsawMessage -Error `
+            -Message "Pester"
+
+        Invoke-ChainsawMessage -Error `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Error `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Error `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
+    }
+    it "Should take -Warning"{
+        Invoke-ChainsawMessage -Warning `
+            -Message "Pester"
+
+        Invoke-ChainsawMessage -Warning `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Warning `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Warning `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
+    }
+    it "Should take -Notice"{
+        Invoke-ChainsawMessage -Notice `
+            -Message "Pester"
+
+        Invoke-ChainsawMessage -Notice `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Notice `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Notice `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
+    }
+    it "Should take -Info"{
+        Invoke-ChainsawMessage -Info `
+            -Message "Pester"
+
+        Invoke-ChainsawMessage -Info `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Info `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Info `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
+    }
+    it "Should take -Debug"{
+        Invoke-ChainsawMessage -Debug `
+            -Message "Pester"
+
+        Invoke-ChainsawMessage -Debug `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName)
+        
+        Invoke-ChainsawMessage -Debug `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber)
+        
+        Invoke-ChainsawMessage -Debug `
+            -Message "Pester" `
+            -CallingFile (Get-CurrentFileName) `
+            -LineNumber (Get-CurrentLineNumber) `
+            -ErrorCode 100
+
+            
+    }
+}
+
+Describe "Run CSV Cleanup"{
+    it "Should remove global variables"{
+        $Global:Chainsaw.CSV.Levels = @()
+        $Global:Chainsaw.CSV.MessageTemplate = ''
+        $Global:Chainsaw.CSV.LogPath = ''
+        Remove-item -Path 'Pester.csv'
+        $true | Should -Be $true
     }
 }

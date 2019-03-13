@@ -337,3 +337,4 @@ ASALocalRun/
 log.csv
 PesterConsole.json
 Export.json
+Tests/PesterCsv.json

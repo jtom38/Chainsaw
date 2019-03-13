@@ -322,3 +322,11 @@ Describe "Sending Messages"{
             -ErrorCode 100
     }
 }
+
+Describe "Run Console Cleanup"{
+    it "Should remove global variables"{
+        $Global:Chainsaw.Console.Levels = @()
+        $Global:Chainsaw.Console.MessageTemplate = ''
+        $true | Should -Be $true
+    }
+}
