@@ -12,7 +12,7 @@ function Invoke-ChainsawCsv {
     
     Process{
         # Get the config for easy access
-        $hash = $Script:Chainsaw.Csv
+        $hash = Get-ChainsawConfig -CSV
 
         # Check to see if we need to generate a new file
         #$info = [System.IO.FileInfo]::new($hash.LogPath)

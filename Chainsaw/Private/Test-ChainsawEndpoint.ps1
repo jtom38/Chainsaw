@@ -15,7 +15,8 @@ function Test-ChainsawEndpoint {
     Process {
         # Check the required variables
         if($Console){
-            $t = $Script:Chainsaw.Console
+
+            $t = Get-ChainsawConfig -Console
             if( [string]::IsNullOrEmpty($t.MessageTemplate) -eq $false){
                 return $true
             }
@@ -23,7 +24,7 @@ function Test-ChainsawEndpoint {
         }
 
         if($CSV){
-            $t =$Script:Chainsaw.CSV
+            $t = Get-ChainsawConfig -CSV
             if( [string]::IsNullOrEmpty($t.LogPath) -eq $false -and
                 [string]::IsNullOrEmpty($t.MessageTemplate) -eq $false ){
                     return $true

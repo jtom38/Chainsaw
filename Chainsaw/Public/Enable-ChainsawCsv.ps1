@@ -1,5 +1,28 @@
 
+<#
+.Synopsis
+This lets you enable Chainsaw to send messages to CSV endpoints.
 
+.Description
+In order to send to CSV you need to make sure you have the following paramerters filled.
+[string]    $LogPath
+[string[]]  $Levels
+[string]    $MessageTemplate
+
+.Parameter LogPath
+[string] LogPath defines the location where the CSV entries will be written to.
+
+.Parameter Levels
+[string[]] Levels defines what levels of messages it will accept and record messages for.
+
+.Parameter MessageTemplate
+[string] MessageTemplate defines the template that we will use and replace values for with variables sent to the logger.
+See Example for information
+
+.Parameter ScopeGlobal
+[switch] ScopeGlobal defines where to look for the Chainsaw Configuration
+
+#>
 function Enable-ChainsawCsv {
     [cmdletbinding()]
     param (

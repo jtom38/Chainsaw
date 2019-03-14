@@ -324,9 +324,30 @@ Describe "Sending Messages"{
 }
 
 Describe "Run Console Cleanup"{
-    it "Should remove global variables"{
-        $Global:Chainsaw.Console.Levels = @()
-        $Global:Chainsaw.Console.MessageTemplate = ''
-        $true | Should -Be $true
+
+    it "Revokes Endpoint"{
+        Revoke-ChainsawEndpoint -Console -Force
+    }
+
+    it "Global should be null"{
+        $g = $Global:Chainsaw.CSV
+        $result = $false
+        if( [string]::IsNullOrEmpty($g.Levels) -eq $true -and 
+            [string]::IsNullOrEmpty($g.MessageTemplate) -eq $true -and
+            [string]::IsNullOrEmpty($g.LogPath) -eq $true){
+                $result = $true
+        }
+        $result | Should -Be $true
+    }
+
+    it "Script should be null"{
+        $g = $Script:Chainsaw.CSV
+        $result = $false
+        if( [string]::IsNullOrEmpty($g.Levels) -eq $true -and 
+            [string]::IsNullOrEmpty($g.MessageTemplate) -eq $true -and
+            [string]::IsNullOrEmpty($g.LogPath) -eq $true){
+                $result = $true
+        }
+        $result | Should -Be $true
     }
 }

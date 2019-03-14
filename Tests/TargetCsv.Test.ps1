@@ -391,10 +391,34 @@ Describe "Sending Messages"{
 }
 
 Describe "Run CSV Cleanup"{
-    it "Should remove global variables"{
-        $Global:Chainsaw.CSV.Levels = @()
-        $Global:Chainsaw.CSV.MessageTemplate = ''
-        $Global:Chainsaw.CSV.LogPath = ''
+
+    it "Revokes Endpoint"{
+        Revoke-ChainsawEndpoint -CSV -Force
+    }
+
+    it "Global should be null"{
+        $g = $Global:Chainsaw.CSV
+        $result = $false
+        if( [string]::IsNullOrEmpty($g.Levels) -eq $true -and 
+            [string]::IsNullOrEmpty($g.MessageTemplate) -eq $true -and
+            [string]::IsNullOrEmpty($g.LogPath) -eq $true){
+                $result = $true
+        }
+        $result | Should -Be $true
+    }
+
+    it "Script should be null"{
+        $g = $Script:Chainsaw.CSV
+        $result = $false
+        if( [string]::IsNullOrEmpty($g.Levels) -eq $true -and 
+            [string]::IsNullOrEmpty($g.MessageTemplate) -eq $true -and
+            [string]::IsNullOrEmpty($g.LogPath) -eq $true){
+                $result = $true
+        }
+        $result | Should -Be $true
+    }
+
+    it "Should remove pester.csv file"{
         Remove-item -Path 'Pester.csv'
         $true | Should -Be $true
     }

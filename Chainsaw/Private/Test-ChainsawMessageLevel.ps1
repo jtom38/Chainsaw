@@ -13,16 +13,18 @@ function Test-ChainsawMessageLevel {
     
     Process{
         if ($Console){
-            $EndpointLevels = $Script:Chainsaw.Console.Levels
+            [hashtable] $h = Get-ChainsawConfig -Console
+            $EndpointLevels = $h.Levels
         }
         elseif ($CSV){
-            $EndpointLevels = $Script:Chainsaw.CSV.Levels
+            [hashtable] $h = Get-ChainsawConfig -CSV
+            $EndpointLevels = $h.Levels
         }
         elseif($EventLog){
-            $EndpointLevels = $Script:Chainsaw.EventLog.Levels
+            #$EndpointLevels = $Script:Chainsaw.EventLog.Levels
         }
         elseif($Teams){
-            $EndpointLevels = $Script:Chainsaw.Teams.Levels
+            #$EndpointLevels = $Script:Chainsaw.Teams.Levels
         }
         
         [bool] $LevelsCheck = $false

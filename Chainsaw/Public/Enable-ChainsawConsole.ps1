@@ -6,21 +6,17 @@ function Enable-ChainsawConsole {
         [string[]] $Levels,
         [string] $MessageTemplate,
 
-        [string] $JsonConfig,
-
         [switch] $ScopeGlobal,
 
-        # used to clean out existing configs
-        [switch] $Force
+        [string] $JsonConfig
     )
 
     Process{
 
-        # Check if we are going to store in the Global Scope
-        if($ScopeGlobal){
-
-            # Check if we have a config file to parse
-            if ( [string]::IsNullOrEmpty($JsonConfig) -eq $false){
+        # -ScopeGlobal -JsonConfig 'Path'
+        if($ScopeGlobal -and [string]::IsNullOrEmpty($JsonConfig) -eq $false){
+            [bool] $found = Test-Path -Path $JsonConfig
+            if($found -eq $true){
                 $json = Get-Content -Path $JsonConfig | ConvertFrom-Json
 
                 if ( [string]::IsNullOrEmpty($json.Console.Levels) -eq $false){
@@ -30,24 +26,15 @@ function Enable-ChainsawConsole {
                 if ( [string]::IsNullOrEmpty($json.Console.MessageTemplate)-eq $false){
                     $Global:Chainsaw.Console.MessageTemplate = $json.Console.MessageTemplate
                 }
-            }
-
-            # No Json was found, checking for manual load
-            else{
-                if( [string]::IsNullOrEmpty($Levels) -eq $false) {
-                    $Global:Chainsaw.Console.Levels = $Levels
-                }
-                if( [string]::IsNullOrEmpty($MessageTemplate) -eq $false){
-                    $Global:Chainsaw.Console.MessageTemplate = $MessageTemplate
-                }
-            }
+            } 
         }
-        else {
-            # Working in Script Scope
-            # Checking for JsonConfig
-            if ( [string]::IsNullOrEmpty($JsonConfig)-eq $false ){
+
+        # -JsonConfig 'Path'
+        elseif([string]::IsNullOrEmpty($JsonConfig) -eq $false){
+            [bool] $found = Test-Path -Path $JsonConfig
+            if($found -eq $true){
                 $json = Get-Content -Path $JsonConfig | ConvertFrom-Json
-                
+
                 if ( [string]::IsNullOrEmpty($json.Console.Levels) -eq $false){
                     $Script:Chainsaw.Console.Levels = $json.Console.Levels
                 }
@@ -55,17 +42,27 @@ function Enable-ChainsawConsole {
                 if ( [string]::IsNullOrEmpty($json.Console.MessageTemplate)-eq $false){
                     $Script:Chainsaw.Console.MessageTemplate = $json.Console.MessageTemplate
                 }
+            } 
+        }
+
+        # -ScopeGlobal
+        elseif($ScopeGlobal){
+            if( [string]::IsNullOrEmpty($Levels) -eq $false) {
+                $Global:Chainsaw.Console.Levels = $Levels
             }
             
-            # No Json was found, checking for manual load
-            else {
-                if( [string]::IsNullOrEmpty($Levels) -eq $false) {
-                    $Script:Chainsaw.Console.Levels = $Levels
-                }
-                
-                if( [string]::IsNullOrEmpty($MessageTemplate) -eq $false){
-                    $Script:Chainsaw.Console.MessageTemplate = $MessageTemplate
-                }
+            if( [string]::IsNullOrEmpty($MessageTemplate) -eq $false){
+                $Global:Chainsaw.Console.MessageTemplate = $MessageTemplate
+            }
+        }
+
+        else{
+            if( [string]::IsNullOrEmpty($Levels) -eq $false) {
+                $Script:Chainsaw.Console.Levels = $Levels
+            }
+            
+            if( [string]::IsNullOrEmpty($MessageTemplate) -eq $false){
+                $Script:Chainsaw.Console.MessageTemplate = $MessageTemplate
             }
         }
     }

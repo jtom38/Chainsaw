@@ -31,8 +31,8 @@ function Invoke-ChainsawMessage {
         # Test all endpoints one by one to see who gets the message
         #Console
         
-        $levelTest = Test-ChainsawMessageLevel -Console -Level $Level
-        $endpointTest = Test-ChainsawEndpoint -Console
+        [bool] $levelTest = Test-ChainsawMessageLevel -Console -Level $Level
+        [bool] $endpointTest = Test-ChainsawEndpoint -Console
 
         if( $levelTest -eq $true -and $endpointTest -eq $true ){
             Invoke-ChainsawConsole -Level $Level `
@@ -44,8 +44,8 @@ function Invoke-ChainsawMessage {
         
 
         #CSV
-        $levelTest = Test-ChainsawMessageLevel -CSV -Level $Level
-        $endpointTest = Test-ChainsawEndpoint -CSV
+        [bool] $levelTest = Test-ChainsawMessageLevel -CSV -Level $Level
+        [bool] $endpointTest = Test-ChainsawEndpoint -CSV
 
         if( $levelTest -eq $true -and $endpointTest -eq $true ){
             Invoke-ChainsawCsv -Level $Level `

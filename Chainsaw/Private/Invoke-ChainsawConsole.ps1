@@ -11,7 +11,7 @@ function Invoke-ChainsawConsole {
     )
  
     Process {
-        $hash = $Script:Chainsaw.Console
+        $hash = Get-ChainsawConfig -Console
         $Msg = Format-ChainsawMessage -Template $hash.MessageTemplate `
             -Message $Message `
             -Level $Level `
