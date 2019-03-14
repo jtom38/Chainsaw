@@ -54,5 +54,18 @@ function Invoke-ChainsawMessage {
                 -CallingFile $CallingFile `
                 -LineNumber $LineNumber
         }
+        
+
+        #Teams
+        [bool] $levelTest = Test-ChainsawMessageLevel -Teams -Level $Level
+        [bool] $endpointTest = Test-ChainsawEndpoint -Teams
+
+        if( $levelTest -eq $true -and $endpointTest -eq $true ){
+            Invoke-ChainsawTeams -Level $Level `
+                -Message $Message `
+                -ErrorCode $ErrorCode `
+                -CallingFile $CallingFile `
+                -LineNumber $LineNumber
+        }
     }
 }

@@ -10,7 +10,8 @@ This will look at both Script and Global scopes to find the stored configuration
 function Get-ChainsawConfig {
     param (
         [switch] $Console,
-        [switch] $CSV
+        [switch] $CSV,
+        [switch] $Teams
     )
 
     if($Console){
@@ -52,6 +53,32 @@ function Get-ChainsawConfig {
             $e.Levels = @()
             $e.MessageTemplate = ''
             $e.LogPath = ''
+            return $e
+        }
+    }
+
+    if($Teams){
+        [hashtable] $s = $Script:Chainsaw.Teams
+        [hashtable] $g = $Global:Chainsaw.Teams
+
+        # Checking Script Scope for values
+        if( [string]::IsNullOrEmpty($s.Levels) -eq $false -and
+            [string]::IsNullOrEmpty($s.MessageTemplate)-eq $false -and
+            [string]::IsNullOrEmpty($s.URI) -eq $false -and
+            [string]::IsNullOrEmpty($s.MessageTitle) -eq $false){
+                return $s
+        }
+        elseif( [string]::IsNullOrEmpty($g.Levels) -eq $false -and
+            [string]::IsNullOrEmpty($g.MessageTemplate)-eq $false -and
+            [string]::IsNullOrEmpty($g.URI) -eq $false -and
+            [string]::IsNullOrEmpty($g.MessageTitle) -eq $false){
+            return $g
+        }else{
+            [hashtable] $e = $Global:Chainsaw.Teams
+            $e.Levels = @()
+            $e.MessageTemplate = ''
+            $e.URI = ''
+            $e.MessageTitle = ''
             return $e
         }
     }

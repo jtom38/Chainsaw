@@ -24,7 +24,8 @@ function Test-ChainsawMessageLevel {
             #$EndpointLevels = $Script:Chainsaw.EventLog.Levels
         }
         elseif($Teams){
-            #$EndpointLevels = $Script:Chainsaw.Teams.Levels
+            [hashtable] $h = Get-ChainsawConfig -Teams
+            $EndpointLevels = $h.Levels
         }
         
         [bool] $LevelsCheck = $false

@@ -29,7 +29,10 @@ foreach($import in @($Public + $Private)){
 
     }
     Teams = @{
-
+        URI = ""
+        Levels = @()
+        MessageTemplate = ""
+        MessageTitle = ""
     }
 }
 
