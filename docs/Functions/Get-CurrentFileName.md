@@ -1,7 +1,7 @@
 ---
 external help file: Chainsaw-help.xml
 Module Name: Chainsaw
-online version: https://github.com/EvotecIT/PSTeams
+online version:
 schema: 2.0.0
 ---
 
@@ -22,12 +22,16 @@ Get-CurrentFileName
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Invoke-ChainsawMessage `
 ```
 
-{{ Add example description here }}
+-Debug \`
+    -Message "What file is this?" \`
+    -CallingFile $(Get-CurrentFileName)
+
+Get-CurrentFileName
 
 ## PARAMETERS
 

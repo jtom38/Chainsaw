@@ -1,7 +1,7 @@
 ---
 external help file: Chainsaw-help.xml
 Module Name: Chainsaw
-online version: https://github.com/EvotecIT/PSTeams
+online version:
 schema: 2.0.0
 ---
 
@@ -29,7 +29,7 @@ Export-ChainsawConfig -JsonPath '.\chainsaw.json'
 ## PARAMETERS
 
 ### -JsonPath
-Defines where we will export to.
+\[string\] Defines where we will export to.
 
 ```yaml
 Type: String
@@ -44,7 +44,7 @@ Accept wildcard characters: False
 ```
 
 ### -Force
-Defines if we are going to overwrite the existing file.
+\[switch\] Defines if we are going to overwrite the existing file.
 
 ```yaml
 Type: SwitchParameter

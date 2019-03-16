@@ -1,14 +1,14 @@
 ---
 external help file: Chainsaw-help.xml
 Module Name: Chainsaw
-online version: https://github.com/EvotecIT/PSTeams
+online version:
 schema: 2.0.0
 ---
 
 # Invoke-ChainsawMessage
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+This will pass the message to all defined endpoints.
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Invoke-ChainsawMessage [-Emergency] [-Alert] [-Critical] [-Error] [-Warning] [-N
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+When you have a message from a process this will take care of all message routing for you.
 
 ## EXAMPLES
 
@@ -31,8 +31,9 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Alert
-{{Fill Alert Description}}
+### -Emergency
+\[switch\] This will define the messages level as Emergency.
+Only define one of the switches.
 
 ```yaml
 Type: SwitchParameter
@@ -41,28 +42,30 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -CallingFile
-{{Fill CallingFile Description}}
+### -Alert
+\[switch\] This will define the messages level as Alert.
+Only define one of the switches.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
-Default value: None
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Critical
-{{Fill Critical Description}}
+\[switch\] This will define the messages level as Critical.
+Only define one of the switches.
 
 ```yaml
 Type: SwitchParameter
@@ -71,43 +74,14 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Debug
-{{Fill Debug Description}}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Emergency
-{{Fill Emergency Description}}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Error
-{{Fill Error Description}}
+\[switch\] This will define the messages level as Error.
+Only define one of the switches.
 
 ```yaml
 Type: SwitchParameter
@@ -116,16 +90,80 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ErrorCode
-{{Fill ErrorCode Description}}
+### -Warning
+\[switch\] This will define the messages level as Warning.
+Only define one of the switches.
 
 ```yaml
-Type: Int32
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Notice
+\[switch\] This will define the messages level as Notice.
+Only define one of the switches.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Info
+\[switch\] This will define the messages level as Information.
+Only define one of the switches.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Debug
+\[switch\] This will define the messages level as Debug.
+Only define one of the switches.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Message
+\[string\] This will define the log message that you want to have recorded.
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -136,26 +174,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Info
-{{Fill Info Description}}
+### -ErrorCode
+\[int\] This will let you define a custom error code if you wanted to.
 
 ```yaml
-Type: SwitchParameter
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
+Position: 2
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LineNumber
-{{Fill LineNumber Description}}
+### -CallingFile
+\[string\] This will let you define the filename that the message came from.
+Use Get-CurrentFileName as a helper
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -166,57 +205,26 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Message
-{{Fill Message Description}}
+### -LineNumber
+\[int\] This will let you define the line number that the message came from.
+Use Get-CurrentLineNumber as a helper
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Notice
-{{Fill Notice Description}}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Warning
-{{Fill Warning Description}}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
+Position: 4
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS

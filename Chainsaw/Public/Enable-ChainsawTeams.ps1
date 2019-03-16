@@ -1,21 +1,51 @@
 
 <#
 .Synopsis
-This lets you enable chainsaw to send to Microsoft Teams Webhooks.
+This will allow you to enter values that are bound to the Microsoft Teams endpoint.
 
 .Description
-This is a wrapper for PSTeams.
+In order to send to Console you need to make sure you have the following paramerters filled.
+[string[]]  $Levels
+[string]    $MessageTemplate
 
-.Link
-https://github.com/EvotecIT/PSTeams 
+.Parameter URI
+[string] This will define the Webhook URL that we will send data to.
+
+.Parameter Levels
+[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.
+    "Emergency"
+    "Alert"
+    "Critical"
+    "Error"
+    "Warning"
+    "Notice"
+    "Information"
+    "Debug"
+
+.Parameter MessageTitle
+[string] This will define the header message in Teams.
+If you have several processes that use the same webhook you can use this to define the process name.
+
+.Parameter ScopeGlobal
+[switch] ScopeGlobal defines where to look for the Chainsaw Configuration.
+
+.Parameter JsonConfig
+[string] This if filled will tell it where to look for a exported config file to reimport.
+
+.Example
+Enable-ChainsawTeams `
+    -URI "https://FakeUrl.com" `
+    -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") `
+    -MessageTitle 'Message From Chainsaw'
+
+Enable-ChainsawTeams `
+    -JsonConfig '.\chainsaw.json'
 #>
 function Enable-ChainsawTeams {
     param (
         [string] $URI,
         [string[]] $Levels,
-        #[string] $MessageTemplate,
         [string] $MessageTitle,
-        #[string] $Subtitle,
 
         [switch] $ScopeGlobal,
 

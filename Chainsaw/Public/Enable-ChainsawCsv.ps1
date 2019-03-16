@@ -1,7 +1,7 @@
 
 <#
 .Synopsis
-This lets you enable Chainsaw to send messages to CSV endpoints.
+This will allow you to enter values that bound to the CSV endpoint.
 
 .Description
 In order to send to CSV you need to make sure you have the following paramerters filled.
@@ -13,15 +13,38 @@ In order to send to CSV you need to make sure you have the following paramerters
 [string] LogPath defines the location where the CSV entries will be written to.
 
 .Parameter Levels
-[string[]] Levels defines what levels of messages it will accept and record messages for.
+[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.
+    "Emergency"
+    "Alert"
+    "Critical"
+    "Error"
+    "Warning"
+    "Notice"
+    "Information"
+    "Debug"
 
 .Parameter MessageTemplate
-[string] MessageTemplate defines the template that we will use and replace values for with variables sent to the logger.
-See Example for information
+[string] This defines the format of the message that will be displayed in.  Use any of the following values in a string to build the MessageTemplate.
+    #DateTime#
+    #Level#
+    #CallingFile#
+    #ErrorCode#
+    #LineNumber#
+    #Message#
 
 .Parameter ScopeGlobal
-[switch] ScopeGlobal defines where to look for the Chainsaw Configuration
+[switch] ScopeGlobal defines where to look for the Chainsaw Configuration.
 
+.Parameter JsonConfig
+[string] This if filled will tell it where to look for a exported config file to reimport.
+
+.Example
+Enable-ChainsawCsv `
+    -LogPath '.\log.csv' `
+    -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") `
+    -MessageTemplate "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"
+
+Enable-ChainsawCsv -JsonPath '.\chainsaw.json'
 #>
 function Enable-ChainsawCsv {
     [cmdletbinding()]

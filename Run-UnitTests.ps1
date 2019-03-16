@@ -8,3 +8,4 @@ Import-Module Pester
 
 . .\Tests\TargetConsole.Test.ps1
 . .\Tests\TargetCSV.Test.ps1
+. .\Tests\TargetTeams.Test.ps1

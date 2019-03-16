@@ -1,42 +1,45 @@
 ---
 external help file: Chainsaw-help.xml
 Module Name: Chainsaw
-online version: https://github.com/EvotecIT/PSTeams
+online version:
 schema: 2.0.0
 ---
 
 # Enable-ChainsawTeams
 
 ## SYNOPSIS
-
-This lets you enable chainsaw to send to Microsoft Teams Webhooks.
+This will allow you to enter values that are bound to the Microsoft Teams endpoint.
 
 ## SYNTAX
 
-```PowerShell
+```
 Enable-ChainsawTeams [[-URI] <String>] [[-Levels] <String[]>] [[-MessageTitle] <String>] [-ScopeGlobal]
  [[-JsonConfig] <String>]
 ```
 
 ## DESCRIPTION
-
-This is a wrapper for PSTeams.
+In order to send to Console you need to make sure you have the following paramerters filled.
+\[string\[\]\]  $Levels
+\[string\]    $MessageTemplate
 
 ## EXAMPLES
 
-### Example 1
-
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Enable-ChainsawTeams `
 ```
 
-{{ Add example description here }}
+-URI "https://FakeUrl.com" \`
+    -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") \`
+    -MessageTitle 'Message From Chainsaw'
+
+Enable-ChainsawTeams \`
+    -JsonConfig '.\chainsaw.json'
 
 ## PARAMETERS
 
 ### -URI
-
-{{Fill URI Description}}
+\[string\] This will define the Webhook URL that we will send data to.
 
 ```yaml
 Type: String
@@ -51,7 +54,16 @@ Accept wildcard characters: False
 ```
 
 ### -Levels
-{{Fill Levels Description}}
+\[string\[\]\] This will define the events that it will monitor for. 
+Enter the following values that are pre defined.
+    "Emergency"
+    "Alert"
+    "Critical"
+    "Error"
+    "Warning"
+    "Notice"
+    "Information"
+    "Debug"
 
 ```yaml
 Type: String[]
@@ -66,7 +78,8 @@ Accept wildcard characters: False
 ```
 
 ### -MessageTitle
-\[string\] $MessageTemplate,
+\[string\] This will define the header message in Teams.
+If you have several processes that use the same webhook you can use this to define the process name.
 
 ```yaml
 Type: String
@@ -81,7 +94,7 @@ Accept wildcard characters: False
 ```
 
 ### -ScopeGlobal
-\[string\] $Subtitle,
+\[switch\] ScopeGlobal defines where to look for the Chainsaw Configuration.
 
 ```yaml
 Type: SwitchParameter
@@ -96,7 +109,7 @@ Accept wildcard characters: False
 ```
 
 ### -JsonConfig
-{{Fill JsonConfig Description}}
+\[string\] This if filled will tell it where to look for a exported config file to reimport.
 
 ```yaml
 Type: String
@@ -117,6 +130,3 @@ Accept wildcard characters: False
 ## NOTES
 
 ## RELATED LINKS
-
-[https://github.com/EvotecIT/PSTeams](https://github.com/EvotecIT/PSTeams)
-

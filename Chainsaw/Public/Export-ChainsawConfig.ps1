@@ -4,10 +4,10 @@
 Lets you export the current running config to a file.
 
 .Parameter JsonPath
-Defines where we will export to.
+[string] Defines where we will export to.
 
 .Parameter Force
-Defines if we are going to overwrite the existing file.
+[switch] Defines if we are going to overwrite the existing file.
 
 .Example
 Export-ChainsawConfig -JsonPath '.\chainsaw.json'

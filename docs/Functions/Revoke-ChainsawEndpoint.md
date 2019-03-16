@@ -5,16 +5,15 @@ online version:
 schema: 2.0.0
 ---
 
-# Enable-ChainsawConsole
+# Revoke-ChainsawEndpoint
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+This will force the removal of values stored for the selected endpoint.
 
 ## SYNTAX
 
 ```
-Enable-ChainsawConsole [[-Levels] <String[]>] [[-MessageTemplate] <String>] [-ScopeGlobal]
- [[-JsonConfig] <String>] [<CommonParameters>]
+Revoke-ChainsawEndpoint [-Console] [-CSV] [-Teams] [-Force]
 ```
 
 ## DESCRIPTION
@@ -31,53 +30,8 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -JsonConfig
-{{Fill JsonConfig Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Levels
-{{Fill Levels Description}}
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -MessageTemplate
-{{Fill MessageTemplate Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ScopeGlobal
-{{Fill ScopeGlobal Description}}
+### -Console
+\[switch\] This will clear out Console variables.
 
 ```yaml
 Type: SwitchParameter
@@ -86,21 +40,60 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+### -CSV
+\[switch\] This will clear out CSV variables.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Teams
+{{Fill Teams Description}}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+\[switch\] This is required if you want to flush the variables out of memory.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS
