@@ -2,7 +2,7 @@
 
 
 Import-Module platyPS
-.\install.ps1
+. .\Run-Install.ps1
 Import-Module Chainsaw -Force
 
 New-MarkdownHelp -Module Chainsaw -OutputFolder .\docs\Functions -Force

@@ -17,18 +17,14 @@ Get-CurrentLineNumber
 ```
 
 ## DESCRIPTION
-Use this in debuging where a message came from.
+Use this in debugging where a message came from.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Invoke-ChainsawMessage `
+Invoke-ChainsawMessage -Debug -Message "What line number is this?" -LineNumber $(Get-CurrentLineNumber)
 ```
-
--Debug \`
-    -Message "What line number is this?" \`
-    -LineNumber $(Get-CurrentLineNumber)
 
 Get-CurrentLineNumber
 

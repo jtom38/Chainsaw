@@ -18,7 +18,7 @@ Enable-ChainsawCsv [[-LogPath] <String>] [[-Levels] <String[]>] [[-MessageTempla
 ```
 
 ## DESCRIPTION
-In order to send to CSV you need to make sure you have the following paramerters filled.
+In order to send to CSV, you need to make sure you have the following parameters filled.
 \[string\]    $LogPath
 \[string\[\]\]  $Levels
 \[string\]    $MessageTemplate
@@ -27,12 +27,8 @@ In order to send to CSV you need to make sure you have the following paramerters
 
 ### EXAMPLE 1
 ```
-Enable-ChainsawCsv `
+Enable-ChainsawCsv -LogPath '.\log.csv' -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTemplate "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"
 ```
-
--LogPath '.\log.csv' \`
-    -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") \`
-    -MessageTemplate "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"
 
 Enable-ChainsawCsv -JsonPath '.\chainsaw.json'
 
@@ -55,7 +51,7 @@ Accept wildcard characters: False
 
 ### -Levels
 \[string\[\]\] This will define the events that it will monitor for. 
-Enter the following values that are pre defined.
+Enter the following values that are predefined.
     "Emergency"
     "Alert"
     "Critical"
@@ -115,7 +111,7 @@ Accept wildcard characters: False
 ```
 
 ### -JsonConfig
-\[string\] This if filled will tell it where to look for a exported config file to reimport.
+\[string\] This if filled will tell it where to look for an exported config file to reimport.
 
 ```yaml
 Type: String

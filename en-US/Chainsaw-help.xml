@@ -10,7 +10,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>In order to send to Console you need to make sure you have the following paramerters filled. [string[]]  $Levels [string]    $MessageTemplate</maml:para>
+      <maml:para>In order to send to Console, you need to make sure you have the following parameters filled. [string[]]  $Levels [string]    $MessageTemplate</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -18,7 +18,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Levels</maml:name>
           <maml:Description>
-            <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
+            <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are predefined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -42,7 +42,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>JsonConfig</maml:name>
           <maml:Description>
-            <maml:para>[string] This if filled will tell it where to look for a exported config file to reimport.</maml:para>
+            <maml:para>[string] This if filled will tell it where to look for an exported config file to reimport.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -68,7 +68,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Levels</maml:name>
         <maml:Description>
-          <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
+          <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are predefined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -104,7 +104,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>JsonConfig</maml:name>
         <maml:Description>
-          <maml:para>[string] This if filled will tell it where to look for a exported config file to reimport.</maml:para>
+          <maml:para>[string] This if filled will tell it where to look for an exported config file to reimport.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -124,9 +124,8 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Enable-ChainsawConsole `</dev:code>
+        <dev:code>Enable-ChainsawConsole -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTemplate '#DateTime# #Level# #Message#'</dev:code>
         <dev:remarks>
-          <maml:para>-Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") `     -MessageTemplate '#DateTime# #Level# #Message#'</maml:para>
           <maml:para>Enable-ChainsawConsole -JsonConfig '.\chainsaw.json'</maml:para>
         </dev:remarks>
       </command:example>
@@ -143,7 +142,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>In order to send to CSV you need to make sure you have the following paramerters filled. [string]    $LogPath [string[]]  $Levels [string]    $MessageTemplate</maml:para>
+      <maml:para>In order to send to CSV, you need to make sure you have the following parameters filled. [string]    $LogPath [string[]]  $Levels [string]    $MessageTemplate</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -163,7 +162,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>Levels</maml:name>
           <maml:Description>
-            <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
+            <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are predefined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -187,7 +186,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>JsonConfig</maml:name>
           <maml:Description>
-            <maml:para>[string] This if filled will tell it where to look for a exported config file to reimport.</maml:para>
+            <maml:para>[string] This if filled will tell it where to look for an exported config file to reimport.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -225,7 +224,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>Levels</maml:name>
         <maml:Description>
-          <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
+          <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are predefined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -261,7 +260,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>JsonConfig</maml:name>
         <maml:Description>
-          <maml:para>[string] This if filled will tell it where to look for a exported config file to reimport.</maml:para>
+          <maml:para>[string] This if filled will tell it where to look for an exported config file to reimport.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -281,9 +280,8 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Enable-ChainsawCsv `</dev:code>
+        <dev:code>Enable-ChainsawCsv -LogPath '.\log.csv' -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTemplate "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"</dev:code>
         <dev:remarks>
-          <maml:para>-LogPath '.\log.csv' `     -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") `     -MessageTemplate "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"</maml:para>
           <maml:para>Enable-ChainsawCsv -JsonPath '.\chainsaw.json'</maml:para>
         </dev:remarks>
       </command:example>
@@ -300,7 +298,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>In order to send to Console you need to make sure you have the following paramerters filled. [string[]]  $Levels [string]    $MessageTemplate</maml:para>
+      <maml:para>In order to send to Teams, you need to make sure you have the following parameters filled. [string[]]  $Levels [string]    $URI [string]    $MessageTitle</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -320,7 +318,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>Levels</maml:name>
           <maml:Description>
-            <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
+            <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are predefined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -344,7 +342,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
           <maml:name>JsonConfig</maml:name>
           <maml:Description>
-            <maml:para>[string] This if filled will tell it where to look for a exported config file to reimport.</maml:para>
+            <maml:para>[string] This if filled will tell it where to look for an exported config file to reimport.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -382,7 +380,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>Levels</maml:name>
         <maml:Description>
-          <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
+          <maml:para>[string[]] This will define the events that it will monitor for.  Enter the following values that are predefined.     "Emergency"     "Alert"     "Critical"     "Error"     "Warning"     "Notice"     "Information"     "Debug"</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -418,7 +416,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
         <maml:name>JsonConfig</maml:name>
         <maml:Description>
-          <maml:para>[string] This if filled will tell it where to look for a exported config file to reimport.</maml:para>
+          <maml:para>[string] This if filled will tell it where to look for an exported config file to reimport.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -438,10 +436,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Enable-ChainsawTeams `</dev:code>
+        <dev:code>Enable-ChainsawTeams -URI "https://FakeUrl.com" -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTitle 'Message From Chainsaw'</dev:code>
         <dev:remarks>
-          <maml:para>-URI "https://FakeUrl.com" `     -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") `     -MessageTitle 'Message From Chainsaw'</maml:para>
-          <maml:para>Enable-ChainsawTeams `     -JsonConfig '.\chainsaw.json'</maml:para>
+          <maml:para>Enable-ChainsawTeams -JsonConfig '.\chainsaw.json'</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -591,9 +588,8 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Invoke-ChainsawMessage `</dev:code>
+        <dev:code>Invoke-ChainsawMessage -Debug -Message "What file is this?" -CallingFile $(Get-CurrentFileName)</dev:code>
         <dev:remarks>
-          <maml:para>-Debug `     -Message "What file is this?" `     -CallingFile $(Get-CurrentFileName)</maml:para>
           <maml:para>Get-CurrentFileName</maml:para>
         </dev:remarks>
       </command:example>
@@ -610,7 +606,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Use this in debuging where a message came from.</maml:para>
+      <maml:para>Use this in debugging where a message came from.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -637,9 +633,8 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Invoke-ChainsawMessage `</dev:code>
+        <dev:code>Invoke-ChainsawMessage -Debug -Message "What line number is this?" -LineNumber $(Get-CurrentLineNumber)</dev:code>
         <dev:remarks>
-          <maml:para>-Debug `     -Message "What line number is this?" `     -LineNumber $(Get-CurrentLineNumber)</maml:para>
           <maml:para>Get-CurrentLineNumber</maml:para>
         </dev:remarks>
       </command:example>
@@ -712,7 +707,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Emergency</maml:name>
           <maml:Description>
-            <maml:para>[switch] This will define the messages level as Emergency. Only define one of the switches.</maml:para>
+            <maml:para>[switch] This will define the level of the message as Emergency. Only define one of the switches.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -723,7 +718,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Alert</maml:name>
           <maml:Description>
-            <maml:para>[switch] This will define the messages level as Alert. Only define one of the switches.</maml:para>
+            <maml:para>[switch] This will define the level of the message as Alert. Only define one of the switches.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -734,7 +729,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Critical</maml:name>
           <maml:Description>
-            <maml:para>[switch] This will define the messages level as Critical. Only define one of the switches.</maml:para>
+            <maml:para>[switch] This will define the level of the message as Critical. Only define one of the switches.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -745,7 +740,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Error</maml:name>
           <maml:Description>
-            <maml:para>[switch] This will define the messages level as Error. Only define one of the switches.</maml:para>
+            <maml:para>[switch] This will define the level of the message as Error. Only define one of the switches.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -756,7 +751,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Warning</maml:name>
           <maml:Description>
-            <maml:para>[switch] This will define the messages level as Warning. Only define one of the switches.</maml:para>
+            <maml:para>[switch] This will define the level of the message as Warning. Only define one of the switches.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -767,7 +762,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Notice</maml:name>
           <maml:Description>
-            <maml:para>[switch] This will define the messages level as Notice. Only define one of the switches.</maml:para>
+            <maml:para>[switch] This will define the level of the message as Notice. Only define one of the switches.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -778,7 +773,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Info</maml:name>
           <maml:Description>
-            <maml:para>[switch] This will define the messages level as Information. Only define one of the switches.</maml:para>
+            <maml:para>[switch] This will define the level of the message as Information. Only define one of the switches.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -789,7 +784,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Debug</maml:name>
           <maml:Description>
-            <maml:para>[switch] This will define the messages level as Debug. Only define one of the switches.</maml:para>
+            <maml:para>[switch] This will define the level of the message as Debug. Only define one of the switches.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -803,7 +798,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Emergency</maml:name>
         <maml:Description>
-          <maml:para>[switch] This will define the messages level as Emergency. Only define one of the switches.</maml:para>
+          <maml:para>[switch] This will define the level of the message as Emergency. Only define one of the switches.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -815,7 +810,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Alert</maml:name>
         <maml:Description>
-          <maml:para>[switch] This will define the messages level as Alert. Only define one of the switches.</maml:para>
+          <maml:para>[switch] This will define the level of the message as Alert. Only define one of the switches.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -827,7 +822,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Critical</maml:name>
         <maml:Description>
-          <maml:para>[switch] This will define the messages level as Critical. Only define one of the switches.</maml:para>
+          <maml:para>[switch] This will define the level of the message as Critical. Only define one of the switches.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -839,7 +834,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Error</maml:name>
         <maml:Description>
-          <maml:para>[switch] This will define the messages level as Error. Only define one of the switches.</maml:para>
+          <maml:para>[switch] This will define the level of the message as Error. Only define one of the switches.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -851,7 +846,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Warning</maml:name>
         <maml:Description>
-          <maml:para>[switch] This will define the messages level as Warning. Only define one of the switches.</maml:para>
+          <maml:para>[switch] This will define the level of the message as Warning. Only define one of the switches.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -863,7 +858,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Notice</maml:name>
         <maml:Description>
-          <maml:para>[switch] This will define the messages level as Notice. Only define one of the switches.</maml:para>
+          <maml:para>[switch] This will define the level of the message as Notice. Only define one of the switches.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -875,7 +870,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Info</maml:name>
         <maml:Description>
-          <maml:para>[switch] This will define the messages level as Information. Only define one of the switches.</maml:para>
+          <maml:para>[switch] This will define the level of the message as Information. Only define one of the switches.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -887,7 +882,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Debug</maml:name>
         <maml:Description>
-          <maml:para>[switch] This will define the messages level as Debug. Only define one of the switches.</maml:para>
+          <maml:para>[switch] This will define the level of the message as Debug. Only define one of the switches.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -954,10 +949,10 @@
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw'</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100 Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100 -CallingFile $(Get-CurrentFileName) Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100 -CallingFile $(Get-CurrentFileName) -LineNumber $(Get-CurrentLineNumber)</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

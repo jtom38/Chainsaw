@@ -24,12 +24,8 @@ Get-CurrentFileName
 
 ### EXAMPLE 1
 ```
-Invoke-ChainsawMessage `
+Invoke-ChainsawMessage -Debug -Message "What file is this?" -CallingFile $(Get-CurrentFileName)
 ```
-
--Debug \`
-    -Message "What file is this?" \`
-    -CallingFile $(Get-CurrentFileName)
 
 Get-CurrentFileName
 

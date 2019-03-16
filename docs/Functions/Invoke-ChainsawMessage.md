@@ -22,17 +22,19 @@ When you have a message from a process this will take care of all message routin
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### EXAMPLE 1
+```
+Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw'
 ```
 
-{{ Add example description here }}
+Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100
+Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100 -CallingFile $(Get-CurrentFileName)
+Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100 -CallingFile $(Get-CurrentFileName) -LineNumber $(Get-CurrentLineNumber)
 
 ## PARAMETERS
 
 ### -Emergency
-\[switch\] This will define the messages level as Emergency.
+\[switch\] This will define the level of the message as Emergency.
 Only define one of the switches.
 
 ```yaml
@@ -48,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -Alert
-\[switch\] This will define the messages level as Alert.
+\[switch\] This will define the level of the message as Alert.
 Only define one of the switches.
 
 ```yaml
@@ -64,7 +66,7 @@ Accept wildcard characters: False
 ```
 
 ### -Critical
-\[switch\] This will define the messages level as Critical.
+\[switch\] This will define the level of the message as Critical.
 Only define one of the switches.
 
 ```yaml
@@ -80,7 +82,7 @@ Accept wildcard characters: False
 ```
 
 ### -Error
-\[switch\] This will define the messages level as Error.
+\[switch\] This will define the level of the message as Error.
 Only define one of the switches.
 
 ```yaml
@@ -96,7 +98,7 @@ Accept wildcard characters: False
 ```
 
 ### -Warning
-\[switch\] This will define the messages level as Warning.
+\[switch\] This will define the level of the message as Warning.
 Only define one of the switches.
 
 ```yaml
@@ -112,7 +114,7 @@ Accept wildcard characters: False
 ```
 
 ### -Notice
-\[switch\] This will define the messages level as Notice.
+\[switch\] This will define the level of the message as Notice.
 Only define one of the switches.
 
 ```yaml
@@ -128,7 +130,7 @@ Accept wildcard characters: False
 ```
 
 ### -Info
-\[switch\] This will define the messages level as Information.
+\[switch\] This will define the level of the message as Information.
 Only define one of the switches.
 
 ```yaml
@@ -144,7 +146,7 @@ Accept wildcard characters: False
 ```
 
 ### -Debug
-\[switch\] This will define the messages level as Debug.
+\[switch\] This will define the level of the message as Debug.
 Only define one of the switches.
 
 ```yaml

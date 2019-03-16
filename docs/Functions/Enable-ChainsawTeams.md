@@ -18,23 +18,19 @@ Enable-ChainsawTeams [[-URI] <String>] [[-Levels] <String[]>] [[-MessageTitle] <
 ```
 
 ## DESCRIPTION
-In order to send to Console you need to make sure you have the following paramerters filled.
+In order to send to Teams, you need to make sure you have the following parameters filled.
 \[string\[\]\]  $Levels
-\[string\]    $MessageTemplate
+\[string\]    $URI
+\[string\]    $MessageTitle
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Enable-ChainsawTeams `
+Enable-ChainsawTeams -URI "https://FakeUrl.com" -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTitle 'Message From Chainsaw'
 ```
 
--URI "https://FakeUrl.com" \`
-    -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") \`
-    -MessageTitle 'Message From Chainsaw'
-
-Enable-ChainsawTeams \`
-    -JsonConfig '.\chainsaw.json'
+Enable-ChainsawTeams -JsonConfig '.\chainsaw.json'
 
 ## PARAMETERS
 
@@ -55,7 +51,7 @@ Accept wildcard characters: False
 
 ### -Levels
 \[string\[\]\] This will define the events that it will monitor for. 
-Enter the following values that are pre defined.
+Enter the following values that are predefined.
     "Emergency"
     "Alert"
     "Critical"
@@ -109,7 +105,7 @@ Accept wildcard characters: False
 ```
 
 ### -JsonConfig
-\[string\] This if filled will tell it where to look for a exported config file to reimport.
+\[string\] This if filled will tell it where to look for an exported config file to reimport.
 
 ```yaml
 Type: String

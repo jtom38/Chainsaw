@@ -1,6 +1,6 @@
 
 # Import the new class file we built
-. .\Install.ps1
+. .\Run-Install.ps1
 Import-Module Chainsaw -Force
 
 # Import Pester to run our tests

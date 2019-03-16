@@ -18,7 +18,6 @@ If you use NLog you will know they have different targets so where you can write
 Wishlist
 
 * Discord Webhook
-
 * Slack
 
 ## Requirements

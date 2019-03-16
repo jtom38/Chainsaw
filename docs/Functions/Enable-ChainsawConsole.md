@@ -18,7 +18,7 @@ Enable-ChainsawConsole [[-Levels] <String[]>] [[-MessageTemplate] <String>] [-Sc
 ```
 
 ## DESCRIPTION
-In order to send to Console you need to make sure you have the following paramerters filled.
+In order to send to Console, you need to make sure you have the following parameters filled.
 \[string\[\]\]  $Levels
 \[string\]    $MessageTemplate
 
@@ -26,11 +26,8 @@ In order to send to Console you need to make sure you have the following paramer
 
 ### EXAMPLE 1
 ```
-Enable-ChainsawConsole `
+Enable-ChainsawConsole -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTemplate '#DateTime# #Level# #Message#'
 ```
-
--Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") \`
-    -MessageTemplate '#DateTime# #Level# #Message#'
 
 Enable-ChainsawConsole -JsonConfig '.\chainsaw.json'
 
@@ -38,7 +35,7 @@ Enable-ChainsawConsole -JsonConfig '.\chainsaw.json'
 
 ### -Levels
 \[string\[\]\] This will define the events that it will monitor for. 
-Enter the following values that are pre defined.
+Enter the following values that are predefined.
     "Emergency"
     "Alert"
     "Critical"
@@ -98,7 +95,7 @@ Accept wildcard characters: False
 ```
 
 ### -JsonConfig
-\[string\] This if filled will tell it where to look for a exported config file to reimport.
+\[string\] This if filled will tell it where to look for an exported config file to reimport.
 
 ```yaml
 Type: String
