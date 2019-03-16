@@ -13,8 +13,9 @@ function Enable-ChainsawTeams {
     param (
         [string] $URI,
         [string[]] $Levels,
-        [string] $MessageTemplate,
+        #[string] $MessageTemplate,
         [string] $MessageTitle,
+        #[string] $Subtitle,
 
         [switch] $ScopeGlobal,
 
@@ -27,9 +28,6 @@ function Enable-ChainsawTeams {
             $json = Get-Content -Path $JsonConfig | ConvertFrom-Json
             if([string]::IsNullOrEmpty($json.Teams.Levels) -eq $false) {
                 $Global:Chainsaw.Teams.Levels = $json.Teams.Levels
-            }
-            if([string]::IsNullOrEmpty($json.Teams.MessageTemplate) -eq $false) {
-                $Global:Chainsaw.Teams.MessageTemplate = $json.Teams.MessageTemplate
             }
             if( [string]::IsNullOrEmpty($json.Teams.URI) -eq $false){
                 $Global:Chainsaw.Teams.URI = $json.Teams.URI
@@ -48,9 +46,6 @@ function Enable-ChainsawTeams {
             if([string]::IsNullOrEmpty($json.Teams.Levels) -eq $false) {
                 $Script:Chainsaw.Teams.Levels = $json.Teams.Levels
             }
-            if([string]::IsNullOrEmpty($json.Teams.MessageTemplate) -eq $false) {
-                $Script:Chainsaw.Teams.MessageTemplate = $json.Teams.MessageTemplate
-            }
             if( [string]::IsNullOrEmpty($json.Teams.URI) -eq $false){
                 $Script:Chainsaw.Teams.URI = $json.Teams.URI
             }
@@ -65,9 +60,6 @@ function Enable-ChainsawTeams {
         if([string]::IsNullOrEmpty($Levels) -eq $false) {
             $Global:Chainsaw.Teams.Levels = $Levels
         }
-        if([string]::IsNullOrEmpty($MessageTemplate) -eq $false) {
-            $Global:Chainsaw.Teams.MessageTemplate = $MessageTemplate
-        }
         if( [string]::IsNullOrEmpty($URI) -eq $false){
             $Global:Chainsaw.Teams.URI = $URI
         }
@@ -80,16 +72,12 @@ function Enable-ChainsawTeams {
         if([string]::IsNullOrEmpty($Levels) -eq $false) {
             $Script:Chainsaw.Teams.Levels = $Levels
         }
-        if([string]::IsNullOrEmpty($MessageTemplate) -eq $false) {
-            $Script:Chainsaw.Teams.MessageTemplate = $MessageTemplate
-        }
         if( [string]::IsNullOrEmpty($URI) -eq $false){
             $Script:Chainsaw.Teams.URI = $URI
         }
         if( [string]::IsNullOrEmpty($MessageTitle) -eq $false){
             $Script:Chainsaw.Teams.MessageTitle = $MessageTitle
         }
-
     }
     
 }

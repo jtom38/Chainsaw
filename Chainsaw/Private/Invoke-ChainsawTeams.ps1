@@ -13,22 +13,13 @@ function Invoke-ChainsawTeams {
         # Get the config for easy access
         $hash = Get-ChainsawConfig -Teams
 
-        [string] $MessageSummary = Format-ChainsawMessage `
-            -Template $hash.MessageTemplate `
-            -Message $Message `
-            -Level $Level `
-            -ErrorCode $ErrorCode `
-            -LineNumber $LineNumber
-
         [Object[]] $facts = @()
+
+        $f2 = New-TeamsFact -Name 'Message:' -Value $Message
+        $facts += $f2
 
         $f1 = New-TeamsFact -Name 'Message Level:' -Value $Level
         $facts += $f1
-
-        if($Message -ne $null ) {
-            $f2= New-TeamsFact -Name 'Message' -Value $Message
-            $facts += $f2
-        }
 
         if( [string]::IsNullOrEmpty($CallingFile) -eq $false) {
             $f3 = New-TeamsFact -Name 'Calling File:' -Value $CallingFile
@@ -41,13 +32,29 @@ function Invoke-ChainsawTeams {
         }
 
         $s = New-TeamsSection `
-            -ActivityTitle 'Chainsaw' `
-            -ActivityDetails $facts
+            -ActivityDetails $facts `
+            #-ActivityTitle $hash.Subtitle
+
+        [RGBColors] $color = [RGBColors]::White
+
+        switch($Level.ToLower()) 
+        {
+            emergency { $color= [RGBColors]::Tomato; break}
+            alert {$color = [RGBColors]::DarkOrchid; Break }
+            critical { $color = $color. [System.Console]::ForegroundColor = [ConsoleColor]::DarkMagenta ; Break}
+            error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
+            warning { [System.Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
+            notice { [System.Console]::ForegroundColor = [ConsoleColor]::Blue; Break}
+            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
+            debug { [System.Console]::ForegroundColor = [System.ConsoleColor]::Magenta; Break; }
+            default { [System.Console]::ForegroundColor = [ConsoleColor]::White; Break }
+        }
 
         Send-TeamsMessage `
             -URI $hash.URI `
             -MessageTitle $hash.MessageTitle `
             -Sections $s `
+            -Color $color
     }
 
 }

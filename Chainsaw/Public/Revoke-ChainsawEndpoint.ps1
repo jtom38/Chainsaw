@@ -7,7 +7,7 @@ This will force the removal of values stored for the selected endpoint.
 [switch] This will clear out Console variables.
 
 .Parameter CSV
-[switch] THis will clear out CSV variables.
+[switch] This will clear out CSV variables.
 
 .Parameter Force
 [switch] This is required if you want to flush the variables out of memory.
@@ -17,6 +17,7 @@ function Revoke-ChainsawEndpoint {
     param (
         [switch] $Console,
         [switch] $CSV,
+        [switch] $Teams,
         [switch] $Force
     )
 
@@ -39,8 +40,18 @@ function Revoke-ChainsawEndpoint {
             $Global:Chainsaw.CSV.MessageTemplate = ''
             $Global:Chainsaw.CSV.LogPath = ''
         }
+
+        if($Teams){
+            $Script:Chainsaw.Teams.Levels = @()
+            $Script:Chainsaw.Teams.URI = ''
+            $Script:Chainsaw.Teams.MessageTitle = ''
+    
+            $Global:Chainsaw.Teams.Levels = @()
+            $Global:Chainsaw.Teams.URI = ''
+            $Global:Chainsaw.Teams.MessageTitle = ''
+        }
     }else{
-        throw "Request to revoke CSV Endpoint failed.  It is required to use -Force as a safe guard"
+        throw "Request to revoke a Endpoint failed.  It is required to use -Force as a safe guard"
     }
     
 }
