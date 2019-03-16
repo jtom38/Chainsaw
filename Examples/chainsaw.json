@@ -1,0 +1,24 @@
+{
+  "Console": {
+    "Levels": [
+      "Error",
+      "Info",
+      "Debug"
+    ],
+    "MessageTemplate": "#DateTime# #Level# #Message#"
+  },
+  "Teams": {
+    "MessageTemplate": "",
+    "MessageTitle": "",
+    "Levels": [],
+    "URI": ""
+  },
+  "EventViewer": {},
+  "CSV": {
+    "LogPath": ".\\chainsaw.csv",
+    "Levels": [
+      "Error"
+    ],
+    "MessageTemplate": "#DateTime#, #Level#, #Message#"
+  }
+}

@@ -11,13 +11,13 @@ If you use NLog you will know they have different targets so where you can write
 * [Console](https://github.com/luther38/Chainsaw/blob/master/docs/Targets/Console.md)
 * [CSV](https://github.com/luther38/Chainsaw/blob/master/docs/Targets/CSV.md)
 * [EventLog](https://github.com/luther38/Chainsaw/blob/master/docs/Targets/EventLog.md)
+* Microsoft Teams Webhook
 * SMTP - TBD
 * MSSQL - TBD
 
 Wishlist
 
 * Discord Webhook
-* Microsoft Teams Webhook
 * Slack
 
 ## Requirements
@@ -51,4 +51,4 @@ If you have a target that you want please create an issue and I will see what I 
 
 ## Linux and MacOS
 
-These are untested platforms at this time.  Please report your findings if you try Chainsaw on these operating systems. 
+These are untested platforms at this time.  Please report your findings if you try Chainsaw on these operating systems.
