@@ -41,13 +41,13 @@ function Invoke-ChainsawTeams {
         {
             emergency { $color= [RGBColors]::Tomato; break}
             alert {$color = [RGBColors]::DarkOrchid; Break }
-            critical { $color = $color. [System.Console]::ForegroundColor = [ConsoleColor]::DarkMagenta ; Break}
-            error { [System.Console]::ForegroundColor = [ConsoleColor]::Red; Break }
-            warning { [System.Console]::ForegroundColor = [ConsoleColor]::Yellow; Break}
-            notice { [System.Console]::ForegroundColor = [ConsoleColor]::Blue; Break}
-            info { [System.Console]::ForegroundColor = [ConsoleColor]::Green; Break }
-            debug { [System.Console]::ForegroundColor = [System.ConsoleColor]::Magenta; Break; }
-            default { [System.Console]::ForegroundColor = [ConsoleColor]::White; Break }
+            critical { $color = [RGBColors]::DarkMagenta; Break}
+            error { $color = [RGBColors]::Red; Break }
+            warning { $color = [RGBColors]::Yellow; Break}
+            notice { $color = [RGBColors]::Blue; Break}
+            info { $color = [RGBColors]::Green; Break }
+            debug { $color =[RGBColors]::Magenta; Break; }
+            default { $color = [RGBColors]::White; Break }
         }
 
         Send-TeamsMessage `
