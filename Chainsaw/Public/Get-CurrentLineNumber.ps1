@@ -8,11 +8,7 @@ Use this in debuging where a message came from.
 
 .Example
 
-Invoke-ChainsawMessage `
-    -Debug `
-    -Message "What line number is this?" `
-    -LineNumber $(Get-CurrentLineNumber)
-
+Invoke-ChainsawMessage -Debug -Message "What line number is this?" -LineNumber $(Get-CurrentLineNumber)
 Get-CurrentLineNumber
 
 .Outputs

@@ -52,6 +52,12 @@ Use Get-CurrentFileName as a helper
 [int] This will let you define the line number that the message came from.
 Use Get-CurrentLineNumber as a helper
 
+.Example
+Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw'
+Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100
+Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100 -CallingFile $(Get-CurrentFileName)
+Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100 -CallingFile $(Get-CurrentFileName) -LineNumber $(Get-CurrentLineNumber)
+
 #>
 function Invoke-ChainsawMessage {
     #[cmdletbinding()]

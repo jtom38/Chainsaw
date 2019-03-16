@@ -36,10 +36,7 @@ In order to send to Console you need to make sure you have the following paramer
 
 .Example
 
-Enable-ChainsawConsole `
-    -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") `
-    -MessageTemplate '#DateTime# #Level# #Message#'
-
+Enable-ChainsawConsole -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTemplate '#DateTime# #Level# #Message#'
 Enable-ChainsawConsole -JsonConfig '.\chainsaw.json'
 #>
 function Enable-ChainsawConsole {

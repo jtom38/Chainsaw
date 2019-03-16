@@ -33,13 +33,8 @@ If you have several processes that use the same webhook you can use this to defi
 [string] This if filled will tell it where to look for a exported config file to reimport.
 
 .Example
-Enable-ChainsawTeams `
-    -URI "https://FakeUrl.com" `
-    -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") `
-    -MessageTitle 'Message From Chainsaw'
-
-Enable-ChainsawTeams `
-    -JsonConfig '.\chainsaw.json'
+Enable-ChainsawTeams -URI "https://FakeUrl.com" -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTitle 'Message From Chainsaw'
+Enable-ChainsawTeams -JsonConfig '.\chainsaw.json'
 #>
 function Enable-ChainsawTeams {
     param (

@@ -22,10 +22,7 @@ function Invoke-ChainsawCsv {
                 -Header `
                 -Template $hash.MessageTemplate
 
-            $info = [System.IO.FileInfo]::new($hash.LogPath)
-            New-Item -Path $info.Directory.FullName `
-                -ItemType "file" `
-                -Name $info.Name `
+            New-Item -Path $hash.LogPath `
                 -Value "$($headerMsg)`r" | Out-Null
         }
 

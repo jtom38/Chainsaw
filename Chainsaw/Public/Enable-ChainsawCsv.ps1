@@ -39,11 +39,7 @@ In order to send to CSV you need to make sure you have the following paramerters
 [string] This if filled will tell it where to look for a exported config file to reimport.
 
 .Example
-Enable-ChainsawCsv `
-    -LogPath '.\log.csv' `
-    -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") `
-    -MessageTemplate "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"
-
+Enable-ChainsawCsv -LogPath '.\log.csv' -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTemplate "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"
 Enable-ChainsawCsv -JsonPath '.\chainsaw.json'
 #>
 function Enable-ChainsawCsv {

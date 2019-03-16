@@ -25,9 +25,6 @@ foreach($import in @($Public + $Private)){
         Levels = @()
         MessageTemplate = ""
     }
-    EventViewer = @{
-
-    }
     Teams = @{
         URI = ""
         Levels = @()
