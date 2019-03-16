@@ -51,7 +51,7 @@ function Revoke-ChainsawEndpoint {
             $Global:Chainsaw.Teams.MessageTitle = ''
         }
     }else{
-        throw "Request to revoke a Endpoint failed.  It is required to use -Force as a safe guard"
+        throw "Request to revoke an Endpoint failed.  It is required to use -Force as a safeguard"
     }
     
 }

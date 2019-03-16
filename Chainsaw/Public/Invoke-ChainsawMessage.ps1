@@ -7,35 +7,35 @@ This will pass the message to all defined endpoints.
 When you have a message from a process this will take care of all message routing for you.
 
 .Parameter Emergency
-[switch] This will define the messages level as Emergency.
+[switch] This will define the level of the message as Emergency.
 Only define one of the switches.
 
 .Parameter Alert
-[switch] This will define the messages level as Alert.
+[switch] This will define the level of the message as Alert.
 Only define one of the switches.
 
 .Parameter Critical
-[switch] This will define the messages level as Critical.
+[switch] This will define the level of the message as Critical.
 Only define one of the switches.
 
 .Parameter Error
-[switch] This will define the messages level as Error.
+[switch] This will define the level of the message as Error.
 Only define one of the switches.
 
 .Parameter Warning
-[switch] This will define the messages level as Warning.
+[switch] This will define the level of the message as Warning.
 Only define one of the switches.
 
 .Parameter Notice
-[switch] This will define the messages level as Notice.
+[switch] This will define the level of the message as Notice.
 Only define one of the switches.
 
 .Parameter Info
-[switch] This will define the messages level as Information.
+[switch] This will define the level of the message as Information.
 Only define one of the switches.
 
 .Parameter Debug
-[switch] This will define the messages level as Debug.
+[switch] This will define the level of the message as Debug.
 Only define one of the switches.
 
 .Parameter Message

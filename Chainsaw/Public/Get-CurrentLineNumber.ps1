@@ -4,7 +4,7 @@
 Wrapper function to return $MyInvocation.ScriptLineNumber
 
 .Description
-Use this in debuging where a message came from.
+Use this in debugging where a message came from.
 
 .Example
 

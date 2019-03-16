@@ -7,7 +7,7 @@ Console target is a very simple one, it will output messages to the console wind
 
 # Message Template
 
-For a message to be passed in the desired format with the data that we are looking for we have a template that should be followed. Here are the values that will be upated per the template.
+For a message to be passed in the desired format with the data that we are looking for we have a template that should be followed. Here are the values that will be updated per the template.
 
 * #DateTime#
 * #Level#
@@ -22,7 +22,7 @@ You can use any of these that you want to support.  If you just want to know Whe
 $MessageTemplate = '#DateTime# #Level# #Message#'
 ```
 
-With this example we would only end up replaceing values that Chainsaw knows about.  If you want to add decorations you can.
+With this example, we would only end up replacing values that Chainsaw knows about.  If you want to add decorations you can.
 
 ```PowerShell
 $MessageTemplate = '[#DateTime#] - [#Level#] - #Message#'

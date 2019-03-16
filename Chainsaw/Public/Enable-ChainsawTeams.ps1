@@ -4,15 +4,16 @@
 This will allow you to enter values that are bound to the Microsoft Teams endpoint.
 
 .Description
-In order to send to Console you need to make sure you have the following paramerters filled.
+In order to send to Teams, you need to make sure you have the following parameters filled.
 [string[]]  $Levels
-[string]    $MessageTemplate
+[string]    $URI
+[string]    $MessageTitle
 
 .Parameter URI
 [string] This will define the Webhook URL that we will send data to.
 
 .Parameter Levels
-[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.
+[string[]] This will define the events that it will monitor for.  Enter the following values that are predefined.
     "Emergency"
     "Alert"
     "Critical"
@@ -30,7 +31,7 @@ If you have several processes that use the same webhook you can use this to defi
 [switch] ScopeGlobal defines where to look for the Chainsaw Configuration.
 
 .Parameter JsonConfig
-[string] This if filled will tell it where to look for a exported config file to reimport.
+[string] This if filled will tell it where to look for an exported config file to reimport.
 
 .Example
 Enable-ChainsawTeams -URI "https://FakeUrl.com" -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTitle 'Message From Chainsaw'

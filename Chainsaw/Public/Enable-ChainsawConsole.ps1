@@ -4,12 +4,12 @@
 This will allow you to enter values that are bound to the Console endpoint.
 
 .Description
-In order to send to Console you need to make sure you have the following paramerters filled.
+In order to send to Console, you need to make sure you have the following parameters filled.
 [string[]]  $Levels
 [string]    $MessageTemplate
 
 .Parameter Levels
-[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.
+[string[]] This will define the events that it will monitor for.  Enter the following values that are predefined.
     "Emergency"
     "Alert"
     "Critical"
@@ -32,7 +32,7 @@ In order to send to Console you need to make sure you have the following paramer
 [switch] ScopeGlobal defines where to look for the Chainsaw Configuration.
 
 .Parameter JsonConfig
-[string] This if filled will tell it where to look for a exported config file to reimport.
+[string] This if filled will tell it where to look for an exported config file to reimport.
 
 .Example
 

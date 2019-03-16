@@ -4,7 +4,7 @@
 This will allow you to enter values that bound to the CSV endpoint.
 
 .Description
-In order to send to CSV you need to make sure you have the following paramerters filled.
+In order to send to CSV, you need to make sure you have the following parameters filled.
 [string]    $LogPath
 [string[]]  $Levels
 [string]    $MessageTemplate
@@ -13,7 +13,7 @@ In order to send to CSV you need to make sure you have the following paramerters
 [string] LogPath defines the location where the CSV entries will be written to.
 
 .Parameter Levels
-[string[]] This will define the events that it will monitor for.  Enter the following values that are pre defined.
+[string[]] This will define the events that it will monitor for.  Enter the following values that are predefined.
     "Emergency"
     "Alert"
     "Critical"
@@ -36,7 +36,7 @@ In order to send to CSV you need to make sure you have the following paramerters
 [switch] ScopeGlobal defines where to look for the Chainsaw Configuration.
 
 .Parameter JsonConfig
-[string] This if filled will tell it where to look for a exported config file to reimport.
+[string] This if filled will tell it where to look for an exported config file to reimport.
 
 .Example
 Enable-ChainsawCsv -LogPath '.\log.csv' -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTemplate "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"
