@@ -4,7 +4,7 @@
 
 This project started off as a CSV logger for some process updates that I needed to make.  But over time it grew into a project that would let me add new loggers as the team needed/wanted more ways to send log information.  I did not want to have to keep adding more lines just for different loggers so Chainsaw came to fix that issue.
 
-With Chainsaw you can enable different targets and define what message will go to that target.  If you only want Error messages to be passed to CSV, you can.  If you want to watch the process and see all messages you can enable that with the Console logger.  As new targets get added it will be the same message that is passed
+With Chainsaw you can enable different targets and define what message will go to that target.  If you only want Error messages to be passed to CSV, you can.  If you want to watch the process and see all messages you can enable that with the Console logger.  As new targets get added it will be the same command that is passed currently.  My goal with Chainsaw is to make it easy to use and have the flexibility to be able to pick what messages go where.
 
 ## Targets
 
@@ -16,7 +16,7 @@ Targets are the core of what Chainsaw will work with.  Here are the currently av
 
 Pending
 
-* EventLog
+* Windows EventLog
 * SMTP
 * MSSQL
 * Discord
