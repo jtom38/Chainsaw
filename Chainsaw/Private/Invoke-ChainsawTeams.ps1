@@ -6,12 +6,18 @@ function Invoke-ChainsawTeams {
         [string] $Message,
         [int] $ErrorCode,
         [string] $CallingFile,
-        [int] $LineNumber
+        [int] $LineNumber,
+        [psobject] $Exception
     )
     
     Process{
         # Get the config for easy access
         $hash = Get-ChainsawConfig -Teams
+
+        # If we have an Exception extract the message and replace our message
+        if( $Exception -ne $null){
+            $Message = $Exception.TargetObject
+        }
 
         [Object[]] $facts = @()
 

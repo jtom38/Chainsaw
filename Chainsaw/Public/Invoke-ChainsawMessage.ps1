@@ -74,7 +74,8 @@ function Invoke-ChainsawMessage {
         [string] $Message,
         [int] $ErrorCode,
         [string] $CallingFile,
-        [int] $LineNumber
+        [int] $LineNumber,
+        [psobject] $Exception
     )
     
     Process{
@@ -99,7 +100,8 @@ function Invoke-ChainsawMessage {
                 -Message $Message `
                 -ErrorCode $ErrorCode `
                 -CallingFile $CallingFile `
-                -LineNumber $LineNumber
+                -LineNumber $LineNumber `
+                -Exception $Exception
         }
         
 
@@ -112,7 +114,8 @@ function Invoke-ChainsawMessage {
                 -Message $Message `
                 -ErrorCode $ErrorCode `
                 -CallingFile $CallingFile `
-                -LineNumber $LineNumber
+                -LineNumber $LineNumber `
+                -Exception $Exception
         }
         
 
@@ -125,7 +128,8 @@ function Invoke-ChainsawMessage {
                 -Message $Message `
                 -ErrorCode $ErrorCode `
                 -CallingFile $CallingFile `
-                -LineNumber $LineNumber
+                -LineNumber $LineNumber `
+                -Exception $Exception
         }
     }
 }

@@ -7,11 +7,19 @@ function Invoke-ChainsawConsole {
         [string] $Message,
         [int] $ErrorCode,
         [string] $CallingFile,
-        [int] $LineNumber
+        [int] $LineNumber,
+        [psobject] $Exception
     )
  
     Process {
+
         $hash = Get-ChainsawConfig -Console
+        
+        # If we have an Exception extract the message and replace our message
+        if( $Exception -ne $null){
+            $Message = $Exception.TargetObject
+        }
+
         $Msg = Format-ChainsawMessage -Template $hash.MessageTemplate `
             -Message $Message `
             -Level $Level `

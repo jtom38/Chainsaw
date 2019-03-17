@@ -7,7 +7,8 @@ function Invoke-ChainsawCsv {
         [string] $Message,
         [int] $ErrorCode,
         [string] $CallingFile,
-        [int] $LineNumber
+        [int] $LineNumber,
+        [psobject] $Exception
     )
     
     Process{
@@ -24,6 +25,11 @@ function Invoke-ChainsawCsv {
 
             New-Item -Path $hash.LogPath `
                 -Value "$($headerMsg)`r" | Out-Null
+        }
+
+        # If we have an Exception extract the message and replace our message
+        if( $Exception -ne $null){
+            $Message = $Exception.TargetObject
         }
 
         # Get our message from the Template
