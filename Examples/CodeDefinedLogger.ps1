@@ -27,6 +27,17 @@ Invoke-ChainsawMessage -Info -Message "All systems are good" `
     -LineNumber $(Get-CurrentLineNumber) `
     -ErrorCode 100
 
+# How to handle Exceptions
+try{
+    throw 'Throwing a error now catch me!~'
+}catch{
+    Invoke-ChainsawMessage -Error `
+        -Exception $PSitem `
+        -CallingFile (Get-CurrentFileName) `
+        -LineNumber (Get-CurrentLineNumber) `
+        -ErrorCode 100
+}
+
 # Export our config so we can use it with ConfigDefinedLogger.ps1
 Export-ChainsawConfig -JsonPath '.\chainsaw.json' -Force
 

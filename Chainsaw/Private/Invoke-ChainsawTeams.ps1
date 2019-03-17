@@ -37,6 +37,11 @@ function Invoke-ChainsawTeams {
             $facts += $f4
         }
 
+        if( $LineNumber -ne 0){
+            $f4 = New-TeamsFact -Name 'Line Number:' -Value $LineNumber
+            $facts += $f4
+        }
+
         $s = New-TeamsSection `
             -ActivityDetails $facts `
             #-ActivityTitle $hash.Subtitle

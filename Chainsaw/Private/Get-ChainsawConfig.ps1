@@ -63,13 +63,11 @@ function Get-ChainsawConfig {
 
         # Checking Script Scope for values
         if( [string]::IsNullOrEmpty($s.Levels) -eq $false -and
-            [string]::IsNullOrEmpty($s.MessageTemplate)-eq $false -and
             [string]::IsNullOrEmpty($s.URI) -eq $false -and
             [string]::IsNullOrEmpty($s.MessageTitle) -eq $false){
                 return $s
         }
         elseif( [string]::IsNullOrEmpty($g.Levels) -eq $false -and
-            [string]::IsNullOrEmpty($g.MessageTemplate)-eq $false -and
             [string]::IsNullOrEmpty($g.URI) -eq $false -and
             [string]::IsNullOrEmpty($g.MessageTitle) -eq $false){
             return $g

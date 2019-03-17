@@ -254,18 +254,7 @@ Describe "Sending Messages"{
             -ErrorCode 100
     }
     it "Should take -Alert"{
-        Invoke-ChainsawMessage -Alert `
-            -Message "Pester"
 
-        Invoke-ChainsawMessage -Alert `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Alert `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
         Invoke-ChainsawMessage -Alert `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
@@ -273,17 +262,6 @@ Describe "Sending Messages"{
             -ErrorCode 100
     }
     it "Should take -Critical"{
-        Invoke-ChainsawMessage -Critical `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Critical `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Critical `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
         
         Invoke-ChainsawMessage -Critical `
             -Message "Pester" `
@@ -291,102 +269,52 @@ Describe "Sending Messages"{
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
     }
-    it "Should take -Error"{
-        Invoke-ChainsawMessage -Error `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Error `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Error `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
+    it "Should take -Error"{        
         Invoke-ChainsawMessage -Error `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
     }
-    it "Should take -Warning"{
-        Invoke-ChainsawMessage -Warning `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Warning `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Warning `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
+    it "Should take -Warning"{        
         Invoke-ChainsawMessage -Warning `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
     }
-    it "Should take -Notice"{
-        Invoke-ChainsawMessage -Notice `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Notice `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Notice `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
+    it "Should take -Notice"{        
         Invoke-ChainsawMessage -Notice `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
     }
-    it "Should take -Info"{
-        Invoke-ChainsawMessage -Info `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Info `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Info `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
+    it "Should take -Info"{        
         Invoke-ChainsawMessage -Info `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
     }
-    it "Should take -Debug"{
-        Invoke-ChainsawMessage -Debug `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Debug `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Debug `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
+    it "Should take -Debug"{        
         Invoke-ChainsawMessage -Debug `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
+    }
+    it "Should take Exceptions"{
 
-            
+        try{
+            throw 'Throwing a error now catch me!~'
+        }catch{
+            Invoke-ChainsawMessage -Error `
+                -Exception $PSitem `
+                -CallingFile (Get-CurrentFileName) `
+                -LineNumber (Get-CurrentLineNumber) `
+                -ErrorCode 100
+        }
     }
 }
 

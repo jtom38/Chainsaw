@@ -30,6 +30,21 @@ foreach($import in @($Public + $Private)){
         Levels = @()
         MessageTitle = ""
     }
+    SMTP = @{
+        Credentials = @{
+            UserName = ''
+            Password = ''
+            Domain = ''
+        }
+        Server = ''
+        Port = 0
+        From = ''
+        To = @()
+        CC = @()
+        BCC = @()
+        Subject = ''
+        Levels = @()
+    }
 }
 
 $Script:Chainsaw = $Chainsaw

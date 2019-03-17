@@ -35,7 +35,6 @@ function Test-ChainsawEndpoint {
         if($Teams){
             $t = Get-ChainsawConfig -Teams
             if( [string]::IsNullOrEmpty($t.URI) -eq $false -and
-                [string]::IsNullOrEmpty($t.MessageTemplate) -eq $false -and
                 [string]::IsNullOrEmpty($t.MessageTitle) -eq $false){
                     return $true
             }

@@ -158,7 +158,7 @@ Describe "Endpoint: Teams Config Export"{
             'Info',
             'Debug'
         )
-        Enable-ChainsawTeams -URI 'notgoingtowork' `
+        Enable-ChainsawTeams -URI 'https://outlook.office.com/webhook/0d940d2c-3c4f-4362-aecf-9565c3033af6@614450b6-f13d-4572-8bc7-b57eff53eab8/IncomingWebhook/461391eefc1e43e0b3e346de1dea60b8/cf190efe-f36d-4f27-a939-38dc8b3a9fbe' `
             -Levels $Levels `
             -MessageTitle "Pester Tests" `
             -ScopeGlobal
@@ -205,19 +205,7 @@ Describe "Endpoint: Teams Config Import"{
 }
 
 Describe "Sending Messages"{
-    it "Should take -Emergency"{
-        Invoke-ChainsawMessage -Emergency `
-            -Message "Pester"
-            
-        Invoke-ChainsawMessage -Emergency `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Emergency `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
+    it "Should take -Emergency"{        
         Invoke-ChainsawMessage -Emergency `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
@@ -225,17 +213,6 @@ Describe "Sending Messages"{
             -ErrorCode 100
     }
     it "Should take -Alert"{
-        Invoke-ChainsawMessage -Alert `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Alert `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Alert `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
         
         Invoke-ChainsawMessage -Alert `
             -Message "Pester" `
@@ -245,36 +222,12 @@ Describe "Sending Messages"{
     }
     it "Should take -Critical"{
         Invoke-ChainsawMessage -Critical `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Critical `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Critical `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
-        Invoke-ChainsawMessage -Critical `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
     }
     it "Should take -Error"{
-        Invoke-ChainsawMessage -Error `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Error `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Error `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
         Invoke-ChainsawMessage -Error `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
@@ -283,36 +236,12 @@ Describe "Sending Messages"{
     }
     it "Should take -Warning"{
         Invoke-ChainsawMessage -Warning `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Warning `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Warning `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
-        Invoke-ChainsawMessage -Warning `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
     }
     it "Should take -Notice"{
-        Invoke-ChainsawMessage -Notice `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Notice `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Notice `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
         Invoke-ChainsawMessage -Notice `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
@@ -321,18 +250,6 @@ Describe "Sending Messages"{
     }
     it "Should take -Info"{
         Invoke-ChainsawMessage -Info `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Info `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Info `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
-        Invoke-ChainsawMessage -Info `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
@@ -340,21 +257,22 @@ Describe "Sending Messages"{
     }
     it "Should take -Debug"{
         Invoke-ChainsawMessage -Debug `
-            -Message "Pester"
-
-        Invoke-ChainsawMessage -Debug `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName)
-        
-        Invoke-ChainsawMessage -Debug `
-            -Message "Pester" `
-            -CallingFile (Get-CurrentFileName) `
-            -LineNumber (Get-CurrentLineNumber)
-        
-        Invoke-ChainsawMessage -Debug `
             -Message "Pester" `
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
+    }
+
+    it "Should take Exceptions"{
+
+        try{
+            throw 'Throwing a error now catch me!~'
+        }catch{
+            Invoke-ChainsawMessage -Error `
+                -Exception $PSitem `
+                -CallingFile (Get-CurrentFileName) `
+                -LineNumber (Get-CurrentLineNumber) `
+                -ErrorCode 100
+        }
     }
 }
