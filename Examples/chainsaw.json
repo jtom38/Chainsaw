@@ -1,24 +1,36 @@
 {
-  "Console": {
-    "Levels": [
-      "Error",
-      "Info",
-      "Debug"
-    ],
-    "MessageTemplate": "#DateTime# #Level# #Message#"
-  },
-  "Teams": {
-    "MessageTemplate": "",
-    "MessageTitle": "",
-    "Levels": [],
-    "URI": ""
-  },
-  "EventViewer": {},
   "CSV": {
     "LogPath": ".\\chainsaw.csv",
     "Levels": [
-      "Error"
+      "Emergency",
+      "Alert",
+      "Critical",
+      "Error",
+      "Warning",
+      "Notice",
+      "Info",
+      "Debug"
     ],
-    "MessageTemplate": "#DateTime#, #Level#, #Message#"
+    "MessageTemplate": "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"
+  },
+  "Teams": {
+    "Levels": [
+      "Debug"
+    ],
+    "URI": "Enter WebHook URI",
+    "MessageTitle": "Process Name Here"
+  },
+  "Console": {
+    "Levels": [
+      "Emergency",
+      "Alert",
+      "Critical",
+      "Error",
+      "Warning",
+      "Notice",
+      "Info",
+      "Debug"
+    ],
+    "MessageTemplate": "#DateTime# - #Level# - #Message#"
   }
 }

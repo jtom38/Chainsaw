@@ -2,53 +2,58 @@
 
 ## About
 
-This project was designed around easy logging and also gives flex regarding how and where you want your logs to go.  I enjoyed working with [NLog](https://nlog-project.org) when I do C# work but more I had needed to automate processes with PowerShell but was not happy with some of the logging I found.  So with that, I started to work on this project Chainsaw to hopefully make logging easier for others and myself.
+This project started off as a CSV logger for some process updates that I needed to make.  But over time it grew into a project that would let me add new loggers as the team needed/wanted more ways to send log information.  I did not want to have to keep adding more lines just for different loggers so Chainsaw came to fix that issue.
+
+With Chainsaw you can enable different targets and define what message will go to that target.  If you only want Error messages to be passed to CSV, you can.  If you want to watch the process and see all messages you can enable that with the Console logger.  As new targets get added it will be the same command that is passed currently.  My goal with Chainsaw is to make it easy to use and have the flexibility to be able to pick what messages go where.
 
 ## Targets
 
-If you use NLog you will know they have different targets so where you can write logs.  I went with the same general idea.  Currently, the following targets are enabled.
+Targets are the core of what Chainsaw will work with.  Here are the currently available targets with the current version.
 
-* [Console](https://github.com/luther38/Chainsaw/blob/master/docs/Targets/Console.md)
-* [CSV](https://github.com/luther38/Chainsaw/blob/master/docs/Targets/CSV.md)
-* [EventLog](https://github.com/luther38/Chainsaw/blob/master/docs/Targets/EventLog.md)
-* Microsoft Teams Webhook
-* SMTP - TBD
-* MSSQL - TBD
+* Console
+* CSV
+* Microsoft Teams
 
-Wishlist
+Pending
 
-* Discord Webhook
+* Windows EventLog
+* SMTP
+* MSSQL
+* Discord
 * Slack
 
-## Requirements
+## Install
 
-Currently, I am targeting PowerShell 5+ because this is built with Classes currently.  I do have legacy commands but they need to be reworked.  Please do not use the legacy commands at this time.
-
-### How to Use
-
-Currently this module is only found on GitHub as I do not have it published, yet.  Download the master branch and take the Chainsaw folder and place it at the root of your script.  At the start of your script run the following to enable Chainsaw
+A module is available on PowerShell Galery so it is easy to install and update
 
 ```PowerShell
-Import-Module .\Chainsaw\Chainsaw.psm1 -Force
-. .\Chainsaw\ChainsawClasses.ps1 -Force
+Install-Module -Name Chainsaw
+Update-Module -Name Chainsaw
 ```
 
-With those added you can call the rest of the classes as needed and build your logger.
+## How to Use
 
-[Example Script](https://github.com/luther38/Chainsaw/blob/master/Examples/Basic-Logging.ps1)
+1. Import Chainsaw
+2. Enable desired Targets
 
-## Config File
+```PowerShell
+Enable-ChainsawConsole -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTemplate '#DateTime# #Level# #Message#'
 
-Everything with Chainsaw was designed around the aspect of being able to adjust the logging with just a config file.  The processes that I build are all with a JSON config file so I can allow my other team members who do not want to touch code can make adjustments.  It also makes it easier to adjust configuration while the process is alive.  I do recommend using a config file to support your processes but I do have constructors that will allow you to use inline code if you desired to do so.
+Enable-ChainsawCsv -LogPath '.\log.csv' -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTemplate "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"
 
-## How to help
+Enable-ChainsawTeams -URI "https://FakeUrl.com" -Levels @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Information", "Debug") -MessageTitle 'Message From Chainsaw'
+```
 
-If you desire to help with the project please take a look at the active [Issues](https://github.com/luther38/Chainsaw/issues) and open tickets so I can keep track of what has been found.
+3. Log Messages
 
-## New Targets
+```PowerShell
+Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100 -CallingFile $(Get-CurrentFileName) -LineNumber $(Get-CurrentLineNumber)
+```
 
-If you have a target that you want please create an issue and I will see what I can do to add it.  If you want to build the target please feel free to do a pull request and help out.
+## Config
 
-## Linux and MacOS
+You can backup your config and store it in a JSON file.
 
-These are untested platforms at this time.  Please report your findings if you try Chainsaw on these operating systems.
+```PowerShell
+Export-ChainsawConfig -JsonPath '.\chainsaw.json'
+```

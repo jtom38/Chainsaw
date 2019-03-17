@@ -1,13 +1,19 @@
 
 
-Import-Module ..\Chainsaw\Chainsaw.psm1 -Force
+Import-Module Chainsaw -Force
 
-Enable-ChainsawConsole -Levels @("Error", "Info", "Debug") `
+[string[]] $Levels = @("Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Info", "Debug")
+
+Enable-ChainsawConsole -Levels $Levels `
     -MessageTemplate '#DateTime# - #Level# - #Message#'
 
 Enable-ChainsawCsv -LogPath '.\chainsaw.csv' `
-    -Levels @("Error") `
-    -MessageTemplate "#DateTime#, #Level#, #Message#"
+    -Levels $Levels `
+    -MessageTemplate "#DateTime#, #Level#, #CallingFile#, #ErrorCode#, #LineNumber#, #Message#"
+
+Enable-ChainsawTeams -URI "Enter WebHook URL" `
+    -Levels @('Debug') `
+    -MessageTitle 'Process Name Here'
 
 # Sending the message the Console and CSV
 Invoke-ChainsawMessage -Error -Message "Something broke"
@@ -15,8 +21,14 @@ Invoke-ChainsawMessage -Error -Message "Something broke"
 # Sending the message to Console
 Invoke-ChainsawMessage -Info -Message "All systems are good"
 
-# Export our config so we can use it with CodeDefinedLogger.ps1
+# CSV will catch all the values passed but Console will only show you three of them.
+Invoke-ChainsawMessage -Info -Message "All systems are good" `
+    -CallingFile $(Get-CurrentFileName) `
+    -LineNumber $(Get-CurrentLineNumber) `
+    -ErrorCode 100
+
+# Export our config so we can use it with ConfigDefinedLogger.ps1
 Export-ChainsawConfig -JsonPath '.\chainsaw.json' -Force
 
-# Clear out our session
-Revoke-ChainsawEndpoint -Console -CSV -Force
+# If for any reason you need to remove a logger you can do so
+#Revoke-ChainsawEndpoint -Console -CSV -Force

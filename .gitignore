@@ -7,7 +7,7 @@
 *-Test.ps1
 *-dev.ps1
 *-dev.json
-*.csv
+.csv
 
 # User-specific files
 *.suo
