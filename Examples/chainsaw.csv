@@ -1,0 +1,4 @@
+DateTime, Level, CallingFile, ErrorCode, LineNumber, Message
+03/17/2019 09:00:53, Error, , , , Something broke
+03/17/2019 09:00:54, Info, , , , All systems are good
+03/17/2019 09:00:57, Info, CodeDefinedLogger.ps1, 100, 27, All systems are good

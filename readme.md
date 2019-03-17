@@ -2,27 +2,29 @@
 
 ## About
 
-This project was designed around easy logging and also gives flex regarding how and where you want your logs to go.  I enjoyed working with [NLog](https://nlog-project.org) when I do C# work but more I had needed to automate processes with PowerShell but was not happy with some of the logging I found.  So with that, I started to work on this project Chainsaw to hopefully make logging easier for others and myself.
+This project started off as a CSV logger for some process updates that I needed to make.  But over time it grew into a project that would let me add new loggers as the team needed/wanted more ways to send log information.  I did not want to have to keep adding more lines just for different loggers so Chainsaw came to fix that issue.
+
+With Chainsaw you can enable different targets and define what message will go to that target.  If you only want Error messages to be passed to CSV, you can.  If you want to watch the process and see all messages you can enable that with the Console logger.  As new targets get added it will be the same message that is passed
 
 ## Targets
 
-If you use NLog you will know they have different targets so where you can write logs.  I went with the same general idea.  Currently, the following targets are enabled.
+Targets are the core of what Chainsaw will work with.  Here are the currently available targets with the current version.
 
-* [Console](https://github.com/luther38/Chainsaw/blob/master/docs/Targets/Console.md)
-* [CSV](https://github.com/luther38/Chainsaw/blob/master/docs/Targets/CSV.md)
-* [EventLog](https://github.com/luther38/Chainsaw/blob/master/docs/Targets/EventLog.md)
-* Microsoft Teams Webhook
-* SMTP - TBD
-* MSSQL - TBD
+* Console
+* CSV
+* Microsoft Teams
 
-Wishlist
+Pending
 
-* Discord Webhook
+* EventLog
+* SMTP
+* MSSQL
+* Discord
 * Slack
 
 ## Install
 
-Module is available on PowerShell Galery so it is easy to install and update
+A module is available on PowerShell Galery so it is easy to install and update
 
 ```PowerShell
 Install-Module -Name Chainsaw
@@ -48,7 +50,7 @@ Enable-ChainsawTeams -URI "https://FakeUrl.com" -Levels @("Emergency", "Alert", 
 Invoke-ChainsawMessage -Debug -Message 'Testing Chainsaw' -ErrorCode 100 -CallingFile $(Get-CurrentFileName) -LineNumber $(Get-CurrentLineNumber)
 ```
 
-## Config 
+## Config
 
 You can backup your config and store it in a JSON file.
 
