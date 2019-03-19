@@ -9,7 +9,6 @@ Import-Module "$PSSCRIPTROOT\Chainsaw\Chainsaw.psm1" -Force
 
 # Import Pester to run our tests
 Import-Module Pester
-
-. $PSSCRIPTROOT\Tests\TargetConsole.Test.ps1
-. $PSSCRIPTROOT\Tests\TargetCSV.Test.ps1
-. $PSSCRIPTROOT\Tests\TargetTeams.Test.ps1 
+Invoke-Pester -Script "$($PSSCRIPTROOT)\Tests\TargetConsole.Test.ps1"
+Invoke-Pester -Script "$($PSSCRIPTROOT)\Tests\TargetCSV.Test.ps1"
+Invoke-Pester -Script "$($PSSCRIPTROOT)\Tests\TargetTeams.Test.ps1"

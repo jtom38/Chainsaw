@@ -8,9 +8,9 @@ Describe "EndPoint: Teams Config"{
         [hashtable] $h = $Global:Chainsaw.Teams
         [bool] $r = $false
 
-        if([string]::IsNullOrEmpty($h.URI) -eq $false -and 
-            [string]::IsNullOrEmpty($h.Levels) -eq $false -and 
-            [string]::IsNullOrEmpty($h.MessageTitle) -eq $false){
+        if([string]::IsNullOrEmpty($h.URI) -eq $true -and 
+            [string]::IsNullOrEmpty($h.Levels) -eq $true -and 
+            [string]::IsNullOrEmpty($h.MessageTitle) -eq $true){
                 $r = $true
         }
         $r | should -Be $true
