@@ -1,4 +1,8 @@
 
+Param(
+    [string] $TeamsURI
+)
+
 Describe "Enpoint: Console [Config]"{
 
     It "Should have blank config"{

@@ -1,4 +1,8 @@
 
+param(
+    [string] $TeamsURL
+)
+
 Describe "EndPoint: Teams Config"{
     it "Should have a blank config"{
         [hashtable] $h = $Global:Chainsaw.Teams
@@ -158,7 +162,13 @@ Describe "Endpoint: Teams Config Export"{
             'Info',
             'Debug'
         )
-        Enable-ChainsawTeams -URI 'notgoingtowork' `
+
+        $URI = 'notgoingtowork'
+        if ( [string]::IsNullOrEmpty($env:TeamsURL) -eq $false ){
+            $URI = $env:TeamsURL
+        } 
+
+        Enable-ChainsawTeams -URI $URI `
             -Levels $Levels `
             -MessageTitle "Pester Tests" `
             -ScopeGlobal

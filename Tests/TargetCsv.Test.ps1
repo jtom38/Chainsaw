@@ -1,6 +1,11 @@
 
+Param(
+    [string] $TeamsURI
+)
+
 Describe "EndPoint: CSV Config"{
     It "Should have a blank Config"{
+        Revoke-ChainsawEndpoint -Teams -Force
         [hashtable] $hash = $Global:Chainsaw.CSV
         [bool] $result = $false
 
