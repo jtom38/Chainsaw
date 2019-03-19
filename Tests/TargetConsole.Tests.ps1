@@ -1,81 +1,115 @@
 
-Describe "EndPoint: Teams Config"{
-    it "Should have a blank config"{
-        [hashtable] $h = $Global:Chainsaw.Teams
-        [bool] $r = $false
+Param(
+    [string] $TeamsURI
+)
 
-        if([string]::IsNullOrEmpty($h.URI) -eq $false -and 
-            [string]::IsNullOrEmpty($h.Levels) -eq $false -and 
-            [string]::IsNullOrEmpty($h.MessageTitle) -eq $false){
-                $r = $true
-        }
-        $r | should -Be $true
-    }
+Describe "Enpoint: Console [Config]"{
 
-    it "Should update Teams.Levels"{
-        Enable-ChainsawTeams -Levels @("Debug") -ScopeGlobal
-        [hashtable] $h = $Global:Chainsaw.Teams
-        [bool] $r = $false
-        if([string]::IsNullOrEmpty($h.Levels) -eq $false){
-            $r = $true
-        }
-        $Global:Chainsaw.Teams.Levels = @()
-        $r | Should -Be $true
+    It "Should have blank config"{
+        [hashtable] $hash = $Global:Chainsaw.Console
+        [bool] $result = $false
 
-    }
-
-    it "should update Teams.URI"{
-        Enable-ChainsawTeams -URI "notanullstring" -ScopeGlobal
-        [hashtable] $h = $Global:Chainsaw.Teams
-
-        [bool] $r = $false
-        if([string]::IsNullOrEmpty($h.URI) -eq $false){
-            $r = $true
+        if ([string]::IsNullOrEmpty($hash.MessageTemplate) -eq $true -and
+            [string]::IsNullOrEmpty($hash.Levels) -eq $true ){
+            $result = $true
         }
 
-        $Global:Chainsaw.Teams.URI = ""
-        $r | Should -Be $true
+        $result | Should -Be $true
     }
 
-    it "should update Teams.MessageTitle"{
-        Enable-ChainsawTeams -MessageTitle "Pestering" -ScopeGlobal
-        [hashtable] $h = $Global:Chainsaw.Teams
-
-        [bool] $r = $false
-        if([string]::IsNullOrEmpty($h.MessageTitle) -eq $false){
-            $r = $true
-        }
-
-        $Global:Chainsaw.Teams.MessageTemplate = ""
-        $r | Should -Be $true
-    }
-
-    it "should update Teams.URI"{
-        Enable-ChainsawTeams `
-            -URI "notanullstring" `
-            -Levels @("Deubg") `
-            -MessageTitle "Pest" `
+    it "Should update Console.Levels"{
+        Enable-ChainsawConsole -Levels @('Info') `
             -ScopeGlobal
-        [hashtable] $h = $Global:Chainsaw.Teams
-
-        [bool] $r = $false
-        if([string]::IsNullOrEmpty($h.URI) -eq $false -and
-            [string]::IsNullOrEmpty($h.MessageTitle) -eq $false -and 
-            [string]::IsNullOrEmpty($h.Levels) -eq $false){
-            $r = $true
+        [hashtable] $hash = $Global:Chainsaw.Console
+        if ([string]::IsNullOrEmpty($hash.Levels) -eq $false ){
+            $result = $true
         }
 
-        $Global:Chainsaw.Teams.URI = ""
-        $Global:Chainsaw.Teams.MessageTemplate = ""
-        $Global:Chainsaw.Teams.Levels = @()
-        $r | Should -Be $true
+        $result | Should -Be $true
+
+        # Revert changes
+        $Global:Chainsaw.Console.Levels = @()
+    }
+
+    it "Should update Console.MessageTemplate"{
+        Enable-ChainsawConsole -MessageTemplate 'Demo' `
+            -ScopeGlobal
+        [hashtable] $hash = $Global:Chainsaw.Console
+        if ([string]::IsNullOrEmpty($hash.MessageTemplate) -eq $false ){
+            $result = $true
+        }
+
+        $result | Should -Be $true
+
+        # Revert changes
+        $Global:Chainsaw.Console.MessageTemplate = ''
+    }
+
+    it "Should update Console.Levels and Console.MessageTemplate"{
+        Enable-ChainsawConsole -MessageTemplate '[#DateTime#] [#Level#] #Message#' `
+            -Levels @('Info') `
+            -ScopeGlobal
+        [hashtable] $hash = $Global:Chainsaw.Console
+        if ([string]::IsNullOrEmpty($hash.MessageTemplate) -eq $false -and 
+            [string]::IsNullOrEmpty($hash.Levels) -eq $false){
+            $result = $true
+        }
+
+        $result | Should -Be $true
+
+        # Revert changes
+        $Global:Chainsaw.Console.MessageTemplate = ''
+        $Global:Chainsaw.Console.Levels = @()
     }
 }
 
-Describe "Endpoint: Teams Config Export"{
-    it "Should export Teams.Levels"{
-        [string] $json = '.\PesterTeams.json'
+Describe "Endpoint: Console [Export Config]"{
+    it "Should export blank Console Config"{
+        [string] $json = ".\PesterConsole.json"
+        #Clean up if found
+        #Remove-item -Path $json
 
+        Export-ChainsawConfig -JsonPath $json -ScopeGlobal
+        $result = Test-Path -Path $json
+
+        $result | Should -Be $true
+        #Remove-item $json
+    }
+
+    it "Should fail to export Blank Console Config" {
+        [string] $json = ".\PesterConsole.json"
+        [bool] $result = $false
+        try{
+            Export-ChainsawConfig -JsonPath $json -ScopeGlobal
+        }
+        catch{
+            # We got our error, we failed without -Force
+            $result = $true
+        }
+
+        $result | Should -Be $true
+        #Remove-item $json
+    }
+
+    it "Should -Force conifg update"{
+        [string] $json = ".\PesterConsole.json"
+        [bool] $result = $false
+        try{
+            Export-ChainsawConfig -JsonPath $json -ScopeGlobal -Force
+            $result = $true
+        }
+        catch{
+            $result = $false
+        }
+
+        $result | Should -Be $true
+        Remove-item $json
+    }
+
+    it "Should store updated values from config and export" {
+        [string] $json = ".\PesterConsole.json"
+        #Clean up if found
+        #Remove-item -Path $json
         $Levels = @(
             'Emergency',
             'Alert',
@@ -86,126 +120,59 @@ Describe "Endpoint: Teams Config Export"{
             'Info',
             'Debug'
         )
-
-        Enable-ChainsawTeams -Levels $Levels -ScopeGlobal
-        [bool] $r = $false
-
-        try{
-            Export-ChainsawConfig -JsonPath $json -ScopeGlobal
-            $r = $true
-        }catch{
-
-        }
-
-        $Global:Chainsaw.Teams.Levels = @()
-        Remove-Item -Path $json
-
-        $r | Should -Be $true
-    }
-
-    it "Should export Teams.URI"{
-        [string] $json = '.\PesterTeams.json'
-
-        $URI = 'value'
-
-        Enable-ChainsawTeams -URI $URI -ScopeGlobal
-        [bool] $r = $false
-
-        try{
-            Export-ChainsawConfig -JsonPath $json -ScopeGlobal
-            $r = $true
-        }catch{
-
-        }
-
-        $Global:Chainsaw.Teams.URI = ''
-        Remove-Item -Path $json
-
-        $r | Should -Be $true
-    }
-
-    it "Should export Teams.MessageTitle"{
-        [string] $json = '.\PesterTeams.json'        
-
-        Enable-ChainsawTeams -MessageTitle "Pester Tests" `
+        Enable-ChainsawConsole -Levels $Levels `
+            -MessageTemplate '[#DateTime#] [#Level#] [#CallingFile#] [#ErrorCode#] [#LineNumber#] #Message#' `
             -ScopeGlobal
 
-        [bool] $r = $false
-
+        [bool] $result = $false
         try{
             Export-ChainsawConfig -JsonPath $json -ScopeGlobal
-            $r = $true
+            $result = $true
         }catch{
 
         }
-
-        Revoke-ChainsawEndpoint -Teams -Force
-        Remove-Item -Path $json
-
-        $r | Should -Be $true
+        $result | Should -Be $true
     }
 
-    it "Should export all Teams Values"{
-        [string] $json = '.\PesterTeams.json'        
+    it "should have stored config information"{
+        [string] $json = ".\PesterConsole.json"
+        $jsonData = Get-Content -Path $json | ConvertFrom-Json
 
-        [string[]] $Levels = @(
-            'Emergency',
-            'Alert',
-            'Critical',
-            'Error',
-            'Warning',
-            'Notice',
-            'Info',
-            'Debug'
-        )
-        Enable-ChainsawTeams -URI 'notgoingtowork' `
-            -Levels $Levels `
-            -MessageTitle "Pester Tests" `
-            -ScopeGlobal
-
-        [bool] $r = $false
-
-        try{
-            Export-ChainsawConfig -JsonPath $json -ScopeGlobal
-            $r = $true
-        }catch{
-
+        [bool] $result = $false
+        if ([string]::IsNullOrEmpty($jsonData.Console.MessageTemplate) -eq $false -and 
+            [string]::IsNullOrEmpty($jsonData.Console.Levels) -eq $false){
+                $result = $true
         }
 
-        Revoke-ChainsawEndpoint -Teams -Force
-
-        $r | Should -Be $true
+        $result | Should -Be $true
     }
 }
 
-Describe "Endpoint: Teams Config Import"{
-    it "Should import config from JSON"{
-        [string] $json = '.\PesterTeams.json'
+Describe "Endpoint: Console [Import Config]"{
+    it "Should Import config"{
+        [string] $json = ".\PesterConsole.json"
 
-        $found = Test-Path -Path $json
-        if($found -eq $false){
-            throw "Unable to find JSON to import"
-        }
-        Enable-ChainsawTeams -JsonConfig $json -ScopeGlobal
-
-        [hashtable] $h = $Global:Chainsaw.Teams
-
-        [bool] $r = $false
-
-        if( [string]::IsNullOrEmpty($h.URI) -eq $false -and
-            [string]::IsNullOrEmpty($h.MessageTitle) -eq $false -and 
-            [string]::IsNullOrEmpty($h.Levels) -eq $false){
-            $r = $true
+        $configFound = Test-Path -Path $json
+        if($configFound -eq $false){
+            throw "Unable to find $json"
         }
 
-        Remove-item -Path $json
+        Enable-ChainsawConsole -JsonConfig $json -ScopeGlobal
 
-        $r | Should -Be $true
-    }   
+        [bool] $result = $false
+        $hash = $Global:Chainsaw.Console
+        if ([string]::IsNullOrEmpty($hash.Levels) -eq $false -and 
+            [string]::IsNullOrEmpty($hash.MessageTemplate) -eq $false){
+                $result = $true
+        }
+        
+        Remove-Item -Path $json
+        $result | Should -Be $true
+    }
 }
 
 Describe "Sending Messages"{
-    it "Should take -Emergency"{
+    it "Should Accept -Emergency"{
         Invoke-ChainsawMessage -Emergency `
             -Message "Pester"
             
@@ -223,6 +190,7 @@ Describe "Sending Messages"{
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
+
     }
     it "Should take -Alert"{
         Invoke-ChainsawMessage -Alert `
@@ -356,5 +324,34 @@ Describe "Sending Messages"{
             -CallingFile (Get-CurrentFileName) `
             -LineNumber (Get-CurrentLineNumber) `
             -ErrorCode 100
+    }
+}
+
+Describe "Run Console Cleanup"{
+
+    it "Revokes Endpoint"{
+        Revoke-ChainsawEndpoint -Console -Force
+    }
+
+    it "Global should be null"{
+        $g = $Global:Chainsaw.CSV
+        $result = $false
+        if( [string]::IsNullOrEmpty($g.Levels) -eq $true -and 
+            [string]::IsNullOrEmpty($g.MessageTemplate) -eq $true -and
+            [string]::IsNullOrEmpty($g.LogPath) -eq $true){
+                $result = $true
+        }
+        $result | Should -Be $true
+    }
+
+    it "Script should be null"{
+        $g = $Script:Chainsaw.CSV
+        $result = $false
+        if( [string]::IsNullOrEmpty($g.Levels) -eq $true -and 
+            [string]::IsNullOrEmpty($g.MessageTemplate) -eq $true -and
+            [string]::IsNullOrEmpty($g.LogPath) -eq $true){
+                $result = $true
+        }
+        $result | Should -Be $true
     }
 }
